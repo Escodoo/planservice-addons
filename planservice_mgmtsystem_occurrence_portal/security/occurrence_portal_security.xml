@@ -1,0 +1,32 @@
+<odoo noupdate="1">
+    <record id="rule_occurrence_portal" model="ir.rule">
+        <field name="name">Portal Occurrence by Partner</field>
+        <field name="model_id" ref="mgmtsystem_nonconformity.model_mgmtsystem_nonconformity" />
+        <field
+            name="domain_force"
+        >[('partner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]" />
+    </record>
+    <record id="rule_occurrence_evidence_portal" model="ir.rule">
+        <field name="name">Portal Occurrence Evidence by Partner</field>
+        <field
+            name="model_id"
+            ref="planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_evidence"
+        />
+        <field
+            name="domain_force"
+        >[('nonconformity_id.partner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]" />
+    </record>
+    <record id="rule_occurrence_document_portal" model="ir.rule">
+        <field name="name">Portal Occurrence Document by Partner</field>
+        <field
+            name="model_id"
+            ref="planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_document"
+        />
+        <field
+            name="domain_force"
+        >[('nonconformity_id.partner_id', 'child_of', [user.commercial_partner_id.id])]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]" />
+    </record>
+</odoo>
