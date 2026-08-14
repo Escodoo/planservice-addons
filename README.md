@@ -17,7 +17,12 @@ Planservice Odoo Addons
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[planservice_hr_timesheet_day_percentage](planservice_hr_timesheet_day_percentage/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Log timesheets as a percentage of the working day
+[planservice_project_task_hour_plan](planservice_project_task_hour_plan/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Plan task hours by month and sync with planned dates
 
 [//]: # (end addons)
 
