@@ -279,7 +279,7 @@ class TestOccurrenceWorkflow(TransactionCase):
         )
         self.assertIn("Classificação e encaminhamento".encode(), html)
         self.assertIn("Dúvida de Projeto".encode(), html)
-        self.assertIn("Inspetor".encode(), html)
+        self.assertIn(b"Inspetor", html)
 
     def test_verify_blocked_outside_waiting_verification(self):
         with self.assertRaises(UserError):

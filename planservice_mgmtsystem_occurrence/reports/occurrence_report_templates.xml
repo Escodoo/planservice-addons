@@ -116,9 +116,9 @@
                                             t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                                         >
                                             <t
-                                                t-set="checked"
-                                                t-value="doc.classification == 'rfi'"
-                                            />
+                                            t-set="checked"
+                                            t-value="doc.classification == 'rfi'"
+                                        />
                                             Design Query (RFI/TQ)
                                         </t>
                                     </td>
@@ -127,9 +127,9 @@
                                             t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                                         >
                                             <t
-                                                t-set="checked"
-                                                t-value="doc.classification == 'observation'"
-                                            />
+                                            t-set="checked"
+                                            t-value="doc.classification == 'observation'"
+                                        />
                                             Minor Observation
                                         </t>
                                     </td>
@@ -138,9 +138,9 @@
                                             t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                                         >
                                             <t
-                                                t-set="checked"
-                                                t-value="doc.classification == 'punch_list'"
-                                            />
+                                            t-set="checked"
+                                            t-value="doc.classification == 'punch_list'"
+                                        />
                                             Incomplete Work (Punch List)
                                         </t>
                                     </td>
@@ -149,9 +149,9 @@
                                             t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                                         >
                                             <t
-                                                t-set="checked"
-                                                t-value="doc.classification == 'nc'"
-                                            />
+                                            t-set="checked"
+                                            t-value="doc.classification == 'nc'"
+                                        />
                                             Confirmed Deviation (NC/RNC)
                                         </t>
                                     </td>
@@ -160,9 +160,9 @@
                                             t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                                         >
                                             <t
-                                                t-set="checked"
-                                                t-value="doc.classification == 'stop_work'"
-                                            />
+                                            t-set="checked"
+                                            t-value="doc.classification == 'stop_work'"
+                                        />
                                             Critical Risk (Stop Work)
                                         </t>
                                     </td>
@@ -193,9 +193,9 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.priority == 'immediate'"
-                                />
+                                t-set="checked"
+                                t-value="doc.priority == 'immediate'"
+                            />
                                 Immediate
                             </t>
                         </td>
@@ -350,27 +350,27 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.area_protected == 'na'"
-                                />
+                                t-set="checked"
+                                t-value="doc.area_protected == 'na'"
+                            />
                                 N/A
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.area_protected == 'no'"
-                                />
+                                t-set="checked"
+                                t-value="doc.area_protected == 'no'"
+                            />
                                 No
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.area_protected == 'yes'"
-                                />
+                                t-set="checked"
+                                t-value="doc.area_protected == 'yes'"
+                            />
                                 Yes
                             </t>
                         </td>
@@ -416,54 +416,54 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'correct'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'correct'"
+                            />
                                 Correct
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'redo'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'redo'"
+                            />
                                 Redo
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'repair'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'repair'"
+                            />
                                 Repair
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'concession'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'concession'"
+                            />
                                 Request Concession
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'conclude'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'conclude'"
+                            />
                                 Conclude without Intervention
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.disposition == 'other'"
-                                />
+                                t-set="checked"
+                                t-value="doc.disposition == 'other'"
+                            />
                                 Other
                             </t>
                         </td>
@@ -475,9 +475,9 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="not doc.concession_required"
-                                />
+                                t-set="checked"
+                                t-value="not doc.concession_required"
+                            />
                                 No
                             </t>
                             <t
@@ -636,27 +636,27 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.verification_result == 'approved'"
-                                />
+                                t-set="checked"
+                                t-value="doc.verification_result == 'approved'"
+                            />
                                 Approved and Released
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.verification_result == 'approved_with_comments'"
-                                />
+                                t-set="checked"
+                                t-value="doc.verification_result == 'approved_with_comments'"
+                            />
                                 Approved with Comments
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.verification_result == 'rejected'"
-                                />
+                                t-set="checked"
+                                t-value="doc.verification_result == 'rejected'"
+                            />
                                 Rejected
                             </t>
                         </td>
@@ -672,9 +672,9 @@
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
                                 <t
-                                    t-set="checked"
-                                    t-value="doc.reinspection_required"
-                                />
+                                t-set="checked"
+                                t-value="doc.reinspection_required"
+                            />
                                 Required
                             </t>
                             <t t-if="doc.reinspection_date">
