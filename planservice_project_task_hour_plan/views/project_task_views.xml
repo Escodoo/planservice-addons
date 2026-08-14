@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_task_form_hour_plan" model="ir.ui.view">
+        <field name="name">project.task.form.hour.plan</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='page_timesheets']" position="before">
+                <page
+                    name="hour_plan"
+                    string="Plan"
+                    groups="project.group_project_user"
+                >
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not hour_plan_outdated"
+                    >
+                        The planned dates no longer match this hour plan. Reset to
+                        rebuild the months, then redistribute the hours.
+                    </div>
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="hour_plan_diff == 0"
+                    >
+                        The sum of monthly hours differs from the allocated time.
+                    </div>
+                    <p class="text-muted">
+                        Set planned dates and allocated time to generate this
+                        table, or add months here to fill those fields from the
+                        plan.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="hour_plan_manual" invisible="1" />
+                            <field name="hour_plan_drives_task" invisible="1" />
+                            <field name="hour_plan_outdated" invisible="1" />
+                            <label for="hour_plan_hours" />
+                            <div class="o_row">
+                                <field
+                                    name="hour_plan_hours"
+                                    widget="timesheet_uom_no_toggle"
+                                    class="oe_inline"
+                                />
+                                <span> / </span>
+                                <field
+                                    name="allocated_hours"
+                                    widget="timesheet_uom_no_toggle"
+                                    class="oe_inline"
+                                    readonly="1"
+                                />
+                            </div>
+                            <field
+                                name="hour_plan_diff"
+                                widget="timesheet_uom_no_toggle"
+                                decoration-danger="hour_plan_diff != 0"
+                                decoration-success="hour_plan_diff == 0"
+                            />
+                        </group>
+                        <group>
+                            <button
+                                name="action_reset_hour_plan"
+                                type="object"
+                                string="Reset equal split"
+                                class="btn-secondary"
+                                confirm="This will replace the current monthly hours with an equal split. Continue?"
+                                invisible="not planned_date_start or not planned_date_end or not allocated_hours"
+                            />
+                        </group>
+                    </group>
+                    <field name="hour_plan_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="name" column_invisible="1" />
+                            <field
+                                name="month"
+                                widget="date"
+                                required="1"
+                                options="{'min_precision': 'months', 'max_precision': 'months'}"
+                            />
+                            <field name="date_from" optional="hide" readonly="1" />
+                            <field name="date_to" optional="hide" readonly="1" />
+                            <field name="capacity_percent" />
+                            <field
+                                name="hours"
+                                widget="timesheet_uom_no_toggle"
+                                sum="Total"
+                            />
+                            <field
+                                name="monthly_hours"
+                                widget="timesheet_uom_no_toggle"
+                                optional="hide"
+                                readonly="1"
+                            />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

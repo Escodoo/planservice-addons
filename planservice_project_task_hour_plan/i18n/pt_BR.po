@@ -1,0 +1,324 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_project_task_hour_plan
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-14 05:12+0000\n"
+"PO-Revision-Date: 2026-08-14 05:12+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@escodoo.com.br>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid "<span> / </span>"
+msgstr "<span> / </span>"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.constraint,message:planservice_project_task_hour_plan.constraint_project_task_hour_plan_task_month_uniq
+msgid "A task cannot have two hour plan lines for the same month."
+msgstr "Uma tarefa não pode ter duas linhas de plano de horas no mesmo mês."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task__hour_plan_diff
+msgid "Allocated time minus the sum of monthly planned hours."
+msgstr "Tempo alocado menos a soma das horas planejadas mensais."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task_hour_plan__month
+msgid ""
+"Calendar month of this line. From and To are the first and last day of that "
+"month."
+msgstr ""
+"Mês calendário desta linha. De e Até são o primeiro e o último dia desse "
+"mês."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__capacity_percent
+msgid "Capacity (%)"
+msgstr "Capacidade (%)"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model,name:planservice_project_task_hour_plan.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model,name:planservice_project_task_hour_plan.model_res_config_settings
+msgid "Config Settings"
+msgstr "Configurações"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__display_name
+msgid "Display Name"
+msgstr "Nome de Exibição"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__date_from
+msgid "From"
+msgstr "De"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_ids
+msgid "Hour Plan"
+msgstr "Plano de Horas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_diff
+msgid "Hour Plan Difference"
+msgstr "Diferença do Plano de Horas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_drives_task
+msgid "Hour Plan Drives Task"
+msgstr "Plano de Horas Dirige a Tarefa"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_manual
+msgid "Hour Plan Manually Adjusted"
+msgstr "Plano de Horas Ajustado Manualmente"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_res_company__hour_plan_monthly_hours
+msgid "Hour Plan Monthly Hours"
+msgstr "Horas Mensais do Plano"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_outdated
+msgid "Hour Plan Outdated"
+msgstr "Plano de Horas Desatualizado"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__hours
+msgid "Hours"
+msgstr "Horas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_res_company__hour_plan_monthly_hours
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_res_config_settings__hour_plan_monthly_hours
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.res_config_settings_view_form
+msgid ""
+"Hours of one resource used as 100% capacity for each month in the task hour "
+"plan."
+msgstr ""
+"Horas de um recurso usadas como 100% de capacidade para cada mês no plano "
+"de horas da tarefa."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task_hour_plan__monthly_hours
+msgid "Hours of one resource used as 100% capacity for this month."
+msgstr "Horas de um recurso usadas como 100% de capacidade neste mês."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__id
+msgid "ID"
+msgstr "ID"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__write_uid
+msgid "Last Updated by"
+msgstr "Última Atualização por"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__write_date
+msgid "Last Updated on"
+msgstr "Última Atualização em"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__month
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_search
+msgid "Month"
+msgstr "Mês"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__monthly_hours
+msgid "Monthly Hours"
+msgstr "Horas Mensais"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_res_config_settings__hour_plan_monthly_hours
+msgid "Monthly Hours (100% Capacity)"
+msgstr "Horas Mensais (100% de Capacidade)"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.actions.act_window,help:planservice_project_task_hour_plan.action_project_task_hour_plan
+msgid "No hour plan lines yet"
+msgstr "Ainda não há linhas de plano de horas"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid "Plan"
+msgstr "Plano"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.module.module,summary:base.module_planservice_project_task_hour_plan
+msgid "Plan task hours by month and sync with planned dates"
+msgstr "Planejar horas da tarefa por mês e sincronizar com as datas planejadas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__hour_plan_hours
+msgid "Planned Hours Total"
+msgstr "Total de Horas Planejadas"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task_hour_plan__capacity_percent
+msgid ""
+"Planned hours as a percentage of the configured monthly hours of one "
+"resource."
+msgstr ""
+"Horas planejadas como percentual das horas mensais configuradas de um "
+"recurso."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__project_id
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_search
+msgid "Project"
+msgstr "Projeto"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.module.module,shortdesc:base.module_planservice_project_task_hour_plan
+msgid "Project Task Hour Plan"
+msgstr "Plano de Horas da Tarefa"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid "Reset equal split"
+msgstr "Redefinir divisão igual"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.actions.act_window,help:planservice_project_task_hour_plan.action_project_task_hour_plan
+msgid ""
+"Set allocated hours and planned dates on a task to generate a\n"
+"                monthly hour plan, or add months on the task to fill those\n"
+"                fields from the plan."
+msgstr ""
+"Defina as horas alocadas e as datas planejadas na tarefa para gerar um "
+"plano de horas mensal, ou adicione meses na tarefa para preencher esses "
+"campos a partir do plano."
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid ""
+"Set planned dates and allocated time to generate this\n"
+"                        table, or add months here to fill those fields from the\n"
+"                        plan."
+msgstr ""
+"Defina as datas planejadas e o tempo alocado para gerar esta tabela, ou "
+"adicione meses aqui para preencher esses campos a partir do plano."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model,name:planservice_project_task_hour_plan.model_project_task
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__task_id
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_search
+msgid "Task"
+msgstr "Tarefa"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model,name:planservice_project_task_hour_plan.model_project_task_hour_plan
+msgid "Task Hour Plan"
+msgstr "Plano de Horas da Tarefa"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.rule,name:planservice_project_task_hour_plan.project_task_hour_plan_company_rule
+msgid "Task Hour Plan multi-company"
+msgstr "Plano de Horas da Tarefa multiempresa"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.actions.act_window,name:planservice_project_task_hour_plan.action_project_task_hour_plan
+#: model:ir.ui.menu,name:planservice_project_task_hour_plan.menu_project_task_hour_plan
+msgid "Task Hour Plans"
+msgstr "Planos de Horas das Tarefas"
+
+#. module: planservice_project_task_hour_plan
+#. odoo-python
+#: code:addons/planservice_project_task_hour_plan/models/project_task_hour_plan.py:0
+msgid "The hour plan end date must be on or after the start date."
+msgstr ""
+"A data final do plano de horas deve ser igual ou posterior à data inicial."
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid ""
+"The planned dates no longer match this hour plan. Reset to\n"
+"                        rebuild the months, then redistribute the hours."
+msgstr ""
+"As datas planejadas não correspondem mais a este plano de horas. Redefina "
+"para reconstruir os meses e, em seguida, redistribua as horas."
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid "The sum of monthly hours differs from the allocated time."
+msgstr "A soma das horas mensais difere do tempo alocado."
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_search
+msgid "This Year"
+msgstr "Este Ano"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid ""
+"This will replace the current monthly hours with an equal split. Continue?"
+msgstr ""
+"Isso substituirá as horas mensais atuais por uma divisão igual. Continuar?"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__date_to
+msgid "To"
+msgstr "Até"
+
+#. module: planservice_project_task_hour_plan
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_list
+#: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
+msgid "Total"
+msgstr "Total"
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task__hour_plan_manual
+msgid ""
+"When set, changing allocated hours or planned dates will not rebuild the "
+"monthly hour plan."
+msgstr ""
+"Quando marcado, alterar as horas alocadas ou as datas planejadas não "
+"reconstrói o plano de horas mensal."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task__hour_plan_drives_task
+msgid ""
+"When set, the hour plan updates allocated time and planned dates. Set "
+"automatically when the plan is filled first."
+msgstr ""
+"Quando marcado, o plano de horas atualiza o tempo alocado e as datas "
+"planejadas. Definido automaticamente quando o plano é preenchido primeiro."
