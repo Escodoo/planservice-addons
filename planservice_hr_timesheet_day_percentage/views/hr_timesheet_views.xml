@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="hr_timesheet_line_tree_day_percentage" model="ir.ui.view">
+        <field name="name">account.analytic.line.list.day.percentage</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="before">
+                <field
+                    name="day_percentage"
+                    optional="show"
+                    readonly="readonly_timesheet"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_line_form_day_percentage" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.day.percentage</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='unit_amount']" position="before">
+                <field name="day_percentage" readonly="readonly_timesheet" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
