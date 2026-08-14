@@ -9,9 +9,10 @@ class MgmtsystemNonconformity(models.Model):
     _inherit = ["mgmtsystem.nonconformity", "portal.mixin"]
 
     def _compute_access_url(self):
-        super()._compute_access_url()
+        result = super()._compute_access_url()
         for rec in self:
             rec.access_url = f"/my/occurrences/{rec.id}"
+        return result
 
     def _get_access_action(self, access_uid=None, force_website=False):
         self.ensure_one()
