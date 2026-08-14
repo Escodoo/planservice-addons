@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_task_form2_day_percentage" model="ir.ui.view">
+        <field name="name">project.task.form.timesheet.day.percentage</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='unit_amount']"
+                position="before"
+            >
+                <field name="day_percentage" readonly="readonly_timesheet" />
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']"
+                position="before"
+            >
+                <field name="day_percentage" readonly="readonly_timesheet" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

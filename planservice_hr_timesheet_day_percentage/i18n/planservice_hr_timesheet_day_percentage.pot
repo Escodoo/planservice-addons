@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_hr_timesheet_day_percentage
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-14 05:12+0000\n"
+"PO-Revision-Date: 2026-08-14 05:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.model,name:planservice_hr_timesheet_day_percentage.model_account_analytic_line
+msgid "Analytic Line"
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.module.module,summary:base.module_planservice_hr_timesheet_day_percentage
+msgid "Log timesheets as a percentage of the working day"
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.module.module,shortdesc:base.module_planservice_hr_timesheet_day_percentage
+msgid "Timesheet Day Percentage"
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_day_percentage.field_account_analytic_line__day_percentage
+msgid "Day %"
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#. odoo-python
+#: code:addons/planservice_hr_timesheet_day_percentage/models/account_analytic_line.py:0
+msgid "Employee %(employee)s has no working hours defined on the calendar."
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.model.fields,help:planservice_hr_timesheet_day_percentage.field_account_analytic_line__day_percentage
+msgid ""
+"Percentage of the employee's working day. Updates Time Spent from the "
+"resource calendar hours per day."
+msgstr ""
+
+#. module: planservice_hr_timesheet_day_percentage
+#. odoo-python
+#: code:addons/planservice_hr_timesheet_day_percentage/models/account_analytic_line.py:0
+msgid ""
+"You cannot log more than 100%% of the working day (%(hours_per_day).2f h). "
+"%(employee)s would have %(used_percent).2f%% (%(used_hours).2f h) on "
+"%(date)s."
+msgstr ""
