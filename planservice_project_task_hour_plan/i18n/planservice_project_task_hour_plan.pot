@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 05:12+0000\n"
-"PO-Revision-Date: 2026-08-14 05:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -18,21 +16,6 @@ msgstr ""
 #. module: planservice_project_task_hour_plan
 #: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
 msgid "<span> / </span>"
-msgstr ""
-
-#. module: planservice_project_task_hour_plan
-#: model:ir.module.module,summary:base.module_planservice_project_task_hour_plan
-msgid "Plan task hours by month and sync with planned dates"
-msgstr ""
-
-#. module: planservice_project_task_hour_plan
-#: model:ir.module.module,shortdesc:base.module_planservice_project_task_hour_plan
-msgid "Project Task Hour Plan"
-msgstr ""
-
-#. module: planservice_project_task_hour_plan
-#: model:ir.rule,name:planservice_project_task_hour_plan.project_task_hour_plan_company_rule
-msgid "Task Hour Plan multi-company"
 msgstr ""
 
 #. module: planservice_project_task_hour_plan
