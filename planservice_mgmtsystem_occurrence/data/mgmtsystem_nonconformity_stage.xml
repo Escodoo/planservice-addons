@@ -1,0 +1,18 @@
+<odoo noupdate="1">
+    <record id="stage_waiting_supplier" model="mgmtsystem.nonconformity.stage">
+        <field name="name">Waiting Supplier</field>
+        <field name="sequence">25</field>
+        <field name="state">waiting_supplier</field>
+    </record>
+    <record id="stage_waiting_verification" model="mgmtsystem.nonconformity.stage">
+        <field name="name">Waiting Verification</field>
+        <field name="sequence">175</field>
+        <field name="state">waiting_verification</field>
+    </record>
+    <record id="mgmtsystem_nonconformity.stage_analysis" model="mgmtsystem.nonconformity.stage">
+        <field name="fold" eval="True" />
+    </record>
+    <record id="mgmtsystem_nonconformity.stage_pending" model="mgmtsystem.nonconformity.stage">
+        <field name="fold" eval="True" />
+    </record>
+</odoo>
