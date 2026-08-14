@@ -21,7 +21,7 @@ class MgmtsystemNonconformity(models.Model):
             else self.env.user
         )
         if force_website or user.share:
-            self._portal_ensure_token()
+            self.sudo()._portal_ensure_token()
             return {
                 "type": "ir.actions.act_url",
                 "url": self.access_url,

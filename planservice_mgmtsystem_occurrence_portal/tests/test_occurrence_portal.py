@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from odoo.exceptions import AccessError
 from odoo.tests import TransactionCase, tagged
 
@@ -107,6 +109,10 @@ class TestOccurrencePortal(TransactionCase):
             "nc",
             controller._occurrence_classification_search_domain("Confirmed")[0][2],
         )
+        self.assertEqual(
+            controller._occurrence_get_search_domain("classification", "Confirmed"),
+            controller._occurrence_classification_search_domain("Confirmed"),
+        )
 
     def test_portal_list_search_and_stage_filter(self):
         controller = OccurrenceCustomerPortal()
@@ -137,3 +143,162 @@ class TestOccurrencePortal(TransactionCase):
                 projectby=project_key,
             )
             self.assertNotIn(self.nc, combined["occurrences"])
+
+    def test_search_domains_and_defaults(self):
+        controller = OccurrenceCustomerPortal()
+        self.assertEqual(
+            controller._occurrence_get_search_domain("ref", "004"),
+            [("ref", "ilike", "004")],
+        )
+        self.assertEqual(
+            controller._occurrence_get_search_domain("stage_id", "Draft"),
+            [("stage_id.name", "ilike", "Draft")],
+        )
+        self.assertEqual(
+            controller._occurrence_get_search_domain("project_id", "P001"),
+            [("project_id.name", "ilike", "P001")],
+        )
+        content = controller._occurrence_get_search_domain("content", "column")
+        self.assertIn(("description", "ilike", "column"), content)
+        fallback = controller._occurrence_get_search_domain("unknown", "x")
+        self.assertIn(("name", "ilike", "x"), fallback)
+        self.assertEqual(
+            controller._occurrence_classification_search_domain("missing-xyz"),
+            [("classification", "ilike", "missing-xyz")],
+        )
+        with MockRequest(self.env(user=self.portal_user)):
+            values = controller._prepare_my_occurrences_values(
+                sortby="invalid",
+                filterby="invalid",
+                projectby="invalid",
+                groupby="invalid",
+                search_in="invalid",
+            )
+            self.assertEqual(values["sortby"], "date")
+            self.assertEqual(values["filterby"], "all")
+            self.assertEqual(values["projectby"], "all")
+            self.assertEqual(values["groupby"], "none")
+            self.assertEqual(values["search_in"], "content")
+            grouped = controller._prepare_my_occurrences_values(groupby="project_id")
+            self.assertTrue(grouped["grouped_occurrences"])
+            orphan = self.env["mgmtsystem.nonconformity"].create(
+                {
+                    "name": "Occurrence without project",
+                    "partner_id": self.partner.id,
+                    "manager_user_id": self.env.user.id,
+                    "responsible_user_id": self.env.user.id,
+                    "description": "No project linked.",
+                    "origin_ids": [(6, 0, self.origin.ids)],
+                    "classification": "observation",
+                }
+            )
+            values = controller._prepare_my_occurrences_values()
+            self.assertIn("no_project", values["searchbar_projects"])
+            without_project = controller._prepare_my_occurrences_values(
+                projectby="no_project"
+            )
+            self.assertIn(orphan, without_project["occurrences"])
+            self.assertNotIn(self.nc, without_project["occurrences"])
+
+    def test_home_counter_and_access_action(self):
+        controller = OccurrenceCustomerPortal()
+        with MockRequest(self.env(user=self.portal_user)):
+            values = controller._prepare_home_portal_values(["occurrence_count"])
+            self.assertGreaterEqual(values["occurrence_count"], 1)
+        action = self.nc.with_user(self.portal_user)._get_access_action()
+        self.assertEqual(action["type"], "ir.actions.act_url")
+        self.assertEqual(action["url"], self.nc.access_url)
+        self.nc.action_release_to_supplier()
+        self.assertTrue(self.nc.access_token)
+
+    def test_prepare_supplier_vals_and_action_from_post(self):
+        controller = OccurrenceCustomerPortal()
+        vals = controller._prepare_supplier_vals(
+            {
+                "containment_text": "Isolated.",
+                "disposition": "repair",
+                "concession_required": "on",
+                "deadline_impact": "",
+                "supplier_representative_id": str(self.partner.id),
+            }
+        )
+        self.assertEqual(vals["containment_text"], "Isolated.")
+        self.assertTrue(vals["concession_required"])
+        self.assertFalse(vals["deadline_impact"])
+        self.assertEqual(vals["supplier_representative_id"], self.partner.id)
+        self.assertNotIn("classification", vals)
+
+    def test_internal_user_keeps_backend_access_action(self):
+        action = self.nc._get_access_action()
+        self.assertNotEqual(action.get("type"), "ir.actions.act_url")
+
+    def test_portal_routes_and_post_helpers(self):
+        controller = OccurrenceCustomerPortal()
+        self.nc.action_release_to_supplier()
+        with MockRequest(self.env(user=self.portal_user)) as req:
+            req.httprequest.form.getlist = lambda name: {
+                "evidence_name": ["", "Axis photo"],
+                "evidence_type": ["photo", "photo"],
+                "document_type": ["", "report"],
+                "document_name": ["", "Lab report"],
+            }.get(name, [])
+            req.httprequest.files.getlist = lambda name: []
+            listing = controller.portal_my_occurrences()
+            self.assertEqual(getattr(listing, "status_code", 200), 200)
+            page = controller.portal_my_occurrence(self.nc.id)
+            self.assertEqual(getattr(page, "status_code", 200), 200)
+            missing = controller.portal_my_occurrence(self.other_nc.id)
+            self.assertIn(getattr(missing, "status_code", 303), (200, 302, 303))
+            update = controller.portal_occurrence_update(
+                self.nc.id,
+                containment_text="Isolated on site.",
+                cause_justification="Formwork failure.",
+                disposition="correct",
+            )
+            self.assertIn(getattr(update, "status_code", 303), (200, 302, 303))
+            self.assertEqual(self.nc.containment_text, "Isolated on site.")
+            controller._create_evidence_from_post(self.nc, {})
+            controller._create_document_from_post(self.nc, {})
+            self.assertTrue(self.nc.supplier_evidence_ids)
+            self.assertTrue(self.nc.document_ids)
+            submit_error = controller.portal_occurrence_submit(self.nc.id)
+            self.assertEqual(getattr(submit_error, "status_code", 200), 200)
+            class Upload:
+                filename = "axis.jpg"
+
+                def read(self):
+                    return b"fake-image"
+
+            evidence = self.nc.supplier_evidence_ids[:1]
+            controller._save_upload(evidence, Upload())
+            self.assertTrue(evidence.attachment_ids)
+            controller._save_upload(evidence, None)
+            controller._create_action_from_post(self.nc, {"action_name": ""})
+            Action = type(self.env["mgmtsystem.action"])
+            with patch.object(Action, "send_mail_for_action", return_value=True):
+                controller._create_action_from_post(
+                    self.nc,
+                    {
+                        "action_name": "Realign the column",
+                        "action_deadline": "2026-08-20",
+                        "action_description": "Check formwork.",
+                    },
+                )
+            self.assertTrue(
+                self.nc.action_ids.filtered(lambda act: act.name == "Realign the column")
+            )
+            submit_ok = controller.portal_occurrence_submit(self.nc.id)
+            self.assertIn(getattr(submit_ok, "status_code", 303), (200, 302, 303))
+            self.assertEqual(self.nc.state, "waiting_verification")
+            blocked = controller.portal_occurrence_update(self.nc.id)
+            self.assertIn(getattr(blocked, "status_code", 303), (200, 302, 303))
+            missing_update = controller.portal_occurrence_update(self.other_nc.id)
+            self.assertIn(getattr(missing_update, "status_code", 303), (200, 302, 303))
+            missing_submit = controller.portal_occurrence_submit(self.other_nc.id)
+            self.assertIn(getattr(missing_submit, "status_code", 303), (200, 302, 303))
+
+    def test_get_occurrence_returns_none_without_access(self):
+        controller = OccurrenceCustomerPortal()
+        with MockRequest(self.env(user=self.portal_user)):
+            self.assertFalse(controller._get_occurrence(self.other_nc.id))
+            self.assertTrue(controller._get_occurrence(self.nc.id))
