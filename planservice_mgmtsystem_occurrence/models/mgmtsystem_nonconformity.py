@@ -189,7 +189,7 @@ class MgmtsystemNonconformity(models.Model):
         }
 
     def _check_portal_write(self, vals):
-        if not self.env.user.share:
+        if self.env.su or not self.env.user.share:
             return
         allowed = self._get_supplier_writable_fields() | {"stage_id"}
         forbidden = set(vals) - allowed
