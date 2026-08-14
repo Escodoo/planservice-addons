@@ -1,6 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from odoo.exceptions import AccessError
@@ -263,14 +264,10 @@ class TestOccurrencePortal(TransactionCase):
             self.assertTrue(self.nc.document_ids)
             submit_error = controller.portal_occurrence_submit(self.nc.id)
             self.assertEqual(getattr(submit_error, "status_code", 200), 200)
-            class Upload:
-                filename = "axis.jpg"
 
-                def read(self):
-                    return b"fake-image"
-
+            upload = SimpleNamespace(filename="axis.jpg", read=lambda: b"fake-image")
             evidence = self.nc.supplier_evidence_ids[:1]
-            controller._save_upload(evidence, Upload())
+            controller._save_upload(evidence, upload)
             self.assertTrue(evidence.attachment_ids)
             controller._save_upload(evidence, None)
             controller._create_action_from_post(self.nc, {"action_name": ""})
@@ -285,7 +282,9 @@ class TestOccurrencePortal(TransactionCase):
                     },
                 )
             self.assertTrue(
-                self.nc.action_ids.filtered(lambda act: act.name == "Realign the column")
+                self.nc.action_ids.filtered(
+                    lambda act: act.name == "Realign the column"
+                )
             )
             submit_ok = controller.portal_occurrence_submit(self.nc.id)
             self.assertIn(getattr(submit_ok, "status_code", 303), (200, 302, 303))
