@@ -85,19 +85,20 @@
                 <field name="revision" readonly="state != 'draft'" />
             </xpath>
             <xpath expr="//group[@name='effectiveness_review']" position="attributes">
-                <attribute name="invisible">state not in ('open', 'done', 'waiting_verification')</attribute>
+                <attribute
+                    name="invisible"
+                >state not in ('open', 'done', 'waiting_verification')</attribute>
             </xpath>
             <xpath expr="//field[@name='evaluation_comments']" position="attributes">
-                <attribute name="readonly">state not in ('open', 'waiting_verification')</attribute>
+                <attribute
+                    name="readonly"
+                >state not in ('open', 'waiting_verification')</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Technical Reference" name="technical_reference">
                     <group>
                         <group>
-                            <field
-                                name="location"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="location" readonly="state != 'draft'" />
                             <field
                                 name="service_activity"
                                 readonly="state != 'draft'"
@@ -110,10 +111,7 @@
                             />
                         </group>
                         <group>
-                            <field
-                                name="reference_type"
-                                readonly="state != 'draft'"
-                            />
+                            <field name="reference_type" readonly="state != 'draft'" />
                             <field name="reference_na" readonly="state != 'draft'" />
                             <field
                                 name="reference_title"
@@ -164,7 +162,10 @@
                                 <field name="uom" />
                                 <field name="method" />
                                 <field name="notes" />
-                                <field name="attachment_ids" widget="many2many_binary" />
+                                <field
+                                    name="attachment_ids"
+                                    widget="many2many_binary"
+                                />
                             </group>
                         </form>
                     </field>
@@ -267,7 +268,10 @@
                                 <field name="document_type" />
                                 <field name="name" />
                                 <field name="notes" />
-                                <field name="attachment_ids" widget="many2many_binary" />
+                                <field
+                                    name="attachment_ids"
+                                    widget="many2many_binary"
+                                />
                             </group>
                         </form>
                     </field>

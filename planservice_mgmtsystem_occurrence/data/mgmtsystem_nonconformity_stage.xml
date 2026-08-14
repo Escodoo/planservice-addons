@@ -9,10 +9,16 @@
         <field name="sequence">175</field>
         <field name="state">waiting_verification</field>
     </record>
-    <record id="mgmtsystem_nonconformity.stage_analysis" model="mgmtsystem.nonconformity.stage">
+    <record
+        id="mgmtsystem_nonconformity.stage_analysis"
+        model="mgmtsystem.nonconformity.stage"
+    >
         <field name="fold" eval="True" />
     </record>
-    <record id="mgmtsystem_nonconformity.stage_pending" model="mgmtsystem.nonconformity.stage">
+    <record
+        id="mgmtsystem_nonconformity.stage_pending"
+        model="mgmtsystem.nonconformity.stage"
+    >
         <field name="fold" eval="True" />
     </record>
 </odoo>

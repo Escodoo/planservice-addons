@@ -61,19 +61,31 @@
                     </tr>
                     <tr>
                         <th>Project / Work</th>
-                        <td><span t-field="doc.project_id" /></td>
+                        <td>
+                            <span t-field="doc.project_id" />
+                        </td>
                         <th>Record No.</th>
-                        <td><span t-field="doc.ref" /></td>
+                        <td>
+                            <span t-field="doc.ref" />
+                        </td>
                         <th>Revision</th>
-                        <td><span t-field="doc.revision" /></td>
+                        <td>
+                            <span t-field="doc.revision" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Inspector</th>
-                        <td><span t-field="doc.inspector_id" /></td>
+                        <td>
+                            <span t-field="doc.inspector_id" />
+                        </td>
                         <th>Supplier</th>
-                        <td><span t-field="doc.partner_id" /></td>
+                        <td>
+                            <span t-field="doc.partner_id" />
+                        </td>
                         <th>Opening Date</th>
-                        <td><span t-field="doc.opening_date" /></td>
+                        <td>
+                            <span t-field="doc.opening_date" />
+                        </td>
                     </tr>
                 </table>
 
@@ -85,7 +97,10 @@
                     <tr>
                         <th>Classification</th>
                         <td colspan="5">
-                            <table class="o-ro-box o-ro-checks" style="border:0;margin:0;">
+                            <table
+                                class="o-ro-box o-ro-checks"
+                                style="border:0;margin:0;"
+                            >
                                 <tr>
                                     <td style="border:0;">
                                         <t
@@ -154,7 +169,9 @@
                     </tr>
                     <tr>
                         <th>Stage</th>
-                        <td colspan="3"><span t-field="doc.stage_id" /></td>
+                        <td colspan="3">
+                            <span t-field="doc.stage_id" />
+                        </td>
                         <th>Priority</th>
                         <td>
                             <t
@@ -184,7 +201,9 @@
                         <th>Work Division</th>
                         <td colspan="3">
                             <span t-field="doc.work_division" />
-                            <t t-if="doc.work_division == 'other' and doc.work_division_other">
+                            <t
+                                t-if="doc.work_division == 'other' and doc.work_division_other"
+                            >
                                 — <span t-field="doc.work_division_other" />
                             </t>
                         </td>
@@ -216,21 +235,33 @@
                 <table class="o-ro-box">
                     <tr>
                         <th>Title</th>
-                        <td colspan="5"><span t-field="doc.name" /></td>
+                        <td colspan="5">
+                            <span t-field="doc.name" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Location / Axis / Elevation</th>
-                        <td><span t-field="doc.location" /></td>
+                        <td>
+                            <span t-field="doc.location" />
+                        </td>
                         <th>Service / Activity</th>
-                        <td><span t-field="doc.service_activity" /></td>
+                        <td>
+                            <span t-field="doc.service_activity" />
+                        </td>
                         <th>Discipline</th>
-                        <td><span t-field="doc.discipline" /></td>
+                        <td>
+                            <span t-field="doc.discipline" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Installation / Equipment</th>
-                        <td><span t-field="doc.equipment" /></td>
+                        <td>
+                            <span t-field="doc.equipment" />
+                        </td>
                         <th>Identification Date</th>
-                        <td><span t-field="doc.identification_date" /></td>
+                        <td>
+                            <span t-field="doc.identification_date" />
+                        </td>
                         <th>Occurrence Reference</th>
                         <td>
                             <span t-if="doc.reference_na">N/A</span>
@@ -239,7 +270,9 @@
                     </tr>
                     <tr t-if="not doc.reference_na">
                         <th>Reference Title</th>
-                        <td><span t-field="doc.reference_title" /></td>
+                        <td>
+                            <span t-field="doc.reference_title" />
+                        </td>
                         <th>Revision / Date</th>
                         <td>
                             <span t-field="doc.reference_revision" />
@@ -248,7 +281,9 @@
                             </t>
                         </td>
                         <th>Sheet / Page / Detail</th>
-                        <td><span t-field="doc.reference_sheet" /></td>
+                        <td>
+                            <span t-field="doc.reference_sheet" />
+                        </td>
                     </tr>
                 </table>
 
@@ -311,13 +346,19 @@
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
-                                <t t-set="checked" t-value="doc.area_protected == 'na'" />
+                                <t
+                                    t-set="checked"
+                                    t-value="doc.area_protected == 'na'"
+                                />
                                 <t t-set="label">N/A</t>
                             </t>
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
-                                <t t-set="checked" t-value="doc.area_protected == 'no'" />
+                                <t
+                                    t-set="checked"
+                                    t-value="doc.area_protected == 'no'"
+                                />
                                 <t t-set="label">No</t>
                             </t>
                             <t
@@ -343,19 +384,29 @@
                     4. Supplier response, treatment and conclusion
                     <span class="o-ro-resp">Supplier</span>
                 </div>
-                <div class="o-ro-sub o-ro-supplier">4.1 Initial response and containment</div>
+                <div
+                    class="o-ro-sub o-ro-supplier"
+                >4.1 Initial response and containment</div>
                 <table class="o-ro-box">
                     <tr>
                         <th>Response Date</th>
-                        <td><span t-field="doc.supplier_response_date" /></td>
+                        <td>
+                            <span t-field="doc.supplier_response_date" />
+                        </td>
                         <th>Representative</th>
-                        <td><span t-field="doc.supplier_representative_id" /></td>
+                        <td>
+                            <span t-field="doc.supplier_representative_id" />
+                        </td>
                         <th>Technical Responsible</th>
-                        <td><span t-field="doc.supplier_technical_user_id" /></td>
+                        <td>
+                            <span t-field="doc.supplier_technical_user_id" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Proposed Deadline</th>
-                        <td><span t-field="doc.supplier_proposed_deadline" /></td>
+                        <td>
+                            <span t-field="doc.supplier_proposed_deadline" />
+                        </td>
                         <th>Disposition</th>
                         <td colspan="3">
                             <t
@@ -370,7 +421,10 @@
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
-                                <t t-set="checked" t-value="doc.disposition == 'redo'" />
+                                <t
+                                    t-set="checked"
+                                    t-value="doc.disposition == 'redo'"
+                                />
                                 <t t-set="label">Redo</t>
                             </t>
                             <t
@@ -417,7 +471,10 @@
                             <t
                                 t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
                             >
-                                <t t-set="checked" t-value="not doc.concession_required" />
+                                <t
+                                    t-set="checked"
+                                    t-value="not doc.concession_required"
+                                />
                                 <t t-set="label">No</t>
                             </t>
                             <t
@@ -443,7 +500,9 @@
                             </t>
                         </td>
                         <th>New Deadline</th>
-                        <td><span t-field="doc.new_deadline" /></td>
+                        <td>
+                            <span t-field="doc.new_deadline" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Containment and Current Condition</th>
@@ -479,7 +538,9 @@
                             </tr>
                         </t>
                         <tr t-foreach="doc.action_ids" t-as="action">
-                            <td><t t-esc="action_index + 1" /></td>
+                            <td>
+                                <t t-esc="action_index + 1" />
+                            </td>
                             <td>
                                 <span t-field="action.name" />
                                 <div
@@ -488,9 +549,15 @@
                                     t-field="action.description"
                                 />
                             </td>
-                            <td><span t-field="action.user_id" /></td>
-                            <td><span t-field="action.date_deadline" /></td>
-                            <td><span t-field="action.stage_id" /></td>
+                            <td>
+                                <span t-field="action.user_id" />
+                            </td>
+                            <td>
+                                <span t-field="action.date_deadline" />
+                            </td>
+                            <td>
+                                <span t-field="action.stage_id" />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -513,9 +580,15 @@
                             </tr>
                         </t>
                         <tr t-foreach="doc.document_ids" t-as="document">
-                            <td><span t-field="document.document_type" /></td>
-                            <td><span t-field="document.name" /></td>
-                            <td><span t-field="document.notes" /></td>
+                            <td>
+                                <span t-field="document.document_type" />
+                            </td>
+                            <td>
+                                <span t-field="document.name" />
+                            </td>
+                            <td>
+                                <span t-field="document.notes" />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -526,7 +599,9 @@
                 <table class="o-ro-box">
                     <tr>
                         <th>Conclusion Date</th>
-                        <td><span t-field="doc.supplier_conclusion_date" /></td>
+                        <td>
+                            <span t-field="doc.supplier_conclusion_date" />
+                        </td>
                         <th>Responsible</th>
                         <td colspan="3">
                             <span t-field="doc.supplier_conclusion_user_id" />
@@ -585,7 +660,9 @@
                     </tr>
                     <tr>
                         <th>Verification Date</th>
-                        <td><span t-field="doc.verification_date" /></td>
+                        <td>
+                            <span t-field="doc.verification_date" />
+                        </td>
                         <th>Reinspection</th>
                         <td>
                             <t
@@ -602,7 +679,9 @@
                             </t>
                         </td>
                         <th>Closure Decision</th>
-                        <td><span t-field="doc.closure_decision" /></td>
+                        <td>
+                            <span t-field="doc.closure_decision" />
+                        </td>
                     </tr>
                     <tr>
                         <th>Inspector Opinion</th>
@@ -617,7 +696,9 @@
                     <table t-if="doc.analysis" class="o-ro-box">
                         <tr>
                             <th>Analysis</th>
-                            <td class="o-ro-text"><span t-field="doc.analysis" /></td>
+                            <td class="o-ro-text">
+                                <span t-field="doc.analysis" />
+                            </td>
                         </tr>
                     </table>
                     <table t-if="doc.procedure_ids" class="o-ro-table">
@@ -629,8 +710,12 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="doc.procedure_ids" t-as="procedure">
-                                <td><span t-field="procedure.name" /></td>
-                                <td><span t-field="procedure.parent_id" /></td>
+                                <td>
+                                    <span t-field="procedure.name" />
+                                </td>
+                                <td>
+                                    <span t-field="procedure.parent_id" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -643,8 +728,12 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="doc.cause_ids" t-as="cause">
-                                <td><span t-field="cause.name" /></td>
-                                <td><span t-field="cause.description" /></td>
+                                <td>
+                                    <span t-field="cause.name" />
+                                </td>
+                                <td>
+                                    <span t-field="cause.description" />
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -654,7 +743,9 @@
                     <tr>
                         <td>
                             <div class="o-ro-sign-title">Inspector — opening</div>
-                            <div><span t-field="doc.inspector_id" /></div>
+                            <div>
+                                <span t-field="doc.inspector_id" />
+                            </div>
                             <div class="o-ro-muted">
                                 <span t-field="doc.opening_date" />
                             </div>
@@ -666,9 +757,7 @@
                                 Supplier — response and conclusion
                             </div>
                             <div>
-                                <span
-                                    t-field="doc.supplier_representative_id"
-                                />
+                                <span t-field="doc.supplier_representative_id" />
                                 <t t-if="not doc.supplier_representative_id">
                                     <span t-field="doc.partner_id" />
                                 </t>
@@ -683,7 +772,9 @@
                             <div class="o-ro-sign-title">
                                 Inspector — verification and closure
                             </div>
-                            <div><span t-field="doc.inspector_id" /></div>
+                            <div>
+                                <span t-field="doc.inspector_id" />
+                            </div>
                             <div class="o-ro-muted">
                                 <span t-field="doc.verification_date" />
                             </div>
@@ -709,13 +800,21 @@
             <tbody>
                 <t t-if="not evidences">
                     <tr>
-                        <td colspan="4" class="o-ro-empty"><t t-out="empty_label" /></td>
+                        <td colspan="4" class="o-ro-empty">
+                            <t t-out="empty_label" />
+                        </td>
                     </tr>
                 </t>
                 <tr t-foreach="evidences" t-as="evidence">
-                    <td><span t-field="evidence.name" /></td>
-                    <td><span t-field="evidence.evidence_type" /></td>
-                    <td><span t-field="evidence.date" /></td>
+                    <td>
+                        <span t-field="evidence.name" />
+                    </td>
+                    <td>
+                        <span t-field="evidence.evidence_type" />
+                    </td>
+                    <td>
+                        <span t-field="evidence.date" />
+                    </td>
                     <td>
                         <t t-if="evidence.value or evidence.uom or evidence.method">
                             <div>

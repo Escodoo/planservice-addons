@@ -195,9 +195,7 @@ class MgmtsystemNonconformity(models.Model):
         forbidden = set(vals) - allowed
         if forbidden:
             raise AccessError(
-                self.env._(
-                    "Portal users can only update supplier response fields."
-                )
+                self.env._("Portal users can only update supplier response fields.")
             )
         if any(rec.state not in ("waiting_supplier", "open") for rec in self):
             raise AccessError(
@@ -236,9 +234,7 @@ class MgmtsystemNonconformity(models.Model):
                     )
                 )
             if rec.stop_work and not rec.stop_work_date:
-                raise ValidationError(
-                    self.env._("Please set the work stoppage date.")
-                )
+                raise ValidationError(self.env._("Please set the work stoppage date."))
 
     @api.constrains("stage_id")
     def _check_open_with_action_comments(self):
@@ -424,7 +420,7 @@ class MgmtsystemNonconformity(models.Model):
         if supplier_keys & set(vals) and "stage_id" not in vals:
             to_open = self.filtered(lambda rec: rec.state == "waiting_supplier")
             if to_open:
-                to_open.with_context(
-                    occurrence_skip_auto_open=True
-                )._move_to_stage("open")
+                to_open.with_context(occurrence_skip_auto_open=True)._move_to_stage(
+                    "open"
+                )
         return result
