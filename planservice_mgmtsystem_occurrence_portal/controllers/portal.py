@@ -12,12 +12,12 @@ from odoo.http import request
 from odoo.osv.expression import AND
 from odoo.tools import groupby as groupbyelem
 
-from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.addons.portal.controllers.portal import pager as portal_pager
 from odoo.addons.planservice_mgmtsystem_occurrence.models.occurrence_selection import (
     CLASSIFICATION_SELECTION,
     DISPOSITION_SELECTION,
 )
+from odoo.addons.portal.controllers.portal import CustomerPortal
+from odoo.addons.portal.controllers.portal import pager as portal_pager
 
 
 class OccurrenceCustomerPortal(CustomerPortal):
@@ -218,7 +218,9 @@ class OccurrenceCustomerPortal(CustomerPortal):
             ]
         )
         if search and search_in:
-            domain = AND([domain, self._occurrence_get_search_domain(search_in, search)])
+            domain = AND(
+                [domain, self._occurrence_get_search_domain(search_in, search)]
+            )
 
         occurrence_count = Occurrence.search_count(domain)
         pager = portal_pager(
