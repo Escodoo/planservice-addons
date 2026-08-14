@@ -12,7 +12,11 @@
     <template
         id="report_mgmtsystem_nonconformity_document"
         inherit_id="mgmtsystem_nonconformity.report_mgmtsystem_nonconformity_document"
+        priority="99"
     >
+        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">web.internal_layout</attribute>
+        </xpath>
         <xpath expr="//div[hasclass('page')]" position="replace">
             <div class="page o-ro-page">
                 <style>
