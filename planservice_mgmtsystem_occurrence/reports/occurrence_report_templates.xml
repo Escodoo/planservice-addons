@@ -18,7 +18,10 @@
             <attribute name="t-call">web.internal_layout</attribute>
         </xpath>
         <xpath expr="//t[@t-set='doc']" position="replace">
-            <t t-set="doc" t-value="doc.with_context(lang=env.user.lang)" />
+            <t
+                t-set="doc"
+                t-value="doc.with_context(lang=env.context.get('lang') or env.user.lang)"
+            />
         </xpath>
         <xpath expr="//div[hasclass('page')]" position="replace">
             <div class="page o-ro-page">
@@ -56,7 +59,8 @@
                 </style>
 
                 <t t-set="ia_codes" t-value="doc.immediate_action_ids.mapped('code')" />
-                <t t-set="label_inspector">Inspector</t>
+                <t t-set="ro_labels" t-value="doc._get_occurrence_report_labels()" />
+                <t t-set="label_inspector" t-value="ro_labels['inspector']" />
                 <t t-set="label_supplier">Supplier</t>
 
                 <table class="o-ro-meta">
@@ -99,7 +103,7 @@
                 </table>
 
                 <div class="o-ro-h">
-                    1. Classification and routing
+                    <t t-out="ro_labels['classification_section']" />
                     <span class="o-ro-resp" t-out="label_inspector" />
                 </div>
                 <table class="o-ro-box">
@@ -119,7 +123,7 @@
                                             t-set="checked"
                                             t-value="doc.classification == 'rfi'"
                                         />
-                                            Design Query (RFI/TQ)
+                                            <t t-out="ro_labels['design_query']" />
                                         </t>
                                     </td>
                                     <td style="border:0;">

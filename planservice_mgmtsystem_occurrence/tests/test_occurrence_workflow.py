@@ -272,10 +272,6 @@ class TestOccurrenceWorkflow(TransactionCase):
         lang = self.env["res.lang"]._activate_lang("pt_BR")
         if not lang:
             lang = self.env["res.lang"]._create_lang("pt_BR", "Portuguese (BR)")
-        self.env["ir.module.module"].search(
-            [("name", "=", "planservice_mgmtsystem_occurrence")]
-        )._update_translations(["pt_BR"], overwrite=True)
-        self.env.user.lang = lang.code
         html, _report_type = (
             self.env["ir.actions.report"]
             .with_context(lang=lang.code)

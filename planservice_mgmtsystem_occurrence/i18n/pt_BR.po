@@ -193,6 +193,8 @@ msgid "Date"
 msgstr "Data"
 
 #. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__rfi
 msgid "Design Query (RFI/TQ)"
@@ -358,6 +360,8 @@ msgid "Installation / Equipment"
 msgstr "Instalação / Equipamento"
 
 #. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__inspector_id
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__section__inspector
@@ -1057,6 +1061,8 @@ msgid "Record No."
 msgstr "Nº do registro"
 
 #. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "1. Classification and routing"
 msgstr "1. Classificação e encaminhamento"

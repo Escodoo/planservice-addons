@@ -153,6 +153,13 @@ class MgmtsystemNonconformity(models.Model):
         )
         return origin
 
+    def _get_occurrence_report_labels(self):
+        return {
+            "classification_section": self.env._("1. Classification and routing"),
+            "design_query": self.env._("Design Query (RFI/TQ)"),
+            "inspector": self.env._("Inspector"),
+        }
+
     def _get_stage_by_state(self, state):
         xmlid = STAGE_XMLID.get(state)
         if not xmlid:
