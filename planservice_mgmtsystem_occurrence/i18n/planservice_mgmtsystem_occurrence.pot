@@ -6,61 +6,58 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 21:30+0000\n"
-"PO-Revision-Date: 2026-08-14 21:30+0000\n"
-"Last-Translator: Marcel Savegnago <marcel.savegnago@escodoo.com.br>\n"
+"Last-Translator: \n"
 "Language-Team: \n"
-"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "1. Classification and routing"
-msgstr "1. Classificação e encaminhamento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "2. Identification and technical reference"
-msgstr "2. Identificação da condição e referência técnica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "3. Description, evidence and immediate action"
-msgstr "3. Descrição, evidências e ação imediata"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "4. Supplier response, treatment and conclusion"
-msgstr "4. Resposta, tratamento e conclusão do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "4.1 Initial response and containment"
-msgstr "4.1 Resposta inicial e contenção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "4.2 Treatment plan"
-msgstr "4.2 Plano de tratamento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "4.3 Complementary documents"
-msgstr "4.3 Documentos complementares"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "4.4 Supplier evidence and conclusion"
-msgstr "4.4 Evidências e conclusão do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "5. Verification and closure"
-msgstr "5. Verificação e encerramento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
@@ -70,96 +67,96 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__active
 msgid "Active"
-msgstr "Ativo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Additional information"
-msgstr "Informações adicionais"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Analysis"
-msgstr "Análise"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Approve and Release"
-msgstr "Aprovar e liberar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Approve with Comments"
-msgstr "Aprovar com comentários"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__verification_result__approved
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Approved and Released"
-msgstr "Aprovado e liberado"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__verification_result__approved_with_comments
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Approved with Comments"
-msgstr "Aprovado com comentários"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__architecture
 msgid "Architecture"
-msgstr "Arquitetura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__area_protected
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Area Protected"
-msgstr "Área protegida"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__as_built
 msgid "As Built"
-msgstr "As Built"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__attachment_ids
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__attachment_ids
 msgid "Attachments"
-msgstr "Anexos"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__installations
 msgid "Building Installations and Utilities"
-msgstr "Instalações prediais e utilidades"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__calculation_memo
 msgid "Calculation Memo"
-msgstr "Memorial de Cálculo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_reclassify_form
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Category"
-msgstr "Categoria"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Cause"
-msgstr "Causa"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__certificate
 msgid "Certificate"
-msgstr "Certificado"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__civil
 msgid "Civil"
-msgstr "Civil"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__classification
@@ -167,76 +164,76 @@ msgstr "Civil"
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_filter
 msgid "Classification"
-msgstr "Classificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__closure_decision__close
 msgid "Close"
-msgstr "Encerrar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__closure_decision
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Closure Decision"
-msgstr "Decisão de encerramento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__code
 msgid "Code"
-msgstr "Código"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__company_id
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__company_id
 msgid "Company"
-msgstr "Empresa"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Complementary Documents"
-msgstr "Documentos complementares"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__concession_required
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Concession Required"
-msgstr "Concessão requerida"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__disposition__conclude
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Conclude without Intervention"
-msgstr "Concluir sem intervenção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Conclusion Date"
-msgstr "Data de conclusão"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__nc
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_reclassify__classification__nc
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Confirmed Deviation (NC/RNC)"
-msgstr "Desvio Confirmado (NC/RNC)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__containment_text
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Containment and Current Condition"
-msgstr "Contenção executada e condição atual"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__disposition__correct
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Correct"
-msgstr "Corrigir"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Corrective Action"
-msgstr "Ação corretiva"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__create_uid
@@ -244,7 +241,7 @@ msgstr "Ação corretiva"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__create_uid
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__create_uid
 msgid "Created by"
-msgstr "Criado por"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__create_date
@@ -252,36 +249,36 @@ msgstr "Criado por"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__create_date
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__create_date
 msgid "Created on"
-msgstr "Criado em"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__stop_work
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_reclassify__classification__stop_work
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Critical Risk (Stop Work)"
-msgstr "Risco Crítico (Stop Work)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Critical Risk (Stop Work) requires the work stoppage flag."
-msgstr "Risco Crítico (Stop Work) exige a marcação de paralisação."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__date
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
 msgid "Date"
-msgstr "Data"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Deadline"
-msgstr "Prazo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Description"
-msgstr "Descrição"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
@@ -289,18 +286,18 @@ msgstr "Descrição"
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__rfi
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_reclassify__classification__rfi
 msgid "Design Query (RFI/TQ)"
-msgstr "Dúvida de Projeto (RFI/TQ)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
 msgid "Details / Attachments"
-msgstr "Detalhes / Anexos"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__discipline
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Discipline"
-msgstr "Disciplina"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__display_name
@@ -308,85 +305,85 @@ msgstr "Disciplina"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__display_name
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__display_name
 msgid "Display Name"
-msgstr "Nome de exibição"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__disposition
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Disposition"
-msgstr "Disposição"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__document_ids
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__document
 msgid "Document"
-msgstr "Documento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__document_type
 msgid "Document Type"
-msgstr "Tipo de documento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__electrical
 msgid "Electrical"
-msgstr "Elétrica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__finishing
 msgid "Enclosures, Roofing and Finishes"
-msgstr "Vedações, Cobertura e Acabamentos"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__evidence_ids
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Evidence"
-msgstr "Evidências"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__evidence_type
 msgid "Evidence Type"
-msgstr "Tipo de evidência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__reference_type__executive_project
 msgid "Executive Project"
-msgstr "Projeto Executivo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.nonconformity.origin,name:planservice_mgmtsystem_occurrence.origin_field_occurrence
 msgid "Field Occurrence"
-msgstr "Ocorrência de Campo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__reference_type__field_visual
 msgid "Field Visual"
-msgstr "Visual de Campo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Field occurrence register, treatment and closure"
-msgstr "Registro, tratamento e encerramento de ocorrências de campo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__final_condition
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Final Condition"
-msgstr "Condição final"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__hvac
 msgid "HVAC"
-msgstr "Climatização (HVAC)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__priority__high
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "High"
-msgstr "Alta"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__id
@@ -394,65 +391,65 @@ msgstr "Alta"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__id
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__id
 msgid "ID"
-msgstr "ID"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__identification_date
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Identification Date"
-msgstr "Data de identificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__cause_justification
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Identified Cause or Technical Justification"
-msgstr "Causa identificada ou justificativa técnica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__priority__immediate
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Immediate"
-msgstr "Imediata"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__immediate_action_date
 msgid "Immediate Action Date"
-msgstr "Data da ação imediata"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__immediate_action_user_id
 msgid "Immediate Action Owner"
-msgstr "Responsável pela ação imediata"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__immediate_action_ids
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Immediate Actions"
-msgstr "Ações imediatas"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__deadline_impact
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Impact on Deadline"
-msgstr "Impacto no prazo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__punch_list
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_reclassify__classification__punch_list
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Incomplete Work (Punch List)"
-msgstr "Serviço Incompleto (Punch List)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__infrastructure
 msgid "Infrastructure"
-msgstr "Infraestrutura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Initial Response and Containment"
-msgstr "Resposta inicial e contenção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
@@ -461,52 +458,51 @@ msgstr "Resposta inicial e contenção"
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__section__inspector
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Inspector"
-msgstr "Inspetor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__note
 msgid "Inspector Comments"
-msgstr "Comentários do inspetor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__inspector_evidence_ids
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Inspector Evidence"
-msgstr "Evidências do inspetor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Inspector Opinion"
-msgstr "Parecer do inspetor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Inspector opinion and comments for closing or keeping the record open"
 msgstr ""
-"Parecer do inspetor e comentários para encerrar ou manter o registro aberto"
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Inspector — opening"
-msgstr "Inspetor — abertura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Inspector — verification and closure"
-msgstr "Inspetor — verificação e encerramento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__equipment
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Installation / Equipment"
-msgstr "Instalação / Equipamento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__closure_decision__keep_open
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Keep Open"
-msgstr "Manter aberta"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__write_uid
@@ -514,7 +510,7 @@ msgstr "Manter aberta"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__write_uid
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__write_uid
 msgid "Last Updated by"
-msgstr "Última atualização por"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__write_date
@@ -522,78 +518,78 @@ msgstr "Última atualização por"
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__write_date
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__write_date
 msgid "Last Updated on"
-msgstr "Última atualização em"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__location
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Location / Axis / Elevation"
-msgstr "Local / Eixo / Cota"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__measurement
 msgid "Measurements"
-msgstr "Medições"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__mechanical
 msgid "Mechanical"
-msgstr "Mecânica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__method
 msgid "Method / Equipment"
-msgstr "Método / Equipamento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__classification__observation
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_reclassify__classification__observation
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Minor Observation"
-msgstr "Observação Leve"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__area_protected__na
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "N/A"
-msgstr "N/A"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__name
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__new_deadline
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "New Deadline"
-msgstr "Novo prazo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__area_protected__no
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "No"
-msgstr "Não"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "No complementary documents."
-msgstr "Nenhum documento complementar."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "No inspector evidence recorded."
-msgstr "Nenhuma evidência do inspetor registrada."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "No supplier evidence recorded."
-msgstr "Nenhuma evidência do fornecedor registrada."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "No treatment plan actions."
-msgstr "Nenhuma ação no plano de tratamento."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity
@@ -601,92 +597,92 @@ msgstr "Nenhuma ação no plano de tratamento."
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__nonconformity_id
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__nonconformity_id
 msgid "Nonconformity"
-msgstr "Não Conformidade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_document
 msgid "Nonconformity Complementary Document"
-msgstr "Documento complementar da não conformidade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_evidence
 msgid "Nonconformity Evidence"
-msgstr "Evidência da não conformidade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_stage
 msgid "Nonconformity Stages"
-msgstr "Estágios da não conformidade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.occurrence.immediate.action,name:planservice_mgmtsystem_occurrence.immediate_action_none
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "None"
-msgstr "Nenhuma"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__priority__normal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__notes
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__notes
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Notes"
-msgstr "Observações"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.occurrence.immediate.action,name:planservice_mgmtsystem_occurrence.immediate_action_notify
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Notify Engineering"
-msgstr "Comunicar engenharia"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Observed Condition"
-msgstr "Condição observada"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Occurrence %(ref)s was released to %(partner)s."
-msgstr "A ocorrência %(ref)s foi liberada para %(partner)s."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_occurrence_immediate_action
 msgid "Occurrence Immediate Action"
-msgstr "Ação imediata da ocorrência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Occurrence Record (R.O.)"
-msgstr "Registro de Ocorrência (R.O.)"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_type
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Occurrence Reference"
-msgstr "Referência da ocorrência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Occurrence rejected and returned to the supplier."
-msgstr "Ocorrência rejeitada e devolvida ao fornecedor."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Only draft occurrences can be released to the supplier."
-msgstr "Somente ocorrências em rascunho podem ser liberadas ao fornecedor."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__opening_date
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Opening Date"
-msgstr "Data de abertura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__origin_ids
@@ -701,155 +697,154 @@ msgstr ""
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__other
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Other"
-msgstr "Outro"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Owner / Date"
-msgstr "Responsável / Data"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__equipment
 msgid "Permanent Equipment and Systems"
-msgstr "Equipamentos e Sistemas Permanentes"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__photo
 msgid "Photographs"
-msgstr "Fotografias"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please add at least one treatment plan action."
-msgstr "Inclua ao menos uma ação no plano de tratamento."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please describe the containment and current condition."
-msgstr "Descreva a contenção executada e a condição atual."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please describe the observed condition."
-msgstr "Descreva a condição observada."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please describe the work division when Other is set."
-msgstr "Descreva a divisão da obra quando Outro estiver selecionado."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please enter the inspector opinion before closing."
-msgstr "Informe o parecer do inspetor antes de encerrar."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please provide the identified cause or technical justification."
-msgstr "Informe a causa identificada ou a justificativa técnica."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please set the classification."
-msgstr "Informe a classificação."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please set the disposition."
-msgstr "Informe a disposição."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please set the supplier partner."
-msgstr "Informe o fornecedor."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Please set the work stoppage date."
-msgstr "Informe a data da paralisação."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__plumbing
 msgid "Plumbing"
-msgstr "Hidráulica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Portal users can only update supplier response fields."
 msgstr ""
-"Usuários do portal só podem atualizar os campos da resposta do fornecedor."
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__preliminary
 msgid "Preliminary Works and Support"
-msgstr "Serviços Preliminares e Apoio"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.occurrence.immediate.action,name:planservice_mgmtsystem_occurrence.immediate_action_preserve
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Preserve Evidence"
-msgstr "Preservar evidências"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__priority
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Priority"
-msgstr "Prioridade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Procedure"
-msgstr "Procedimento"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_filter
 msgid "Project"
-msgstr "Projeto"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__project_id
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Project / Work"
-msgstr "Projeto / Obra"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Proposed Deadline"
-msgstr "Prazo proposto"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.occurrence.immediate.action,name:planservice_mgmtsystem_occurrence.immediate_action_protect
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Protect / Isolate"
-msgstr "Proteger / isolar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__punch_list
 msgid "Punch List"
-msgstr "Punch List"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_reclassify_form
 msgid "Reason for reclassification"
-msgstr "Motivo da reclassificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__closure_decision__reclassify
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_reclassify_form
 msgid "Reclassify"
-msgstr "Reclassificar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
@@ -857,271 +852,271 @@ msgstr "Reclassificar"
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_reclassify
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_reclassify_form
 msgid "Reclassify Occurrence"
-msgstr "Reclassificar ocorrência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Record No."
-msgstr "Nº do registro"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__disposition__redo
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Redo"
-msgstr "Refazer"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_date
 msgid "Reference Date"
-msgstr "Data da referência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_na
 msgid "Reference N/A"
-msgstr "Referência N/A"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_revision
 msgid "Reference Revision"
-msgstr "Revisão da referência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_title
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Reference Title"
-msgstr "Título da referência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Reinspection"
-msgstr "Reinspeção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reinspection_date
 msgid "Reinspection Date"
-msgstr "Data da reinspeção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reinspection_required
 msgid "Reinspection Required"
-msgstr "Reinspeção necessária"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Reject"
-msgstr "Rejeitar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__verification_result__rejected
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Rejected"
-msgstr "Rejeitado"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Release to Supplier"
-msgstr "Liberar ao fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__disposition__repair
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Repair"
-msgstr "Reparar"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__report
 msgid "Report"
-msgstr "Laudo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__reference_type__report_test
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__report
 msgid "Report / Test"
-msgstr "Laudo / Ensaio"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Representative"
-msgstr "Representante"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__disposition__concession
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Request Concession"
-msgstr "Solicitar concessão"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Required"
-msgstr "Necessária"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Response Date"
-msgstr "Data da resposta"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Responsible"
-msgstr "Responsável"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Result"
-msgstr "Resultado"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__revised_project
 msgid "Revised Project"
-msgstr "Projeto Revisado"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__revision
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Revision"
-msgstr "Revisão"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Revision / Date"
-msgstr "Revisão / Data"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__section
 msgid "Section"
-msgstr "Seção"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__sequence
 msgid "Sequence"
-msgstr "Sequência"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__service_activity
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Service / Activity"
-msgstr "Serviço / Atividade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_sheet
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Sheet / Page / Detail"
-msgstr "Folha / Página / Detalhe"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Signature"
-msgstr "Assinatura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__sketch
 msgid "Sketch"
-msgstr "Croqui"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Stage"
-msgstr "Estágio"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__stop_work_date
 msgid "Stop Work Date"
-msgstr "Data da paralisação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__discipline__structure
 msgid "Structure"
-msgstr "Estrutura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Submit Response"
-msgstr "Enviar resposta"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__superstructure
 msgid "Superstructure"
-msgstr "Superestrutura"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__section__supplier
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Supplier"
-msgstr "Fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_conclusion_date
 msgid "Supplier Conclusion Date"
-msgstr "Data de conclusão do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_conclusion_user_id
 msgid "Supplier Conclusion Responsible"
-msgstr "Responsável pela conclusão do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_evidence_ids
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Supplier Evidence"
-msgstr "Evidências do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_proposed_deadline
 msgid "Supplier Proposed Deadline"
-msgstr "Prazo proposto pelo fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_representative_id
 msgid "Supplier Representative"
-msgstr "Representante do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Supplier Response"
-msgstr "Resposta do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_response_date
 msgid "Supplier Response Date"
-msgstr "Data da resposta do fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Supplier response submitted for verification."
-msgstr "Resposta do fornecedor enviada para verificação."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Supplier — response and conclusion"
-msgstr "Fornecedor — resposta e conclusão"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:mgmtsystem.occurrence.immediate.action,name:planservice_mgmtsystem_occurrence.immediate_action_suspend
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Suspend"
-msgstr "Suspender"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Technical Reference"
-msgstr "Referência técnica"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_technical_user_id
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Technical Responsible"
-msgstr "Responsável técnico"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_document__document_type__test
 msgid "Test"
-msgstr "Ensaio"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.constraint,message:planservice_mgmtsystem_occurrence.constraint_mgmtsystem_occurrence_immediate_action_code_uniq
 msgid "The immediate action code must be unique."
-msgstr "O código da ação imediata deve ser único."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
@@ -1130,74 +1125,70 @@ msgid ""
 "The supplier can only update the occurrence while it is released or in "
 "treatment."
 msgstr ""
-"O fornecedor só pode atualizar a ocorrência enquanto ela estiver liberada ou "
-"em tratamento."
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid ""
-"The supplier response can only be submitted while the occurrence is released "
-"or in treatment."
+"The supplier response can only be submitted while the occurrence is released"
+" or in treatment."
 msgstr ""
-"A resposta do fornecedor só pode ser enviada enquanto a ocorrência estiver "
-"liberada ou em tratamento."
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "This occurrence cannot be reclassified in the current stage."
-msgstr "Esta ocorrência não pode ser reclassificada no estágio atual."
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__name
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__name
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Title"
-msgstr "Título"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
 msgid "Type"
-msgstr "Tipo"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__uom
 msgid "Unit"
-msgstr "Unidade"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Unknown occurrence state: %s"
-msgstr "Estado desconhecido da ocorrência: %s"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__urbanization
 msgid "Urbanization and External Works"
-msgstr "Urbanização e Obras Externas"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__value
 msgid "Value"
-msgstr "Valor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Verification"
-msgstr "Verificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__verification_date
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Verification Date"
-msgstr "Data da verificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__verification_result
 msgid "Verification Result"
-msgstr "Resultado da verificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
@@ -1206,46 +1197,44 @@ msgid ""
 "Verification is only available when the occurrence is waiting for "
 "verification."
 msgstr ""
-"A verificação só está disponível quando a ocorrência está aguardando "
-"verificação."
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
 msgid "Verify occurrence %s"
-msgstr "Verificar ocorrência %s"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
 #: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_supplier
 msgid "Waiting Supplier"
-msgstr "Aguardando fornecedor"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
 #: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_verification
 msgid "Waiting Verification"
-msgstr "Aguardando verificação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__work_division
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Work Division"
-msgstr "Divisão da obra"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__work_division_other
 msgid "Work Division Other"
-msgstr "Outra divisão da obra"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__stop_work
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_filter
 msgid "Work Stoppage"
-msgstr "Paralisação"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_check
@@ -1256,26 +1245,9 @@ msgstr ""
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__area_protected__yes
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Yes"
-msgstr "Sim"
+msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_occurrence_evidence
 msgid "— <strong>Method:</strong>"
 msgstr ""
-
-#~ msgid "Planservice Occurrence Record"
-#~ msgstr "Registro de Ocorrência Planservice"
-
-#~ msgid "Field occurrence register on management-system nonconformities"
-#~ msgstr ""
-#~ "Registro de ocorrência de campo sobre não conformidades do sistema de "
-#~ "gestão"
-
-#~ msgid "Occurrence Record"
-#~ msgstr "Registro de Ocorrência"
-
-#~ msgid "Value:"
-#~ msgstr "Valor:"
-
-#~ msgid "Method:"
-#~ msgstr "Método:"
