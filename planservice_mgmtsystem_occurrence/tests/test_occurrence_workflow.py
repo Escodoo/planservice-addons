@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import Mock
+
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import mute_logger
@@ -70,10 +72,58 @@ class TestOccurrenceWorkflow(TransactionCase):
         if "review_ids" in nc._fields and nc.review_ids:
             nc.review_ids.unlink()
 
+    def test_tier_helpers_approve_and_clear_reviews(self):
+        reviews = Mock()
+        reviews.__bool__ = lambda _self: True
+        nc = Mock()
+        nc._fields = {"review_ids": True}
+        nc.review_ids = self.env["res.partner"]
+        nc.request_validation = Mock()
+        self._force_tier_validated(nc)
+        nc.request_validation.assert_called_once()
+        nc.review_ids = reviews
+        self._force_tier_validated(nc)
+        reviews.write.assert_called_once_with(
+            {"status": "approved", "done_by": self.env.user.id}
+        )
+        self._clear_tier_reviews(nc)
+        reviews.unlink.assert_called_once()
+        self._force_tier_validated(self.nc)
+        self._clear_tier_reviews(self.nc)
+
     def test_release_requires_classification(self):
         nc = self._create_occurrence(classification=False)
         with self.assertRaises(UserError):
             nc.action_release_to_supplier()
+
+    def test_release_requires_description_and_partner(self):
+        draft = self.env.ref("mgmtsystem_nonconformity.stage_draft")
+        missing_description = self.env["mgmtsystem.nonconformity"].new(
+            {
+                "name": "Incomplete description",
+                "classification": "nc",
+                "description": False,
+                "partner_id": self.partner.id,
+                "stage_id": draft.id,
+                "manager_user_id": self.env.user.id,
+                "responsible_user_id": self.env.user.id,
+            }
+        )
+        with self.assertRaises(UserError):
+            missing_description._check_can_release()
+        missing_partner = self.env["mgmtsystem.nonconformity"].new(
+            {
+                "name": "Incomplete partner",
+                "classification": "nc",
+                "description": "Observed deviation.",
+                "partner_id": False,
+                "stage_id": draft.id,
+                "manager_user_id": self.env.user.id,
+                "responsible_user_id": self.env.user.id,
+            }
+        )
+        with self.assertRaises(UserError):
+            missing_partner._check_can_release()
 
     def test_release_and_submit_and_approve(self):
         self.nc.action_release_to_supplier()
@@ -262,16 +312,16 @@ class TestOccurrenceWorkflow(TransactionCase):
         existing = self.env.ref(
             "planservice_mgmtsystem_occurrence.immediate_action_protect"
         )
+        self.env.flush_all()
         with mute_logger("odoo.sql_db"), self.assertRaises(Exception):
             self.env["mgmtsystem.occurrence.immediate.action"].create(
                 {"name": "Duplicate protect", "code": existing.code}
             )
-            self.env.flush_all()
 
     def test_occurrence_report_translates_pt_br(self):
         lang = self.env["res.lang"]._activate_lang("pt_BR")
         if not lang:
-            lang = self.env["res.lang"]._create_lang("pt_BR", "Portuguese (BR)")
+            self.skipTest("pt_BR language is not available")
         html, _report_type = (
             self.env["ir.actions.report"]
             .with_context(lang=lang.code)
