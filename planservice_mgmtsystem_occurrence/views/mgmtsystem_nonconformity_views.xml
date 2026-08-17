@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_mgmtsystem_nonconformity_form" model="ir.ui.view">
+        <field name="name">mgmtsystem.nonconformity.form.occurrence</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_form"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//header/field[@name='stage_id']" position="before">
+                <button
+                    name="action_release_to_supplier"
+                    type="object"
+                    string="Release to Supplier"
+                    class="btn-primary"
+                    invisible="state != 'draft'"
+                />
+                <button
+                    name="action_submit_response"
+                    type="object"
+                    string="Submit Response"
+                    class="btn-primary"
+                    invisible="state not in ('waiting_supplier', 'open')"
+                />
+                <button
+                    name="action_approve"
+                    type="object"
+                    string="Approve and Release"
+                    class="btn-primary"
+                    invisible="state != 'waiting_verification'"
+                />
+                <button
+                    name="action_approve_with_comments"
+                    type="object"
+                    string="Approve with Comments"
+                    invisible="state != 'waiting_verification'"
+                />
+                <button
+                    name="action_reject"
+                    type="object"
+                    string="Reject"
+                    invisible="state != 'waiting_verification'"
+                />
+                <button
+                    name="action_keep_open"
+                    type="object"
+                    string="Keep Open"
+                    invisible="state != 'waiting_verification'"
+                />
+                <button
+                    name="action_reclassify"
+                    type="object"
+                    string="Reclassify"
+                    invisible="state not in ('waiting_verification', 'open', 'draft')"
+                />
+            </xpath>
+            <xpath expr="//header/field[@name='stage_id']" position="attributes">
+                <attribute name="options">{'clickable': 0}</attribute>
+            </xpath>
+            <xpath expr="//group[@name='config']" position="inside">
+                <field name="project_id" readonly="state != 'draft'" />
+                <field name="classification" readonly="state != 'draft'" />
+                <field name="priority" readonly="state != 'draft'" />
+                <field name="work_division" readonly="state != 'draft'" />
+                <field
+                    name="work_division_other"
+                    invisible="work_division != 'other'"
+                    required="work_division == 'other'"
+                    readonly="state != 'draft'"
+                />
+                <field name="stop_work" readonly="state != 'draft'" />
+                <field
+                    name="stop_work_date"
+                    invisible="not stop_work"
+                    required="stop_work"
+                    readonly="state != 'draft'"
+                />
+            </xpath>
+            <xpath expr="//group[@name='meta']" position="inside">
+                <field name="inspector_id" readonly="state != 'draft'" />
+                <field name="opening_date" readonly="state != 'draft'" />
+                <field name="revision" readonly="state != 'draft'" />
+            </xpath>
+            <xpath expr="//group[@name='effectiveness_review']" position="attributes">
+                <attribute
+                    name="invisible"
+                >state not in ('open', 'done', 'waiting_verification')</attribute>
+            </xpath>
+            <xpath expr="//field[@name='evaluation_comments']" position="attributes">
+                <attribute
+                    name="readonly"
+                >state not in ('open', 'waiting_verification')</attribute>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Technical Reference" name="technical_reference">
+                    <group>
+                        <group>
+                            <field name="location" readonly="state != 'draft'" />
+                            <field
+                                name="service_activity"
+                                readonly="state != 'draft'"
+                            />
+                            <field name="equipment" readonly="state != 'draft'" />
+                            <field name="discipline" readonly="state != 'draft'" />
+                            <field
+                                name="identification_date"
+                                readonly="state != 'draft'"
+                            />
+                        </group>
+                        <group>
+                            <field name="reference_type" readonly="state != 'draft'" />
+                            <field name="reference_na" readonly="state != 'draft'" />
+                            <field
+                                name="reference_title"
+                                readonly="state != 'draft'"
+                                invisible="reference_na"
+                            />
+                            <field
+                                name="reference_revision"
+                                readonly="state != 'draft'"
+                                invisible="reference_na"
+                            />
+                            <field
+                                name="reference_date"
+                                readonly="state != 'draft'"
+                                invisible="reference_na"
+                            />
+                            <field
+                                name="reference_sheet"
+                                readonly="state != 'draft'"
+                                invisible="reference_na"
+                            />
+                        </group>
+                    </group>
+                </page>
+                <page string="Evidence" name="evidence">
+                    <separator string="Inspector Evidence" />
+                    <field
+                        name="inspector_evidence_ids"
+                        context="{'default_section': 'inspector'}"
+                        readonly="state != 'draft'"
+                    >
+                        <list>
+                            <field name="section" column_invisible="1" />
+                            <field name="name" />
+                            <field name="evidence_type" />
+                            <field name="date" />
+                            <field name="value" />
+                            <field name="uom" />
+                            <field name="method" />
+                        </list>
+                        <form>
+                            <group>
+                                <field name="section" />
+                                <field name="name" />
+                                <field name="evidence_type" />
+                                <field name="date" />
+                                <field name="value" />
+                                <field name="uom" />
+                                <field name="method" />
+                                <field name="notes" />
+                                <field
+                                    name="attachment_ids"
+                                    widget="many2many_binary"
+                                />
+                            </group>
+                        </form>
+                    </field>
+                    <group>
+                        <field
+                            name="immediate_action_ids"
+                            widget="many2many_tags"
+                            readonly="state != 'draft'"
+                        />
+                        <field
+                            name="immediate_action_date"
+                            readonly="state != 'draft'"
+                        />
+                        <field
+                            name="immediate_action_user_id"
+                            readonly="state != 'draft'"
+                        />
+                        <field name="area_protected" readonly="state != 'draft'" />
+                    </group>
+                </page>
+                <page
+                    string="Supplier Response"
+                    name="supplier_response"
+                    invisible="state == 'draft'"
+                >
+                    <group>
+                        <group string="Initial Response and Containment">
+                            <field
+                                name="supplier_representative_id"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="supplier_technical_user_id"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="supplier_response_date"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="supplier_proposed_deadline"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                        </group>
+                        <group string="Disposition">
+                            <field
+                                name="disposition"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="concession_required"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="deadline_impact"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="new_deadline"
+                                invisible="not deadline_impact"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="supplier_conclusion_date"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                            <field
+                                name="supplier_conclusion_user_id"
+                                readonly="state not in ('waiting_supplier', 'open')"
+                            />
+                        </group>
+                    </group>
+                    <separator string="Containment and Current Condition" />
+                    <field
+                        name="containment_text"
+                        readonly="state not in ('waiting_supplier', 'open')"
+                    />
+                    <separator string="Identified Cause or Technical Justification" />
+                    <field
+                        name="cause_justification"
+                        readonly="state not in ('waiting_supplier', 'open')"
+                    />
+                    <separator string="Final Condition" />
+                    <field
+                        name="final_condition"
+                        readonly="state not in ('waiting_supplier', 'open')"
+                    />
+                    <separator string="Complementary Documents" />
+                    <field
+                        name="document_ids"
+                        readonly="state not in ('waiting_supplier', 'open')"
+                    >
+                        <list>
+                            <field name="document_type" />
+                            <field name="name" />
+                            <field name="notes" />
+                        </list>
+                        <form>
+                            <group>
+                                <field name="document_type" />
+                                <field name="name" />
+                                <field name="notes" />
+                                <field
+                                    name="attachment_ids"
+                                    widget="many2many_binary"
+                                />
+                            </group>
+                        </form>
+                    </field>
+                    <separator string="Supplier Evidence" />
+                    <field
+                        name="supplier_evidence_ids"
+                        context="{'default_section': 'supplier'}"
+                        readonly="state not in ('waiting_supplier', 'open')"
+                    >
+                        <list>
+                            <field name="section" column_invisible="1" />
+                            <field name="name" />
+                            <field name="evidence_type" />
+                            <field name="date" />
+                            <field name="value" />
+                            <field name="uom" />
+                        </list>
+                    </field>
+                </page>
+                <page
+                    string="Verification"
+                    name="verification"
+                    invisible="state in ('draft', 'waiting_supplier')"
+                >
+                    <group>
+                        <field
+                            name="verification_result"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field
+                            name="verification_date"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field
+                            name="reinspection_required"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field
+                            name="reinspection_date"
+                            invisible="not reinspection_required"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field
+                            name="closure_decision"
+                            readonly="state != 'waiting_verification'"
+                        />
+                    </group>
+                    <separator string="Inspector Opinion" />
+                    <field
+                        name="evaluation_comments"
+                        placeholder="Inspector opinion and comments for closing or keeping the record open"
+                        readonly="state != 'waiting_verification'"
+                    />
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mgmtsystem_nonconformity_tree" model="ir.ui.view">
+        <field name="name">mgmtsystem.nonconformity.list.occurrence</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_tree"
+        />
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="project_id" optional="show" />
+                <field name="classification" optional="show" />
+                <field name="priority" optional="show" />
+                <field name="stop_work" optional="hide" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_mgmtsystem_nonconformity_filter" model="ir.ui.view">
+        <field name="name">mgmtsystem.nonconformity.filter.occurrence</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_filter"
+        />
+        <field name="arch" type="xml">
+            <field name="system_id" position="after">
+                <field name="project_id" />
+                <field name="classification" />
+                <filter
+                    name="stop_work"
+                    string="Work Stoppage"
+                    domain="[('stop_work', '=', True)]"
+                />
+            </field>
+            <filter name="groupby_partner" position="after">
+                <filter
+                    name="groupby_classification"
+                    string="Classification"
+                    context="{'group_by': 'classification'}"
+                />
+                <filter
+                    name="groupby_project"
+                    string="Project"
+                    context="{'group_by': 'project_id'}"
+                />
+            </filter>
+        </field>
+    </record>
+
+    <record id="view_mgmtsystem_nonconformity_kanban" model="ir.ui.view">
+        <field name="name">mgmtsystem.nonconformity.kanban.occurrence</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="inherit_id"
+            ref="mgmtsystem_nonconformity.view_mgmtsystem_nonconformity_kanban"
+        />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="classification" />
+                <field name="priority" />
+            </field>
+        </field>
+    </record>
+</odoo>

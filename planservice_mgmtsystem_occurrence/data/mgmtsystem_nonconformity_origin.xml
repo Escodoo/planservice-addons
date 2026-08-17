@@ -1,0 +1,5 @@
+<odoo noupdate="1">
+    <record id="origin_field_occurrence" model="mgmtsystem.nonconformity.origin">
+        <field name="name">Field Occurrence</field>
+    </record>
+</odoo>

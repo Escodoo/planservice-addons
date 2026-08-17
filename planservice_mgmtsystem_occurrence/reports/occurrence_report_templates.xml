@@ -1,0 +1,861 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="report_occurrence_check">
+        <span t-attf-class="o-ro-check#{' o-ro-on' if checked else ''}">
+            <t t-if="checked">X</t>
+        </span>
+        <t t-out="0" />
+    </template>
+
+    <template
+        id="report_mgmtsystem_nonconformity_document"
+        inherit_id="mgmtsystem_nonconformity.report_mgmtsystem_nonconformity_document"
+        priority="99"
+    >
+        <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">web.internal_layout</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='doc']" position="replace">
+            <t
+                t-set="doc"
+                t-value="doc.with_context(lang=env.context.get('lang') or env.user.lang)"
+            />
+        </xpath>
+        <xpath expr="//div[hasclass('page')]" position="replace">
+            <div class="page o-ro-page">
+                <style>
+                    .o-ro-page { font-size: 9.5px; color: #1a1a1a; line-height: 1.35; }
+                    .o-ro-page h1, .o-ro-page h2, .o-ro-page h3 { margin: 0; }
+                    .o-ro-title { font-size: 16px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #16365c; }
+                    .o-ro-subtitle { font-size: 8.5px; color: #555; margin-top: 2px; }
+                    .o-ro-meta { width: 100%; border-collapse: collapse; margin: 8px 0 10px 0; }
+                    .o-ro-meta th, .o-ro-meta td { border: 1px solid #8aa0b8; padding: 3px 6px; vertical-align: top; }
+                    .o-ro-meta th { width: 16%; background: #eef3f8; font-size: 8px; text-transform: uppercase; color: #16365c; font-weight: 700; }
+                    .o-ro-h { background: #16365c; color: #fff; padding: 4px 8px; margin-top: 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+                    .o-ro-h.o-ro-supplier { background: #2f5d3a; }
+                    .o-ro-h .o-ro-resp { float: right; background: #fff; color: #16365c; padding: 1px 6px; font-size: 7.5px; letter-spacing: 0.04em; }
+                    .o-ro-h.o-ro-supplier .o-ro-resp { color: #2f5d3a; }
+                    .o-ro-sub { background: #d9e3ef; color: #16365c; padding: 3px 8px; font-weight: 700; font-size: 9px; border: 1px solid #8aa0b8; border-top: 0; }
+                    .o-ro-sub.o-ro-supplier { background: #dce8df; color: #2f5d3a; border-color: #8aaa90; }
+                    .o-ro-box { width: 100%; border-collapse: collapse; margin-bottom: 0; }
+                    .o-ro-box th, .o-ro-box td { border: 1px solid #8aa0b8; padding: 4px 6px; vertical-align: top; }
+                    .o-ro-box th { background: #f6f8fb; font-size: 8px; text-transform: uppercase; color: #16365c; width: 18%; }
+                    .o-ro-checks td { width: 20%; }
+                    .o-ro-check { display: inline-block; width: 10px; height: 10px; border: 1px solid #333; text-align: center; font-size: 8px; line-height: 10px; margin-right: 3px; font-weight: 700; }
+                    .o-ro-on { background: #16365c; color: #fff; border-color: #16365c; }
+                    .o-ro-text { min-height: 28px; white-space: pre-wrap; }
+                    .o-ro-table { width: 100%; border-collapse: collapse; margin: 0 0 2px 0; }
+                    .o-ro-table th, .o-ro-table td { border: 1px solid #8aa0b8; padding: 3px 5px; }
+                    .o-ro-table th { background: #16365c; color: #fff; font-size: 8px; text-transform: uppercase; }
+                    .o-ro-img { max-width: 170px; max-height: 120px; border: 1px solid #ccc; margin: 2px 4px 2px 0; }
+                    .o-ro-sign { width: 100%; border-collapse: collapse; margin-top: 12px; }
+                    .o-ro-sign td { width: 33%; border: 1px solid #8aa0b8; padding: 6px; height: 72px; vertical-align: top; }
+                    .o-ro-sign .o-ro-sign-title { font-size: 8px; text-transform: uppercase; font-weight: 700; color: #16365c; }
+                    .o-ro-line { border-bottom: 1px dotted #666; height: 16px; margin-top: 18px; }
+                    .o-ro-muted { color: #777; }
+                    .o-ro-empty { color: #aaa; }
+                </style>
+
+                <t t-set="ia_codes" t-value="doc.immediate_action_ids.mapped('code')" />
+                <t t-set="ro_labels" t-value="doc._get_occurrence_report_labels()" />
+                <t t-set="label_inspector" t-value="ro_labels['inspector']" />
+                <t t-set="label_supplier">Supplier</t>
+
+                <table class="o-ro-meta">
+                    <tr>
+                        <td colspan="6" style="border-bottom: 0; padding-bottom: 2px;">
+                            <div class="o-ro-title">Occurrence Record (R.O.)</div>
+                            <div class="o-ro-subtitle">
+                                Field occurrence register, treatment and closure
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Project / Work</th>
+                        <td>
+                            <span t-field="doc.project_id" />
+                        </td>
+                        <th>Record No.</th>
+                        <td>
+                            <span t-field="doc.ref" />
+                        </td>
+                        <th>Revision</th>
+                        <td>
+                            <span t-field="doc.revision" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Inspector</th>
+                        <td>
+                            <span t-field="doc.inspector_id" />
+                        </td>
+                        <th>Supplier</th>
+                        <td>
+                            <span t-field="doc.partner_id" />
+                        </td>
+                        <th>Opening Date</th>
+                        <td>
+                            <span t-field="doc.opening_date" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="o-ro-h">
+                    <t t-out="ro_labels['classification_section']" />
+                    <span class="o-ro-resp" t-out="label_inspector" />
+                </div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Classification</th>
+                        <td colspan="5">
+                            <table
+                                class="o-ro-box o-ro-checks"
+                                style="border:0;margin:0;"
+                            >
+                                <tr>
+                                    <td style="border:0;">
+                                        <t
+                                            t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                                        >
+                                            <t
+                                                t-set="checked"
+                                                t-value="doc.classification == 'rfi'"
+                                            />
+                                            <t t-out="ro_labels['design_query']" />
+                                        </t>
+                                    </td>
+                                    <td style="border:0;">
+                                        <t
+                                            t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                                        >
+                                            <t
+                                            t-set="checked"
+                                            t-value="doc.classification == 'observation'"
+                                        />
+                                            Minor Observation
+                                        </t>
+                                    </td>
+                                    <td style="border:0;">
+                                        <t
+                                            t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                                        >
+                                            <t
+                                            t-set="checked"
+                                            t-value="doc.classification == 'punch_list'"
+                                        />
+                                            Incomplete Work (Punch List)
+                                        </t>
+                                    </td>
+                                    <td style="border:0;">
+                                        <t
+                                            t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                                        >
+                                            <t
+                                            t-set="checked"
+                                            t-value="doc.classification == 'nc'"
+                                        />
+                                            Confirmed Deviation (NC/RNC)
+                                        </t>
+                                    </td>
+                                    <td style="border:0;">
+                                        <t
+                                            t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                                        >
+                                            <t
+                                            t-set="checked"
+                                            t-value="doc.classification == 'stop_work'"
+                                        />
+                                            Critical Risk (Stop Work)
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Stage</th>
+                        <td colspan="3">
+                            <span t-field="doc.stage_id" />
+                        </td>
+                        <th>Priority</th>
+                        <td>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="doc.priority == 'normal'" />
+                                Normal
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="doc.priority == 'high'" />
+                                High
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.priority == 'immediate'"
+                            />
+                                Immediate
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Work Division</th>
+                        <td colspan="3">
+                            <span t-field="doc.work_division" />
+                            <t
+                                t-if="doc.work_division == 'other' and doc.work_division_other"
+                            >
+                                — <span t-field="doc.work_division_other" />
+                            </t>
+                        </td>
+                        <th>Work Stoppage</th>
+                        <td>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="not doc.stop_work" />
+                                No
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="doc.stop_work" />
+                                Yes
+                            </t>
+                            <t t-if="doc.stop_work_date">
+                                — <span t-field="doc.stop_work_date" />
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="o-ro-h">
+                    2. Identification and technical reference
+                    <span class="o-ro-resp" t-out="label_inspector" />
+                </div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Title</th>
+                        <td colspan="5">
+                            <span t-field="doc.name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Location / Axis / Elevation</th>
+                        <td>
+                            <span t-field="doc.location" />
+                        </td>
+                        <th>Service / Activity</th>
+                        <td>
+                            <span t-field="doc.service_activity" />
+                        </td>
+                        <th>Discipline</th>
+                        <td>
+                            <span t-field="doc.discipline" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Installation / Equipment</th>
+                        <td>
+                            <span t-field="doc.equipment" />
+                        </td>
+                        <th>Identification Date</th>
+                        <td>
+                            <span t-field="doc.identification_date" />
+                        </td>
+                        <th>Occurrence Reference</th>
+                        <td>
+                            <span t-if="doc.reference_na">N/A</span>
+                            <span t-else="" t-field="doc.reference_type" />
+                        </td>
+                    </tr>
+                    <tr t-if="not doc.reference_na">
+                        <th>Reference Title</th>
+                        <td>
+                            <span t-field="doc.reference_title" />
+                        </td>
+                        <th>Revision / Date</th>
+                        <td>
+                            <span t-field="doc.reference_revision" />
+                            <t t-if="doc.reference_date">
+                                — <span t-field="doc.reference_date" />
+                            </t>
+                        </td>
+                        <th>Sheet / Page / Detail</th>
+                        <td>
+                            <span t-field="doc.reference_sheet" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="o-ro-h">
+                    3. Description, evidence and immediate action
+                    <span class="o-ro-resp" t-out="label_inspector" />
+                </div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Observed Condition</th>
+                        <td colspan="5" class="o-ro-text">
+                            <span t-field="doc.description" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Immediate Actions</th>
+                        <td colspan="3">
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="'none' in ia_codes" />
+                                None
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="'protect' in ia_codes" />
+                                Protect / Isolate
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="'suspend' in ia_codes" />
+                                Suspend
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="'preserve' in ia_codes" />
+                                Preserve Evidence
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="'notify' in ia_codes" />
+                                Notify Engineering
+                            </t>
+                        </td>
+                        <th>Owner / Date</th>
+                        <td>
+                            <span t-field="doc.immediate_action_user_id" />
+                            <t t-if="doc.immediate_action_date">
+                                — <span t-field="doc.immediate_action_date" />
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Area Protected</th>
+                        <td colspan="5">
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.area_protected == 'na'"
+                            />
+                                N/A
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.area_protected == 'no'"
+                            />
+                                No
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.area_protected == 'yes'"
+                            />
+                                Yes
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+                <t
+                    t-call="planservice_mgmtsystem_occurrence.report_occurrence_evidence"
+                >
+                    <t t-set="evidences" t-value="doc.inspector_evidence_ids" />
+                    No inspector evidence recorded.
+                </t>
+
+                <div class="o-ro-h o-ro-supplier">
+                    4. Supplier response, treatment and conclusion
+                    <span class="o-ro-resp" t-out="label_supplier" />
+                </div>
+                <div
+                    class="o-ro-sub o-ro-supplier"
+                >4.1 Initial response and containment</div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Response Date</th>
+                        <td>
+                            <span t-field="doc.supplier_response_date" />
+                        </td>
+                        <th>Representative</th>
+                        <td>
+                            <span t-field="doc.supplier_representative_id" />
+                        </td>
+                        <th>Technical Responsible</th>
+                        <td>
+                            <span t-field="doc.supplier_technical_user_id" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Proposed Deadline</th>
+                        <td>
+                            <span t-field="doc.supplier_proposed_deadline" />
+                        </td>
+                        <th>Disposition</th>
+                        <td colspan="3">
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'correct'"
+                            />
+                                Correct
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'redo'"
+                            />
+                                Redo
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'repair'"
+                            />
+                                Repair
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'concession'"
+                            />
+                                Request Concession
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'conclude'"
+                            />
+                                Conclude without Intervention
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.disposition == 'other'"
+                            />
+                                Other
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Concession Required</th>
+                        <td>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="not doc.concession_required"
+                            />
+                                No
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="doc.concession_required" />
+                                Yes
+                            </t>
+                        </td>
+                        <th>Impact on Deadline</th>
+                        <td>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="not doc.deadline_impact" />
+                                No
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t t-set="checked" t-value="doc.deadline_impact" />
+                                Yes
+                            </t>
+                        </td>
+                        <th>New Deadline</th>
+                        <td>
+                            <span t-field="doc.new_deadline" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Containment and Current Condition</th>
+                        <td colspan="5" class="o-ro-text">
+                            <span t-field="doc.containment_text" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Identified Cause or Technical Justification</th>
+                        <td colspan="5" class="o-ro-text">
+                            <span t-field="doc.cause_justification" />
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="o-ro-sub o-ro-supplier">4.2 Treatment plan</div>
+                <table class="o-ro-table">
+                    <thead>
+                        <tr>
+                            <th style="width:4%;">#</th>
+                            <th>Corrective Action</th>
+                            <th style="width:18%;">Responsible</th>
+                            <th style="width:14%;">Deadline</th>
+                            <th style="width:16%;">Stage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="not doc.action_ids">
+                            <tr>
+                                <td colspan="5" class="o-ro-empty">
+                                    No treatment plan actions.
+                                </td>
+                            </tr>
+                        </t>
+                        <tr t-foreach="doc.action_ids" t-as="action">
+                            <td>
+                                <t t-esc="action_index + 1" />
+                            </td>
+                            <td>
+                                <span t-field="action.name" />
+                                <div
+                                    t-if="action.description"
+                                    class="o-ro-muted"
+                                    t-field="action.description"
+                                />
+                            </td>
+                            <td>
+                                <span t-field="action.user_id" />
+                            </td>
+                            <td>
+                                <span t-field="action.date_deadline" />
+                            </td>
+                            <td>
+                                <span t-field="action.stage_id" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="o-ro-sub o-ro-supplier">4.3 Complementary documents</div>
+                <table class="o-ro-table">
+                    <thead>
+                        <tr>
+                            <th style="width:24%;">Type</th>
+                            <th>Title</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-if="not doc.document_ids">
+                            <tr>
+                                <td colspan="3" class="o-ro-empty">
+                                    No complementary documents.
+                                </td>
+                            </tr>
+                        </t>
+                        <tr t-foreach="doc.document_ids" t-as="document">
+                            <td>
+                                <span t-field="document.document_type" />
+                            </td>
+                            <td>
+                                <span t-field="document.name" />
+                            </td>
+                            <td>
+                                <span t-field="document.notes" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="o-ro-sub o-ro-supplier">
+                    4.4 Supplier evidence and conclusion
+                </div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Conclusion Date</th>
+                        <td>
+                            <span t-field="doc.supplier_conclusion_date" />
+                        </td>
+                        <th>Responsible</th>
+                        <td colspan="3">
+                            <span t-field="doc.supplier_conclusion_user_id" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Final Condition</th>
+                        <td colspan="5" class="o-ro-text">
+                            <span t-field="doc.final_condition" />
+                        </td>
+                    </tr>
+                </table>
+                <t
+                    t-call="planservice_mgmtsystem_occurrence.report_occurrence_evidence"
+                >
+                    <t t-set="evidences" t-value="doc.supplier_evidence_ids" />
+                    No supplier evidence recorded.
+                </t>
+
+                <div class="o-ro-h">
+                    5. Verification and closure
+                    <span class="o-ro-resp" t-out="label_inspector" />
+                </div>
+                <table class="o-ro-box">
+                    <tr>
+                        <th>Result</th>
+                        <td colspan="5">
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.verification_result == 'approved'"
+                            />
+                                Approved and Released
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.verification_result == 'approved_with_comments'"
+                            />
+                                Approved with Comments
+                            </t>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.verification_result == 'rejected'"
+                            />
+                                Rejected
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Verification Date</th>
+                        <td>
+                            <span t-field="doc.verification_date" />
+                        </td>
+                        <th>Reinspection</th>
+                        <td>
+                            <t
+                                t-call="planservice_mgmtsystem_occurrence.report_occurrence_check"
+                            >
+                                <t
+                                t-set="checked"
+                                t-value="doc.reinspection_required"
+                            />
+                                Required
+                            </t>
+                            <t t-if="doc.reinspection_date">
+                                — <span t-field="doc.reinspection_date" />
+                            </t>
+                        </td>
+                        <th>Closure Decision</th>
+                        <td>
+                            <span t-field="doc.closure_decision" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Inspector Opinion</th>
+                        <td colspan="5" class="o-ro-text">
+                            <span t-field="doc.evaluation_comments" />
+                        </td>
+                    </tr>
+                </table>
+
+                <t t-if="doc.procedure_ids or doc.cause_ids or doc.analysis">
+                    <div class="o-ro-h">Additional information</div>
+                    <table t-if="doc.analysis" class="o-ro-box">
+                        <tr>
+                            <th>Analysis</th>
+                            <td class="o-ro-text">
+                                <span t-field="doc.analysis" />
+                            </td>
+                        </tr>
+                    </table>
+                    <table t-if="doc.procedure_ids" class="o-ro-table">
+                        <thead>
+                            <tr>
+                                <th>Procedure</th>
+                                <th>Category</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.procedure_ids" t-as="procedure">
+                                <td>
+                                    <span t-field="procedure.name" />
+                                </td>
+                                <td>
+                                    <span t-field="procedure.parent_id" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table t-if="doc.cause_ids" class="o-ro-table">
+                        <thead>
+                            <tr>
+                                <th>Cause</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="doc.cause_ids" t-as="cause">
+                                <td>
+                                    <span t-field="cause.name" />
+                                </td>
+                                <td>
+                                    <span t-field="cause.description" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <table class="o-ro-sign">
+                    <tr>
+                        <td>
+                            <div class="o-ro-sign-title">Inspector — opening</div>
+                            <div>
+                                <span t-field="doc.inspector_id" />
+                            </div>
+                            <div class="o-ro-muted">
+                                <span t-field="doc.opening_date" />
+                            </div>
+                            <div class="o-ro-line" />
+                            <div class="o-ro-muted">Signature</div>
+                        </td>
+                        <td>
+                            <div class="o-ro-sign-title">
+                                Supplier — response and conclusion
+                            </div>
+                            <div>
+                                <span t-field="doc.supplier_representative_id" />
+                                <t t-if="not doc.supplier_representative_id">
+                                    <span t-field="doc.partner_id" />
+                                </t>
+                            </div>
+                            <div class="o-ro-muted">
+                                <span t-field="doc.supplier_response_date" />
+                            </div>
+                            <div class="o-ro-line" />
+                            <div class="o-ro-muted">Signature</div>
+                        </td>
+                        <td>
+                            <div class="o-ro-sign-title">
+                                Inspector — verification and closure
+                            </div>
+                            <div>
+                                <span t-field="doc.inspector_id" />
+                            </div>
+                            <div class="o-ro-muted">
+                                <span t-field="doc.verification_date" />
+                            </div>
+                            <div class="o-ro-line" />
+                            <div class="o-ro-muted">Signature</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_occurrence_evidence">
+        <table class="o-ro-table">
+            <thead>
+                <tr>
+                    <th style="width:28%;">Evidence</th>
+                    <th style="width:16%;">Type</th>
+                    <th style="width:12%;">Date</th>
+                    <th>Details / Attachments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <t t-if="not evidences">
+                    <tr>
+                        <td colspan="4" class="o-ro-empty">
+                            <t t-out="0" />
+                        </td>
+                    </tr>
+                </t>
+                <tr t-foreach="evidences" t-as="evidence">
+                    <td>
+                        <span t-field="evidence.name" />
+                    </td>
+                    <td>
+                        <span t-field="evidence.evidence_type" />
+                    </td>
+                    <td>
+                        <span t-field="evidence.date" />
+                    </td>
+                    <td>
+                        <t t-if="evidence.value or evidence.uom or evidence.method">
+                            <div>
+                                <t t-if="evidence.value">
+                                    <strong>Value:</strong>
+                                    <span t-field="evidence.value" />
+                                    <t t-if="evidence.uom">
+                                        <span t-field="evidence.uom" />
+                                    </t>
+                                </t>
+                                <t t-if="evidence.method">
+                                    — <strong>Method:</strong>
+                                    <span t-field="evidence.method" />
+                                </t>
+                            </div>
+                        </t>
+                        <div t-if="evidence.notes" t-field="evidence.notes" />
+                        <t t-foreach="evidence.attachment_ids" t-as="att">
+                            <t
+                                t-if="att.mimetype and att.mimetype.startswith('image') and att.raw"
+                            >
+                                <img
+                                    t-att-src="image_data_uri(att.raw)"
+                                    class="o-ro-img"
+                                    t-att-alt="att.name"
+                                />
+                            </t>
+                            <div t-else="" class="o-ro-muted">
+                                <span t-field="att.name" />
+                            </div>
+                        </t>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+</odoo>

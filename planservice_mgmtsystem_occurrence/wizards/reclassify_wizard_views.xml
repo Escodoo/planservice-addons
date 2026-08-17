@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_mgmtsystem_nonconformity_reclassify_form" model="ir.ui.view">
+        <field name="name">mgmtsystem.nonconformity.reclassify.form</field>
+        <field name="model">mgmtsystem.nonconformity.reclassify</field>
+        <field name="arch" type="xml">
+            <form string="Reclassify Occurrence">
+                <group>
+                    <field name="nonconformity_id" invisible="1" />
+                    <field name="classification" />
+                    <field name="note" placeholder="Reason for reclassification" />
+                </group>
+                <footer>
+                    <button
+                        name="action_reclassify"
+                        type="object"
+                        string="Reclassify"
+                        class="btn-primary"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

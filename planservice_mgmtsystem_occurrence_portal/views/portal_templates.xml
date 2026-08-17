@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template
+        id="portal_my_home_occurrence"
+        name="Portal My Home : occurrences"
+        inherit_id="portal.portal_my_home"
+        priority="45"
+        customize_show="True"
+    >
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Occurrences</t>
+                <t t-set="url" t-value="'/my/occurrences'" />
+                <t t-set="text">Answer occurrence records assigned to you</t>
+                <t t-set="placeholder_count" t-value="'occurrence_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_breadcrumbs_occurrence"
+        inherit_id="portal.portal_breadcrumbs"
+        priority="45"
+    >
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li
+                t-if="page_name == 'occurrence' or occurrence"
+                t-attf-class="breadcrumb-item #{'active ' if not occurrence else ''}"
+            >
+                <a
+                    t-if="occurrence"
+                    t-attf-href="/my/occurrences?{{ keep_query() }}"
+                >Occurrences</a>
+                <t t-else="">Occurrences</t>
+            </li>
+            <li t-if="occurrence" class="breadcrumb-item active text-truncate">
+                <span t-field="occurrence.ref" />
+            </li>
+        </xpath>
+    </template>
+
+    <template
+        id="portal_searchbar_project"
+        inherit_id="portal.portal_searchbar"
+        name="Portal Search Bar : project filter"
+    >
+        <xpath expr="//button[@id='portal_searchbar_filters']/../.." position="after">
+            <div t-if="searchbar_projects" class="ms-lg-2">
+                <span class="small me-1 navbar-text">Project:</span>
+                <div class="btn-group">
+                    <button
+                        id="portal_searchbar_projects"
+                        data-bs-toggle="dropdown"
+                        class="btn btn-light dropdown-toggle"
+                    >
+                        <t
+                            t-esc="searchbar_projects.get(projectby, searchbar_projects.get('all')).get('label', 'All Projects')"
+                        />
+                    </button>
+                    <div
+                        class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="portal_searchbar_projects"
+                    >
+                        <t t-foreach="searchbar_projects" t-as="option">
+                            <a
+                                t-att-href="default_url + '?' + keep_query('*', projectby=option)"
+                                t-attf-class="dropdown-item#{projectby == option and ' active' or ''}"
+                            >
+                                <span t-esc="searchbar_projects[option].get('label')" />
+                            </a>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="portal_my_occurrences" name="My Occurrences">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Occurrences</t>
+            </t>
+            <div t-if="not grouped_occurrences" class="alert alert-info">
+                There are no occurrences assigned to your company.
+            </div>
+            <t t-else="">
+                <t t-call="portal.portal_table">
+                    <thead>
+                        <tr>
+                            <th>Reference</th>
+                            <th>Title</th>
+                            <th t-if="groupby != 'classification'">Classification</th>
+                            <th t-if="groupby != 'stage_id'">Stage</th>
+                            <th t-if="groupby != 'project_id'">Project</th>
+                        </tr>
+                    </thead>
+                    <t t-foreach="grouped_occurrences" t-as="occurrences">
+                        <tbody>
+                            <tr t-if="groupby != 'none'" class="table-light">
+                                <th t-if="groupby == 'stage_id'" colspan="5">
+                                    <span t-field="occurrences[0].stage_id" />
+                                </th>
+                                <th t-if="groupby == 'classification'" colspan="5">
+                                    <span
+                                        t-if="occurrences[0].classification"
+                                        t-field="occurrences[0].classification"
+                                    />
+                                    <span t-else="">No Classification</span>
+                                </th>
+                                <th t-if="groupby == 'project_id'" colspan="5">
+                                    <span
+                                        t-if="occurrences[0].project_id"
+                                        t-field="occurrences[0].project_id"
+                                    />
+                                    <span t-else="">No Project</span>
+                                </th>
+                            </tr>
+                            <tr t-foreach="occurrences" t-as="occ">
+                                <td>
+                                    <a t-attf-href="/my/occurrences/#{occ.id}">
+                                        <t t-esc="occ.ref" />
+                                    </a>
+                                </td>
+                                <td>
+                                    <a t-attf-href="/my/occurrences/#{occ.id}">
+                                        <t t-esc="occ.name" />
+                                    </a>
+                                </td>
+                                <td t-if="groupby != 'classification'">
+                                    <span t-field="occ.classification" />
+                                </td>
+                                <td t-if="groupby != 'stage_id'">
+                                    <span
+                                        t-attf-class="badge rounded-pill fw-normal #{'text-bg-success' if occ.state == 'done' else 'text-bg-dark' if occ.state == 'cancel' else 'text-bg-warning' if occ.state == 'waiting_verification' else 'text-bg-info' if occ.state == 'waiting_supplier' else 'text-bg-secondary' if occ.state == 'draft' else 'text-bg-primary'}"
+                                        t-esc="occ.stage_id.name"
+                                    />
+                                </td>
+                                <td t-if="groupby != 'project_id'">
+                                    <span t-field="occ.project_id" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_occurrence" name="Occurrence">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="base.group_user">
+                <t t-call="portal.portal_back_in_edit_mode" />
+            </t>
+            <div class="container">
+                <h3>
+                    <span t-field="occurrence.ref" />
+                    -
+                    <span t-field="occurrence.name" />
+                </h3>
+                <p class="text-muted">
+                    <span t-field="occurrence.stage_id" />
+                    <t t-if="occurrence.classification">
+                        —
+                        <span t-field="occurrence.classification" />
+                    </t>
+                </p>
+                <div t-if="error" class="alert alert-danger" t-esc="error" />
+
+                <div class="card mb-3">
+                    <div class="card-header">Inspector Record</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Supplier</strong>
+                                <p t-field="occurrence.partner_id" />
+                                <strong>Project / Work</strong>
+                                <p t-field="occurrence.project_id" />
+                                <strong>Location</strong>
+                                <p t-field="occurrence.location" />
+                                <strong>Service / Activity</strong>
+                                <p t-field="occurrence.service_activity" />
+                            </div>
+                            <div class="col-md-6">
+                                <strong>Priority</strong>
+                                <p t-field="occurrence.priority" />
+                                <strong>Work Division</strong>
+                                <p t-field="occurrence.work_division" />
+                                <strong>Opening Date</strong>
+                                <p t-field="occurrence.opening_date" />
+                                <strong>Work Stoppage</strong>
+                                <p t-field="occurrence.stop_work" />
+                            </div>
+                        </div>
+                        <strong>Description</strong>
+                        <p t-field="occurrence.description" />
+                    </div>
+                </div>
+
+                <form
+                    t-attf-action="/my/occurrences/#{occurrence.id}/update"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="mb-3"
+                >
+                    <input
+                        type="hidden"
+                        name="csrf_token"
+                        t-att-value="request.csrf_token()"
+                    />
+                    <div class="card mb-3">
+                        <div class="card-header">Supplier Response</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Containment and Current Condition
+                                </label>
+                                <textarea
+                                    class="form-control"
+                                    name="containment_text"
+                                    rows="4"
+                                    t-att-disabled="None if supplier_can_edit else 'disabled'"
+                                >
+                                    <t t-esc="occurrence.containment_text or ''" />
+                                </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    Identified Cause or Technical Justification
+                                </label>
+                                <textarea
+                                    class="form-control"
+                                    name="cause_justification"
+                                    rows="4"
+                                    t-att-disabled="None if supplier_can_edit else 'disabled'"
+                                >
+                                    <t t-esc="occurrence.cause_justification or ''" />
+                                </textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Disposition</label>
+                                    <select
+                                        class="form-select"
+                                        name="disposition"
+                                        t-att-disabled="not supplier_can_edit"
+                                    >
+                                        <option value="" />
+                                        <t
+                                            t-foreach="disposition_selection"
+                                            t-as="disp"
+                                        >
+                                            <option
+                                                t-att-value="disp[0]"
+                                                t-att-selected="occurrence.disposition == disp[0]"
+                                                t-esc="disp[1]"
+                                            />
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Proposed Deadline</label>
+                                    <input
+                                        type="date"
+                                        class="form-control"
+                                        name="supplier_proposed_deadline"
+                                        t-att-value="occurrence.supplier_proposed_deadline"
+                                        t-att-disabled="not supplier_can_edit"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    name="concession_required"
+                                    t-att-checked="occurrence.concession_required"
+                                    t-att-disabled="not supplier_can_edit"
+                                />
+                                <label class="form-check-label">
+                                    Concession required
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input
+                                    type="checkbox"
+                                    class="form-check-input"
+                                    name="deadline_impact"
+                                    t-att-checked="occurrence.deadline_impact"
+                                    t-att-disabled="not supplier_can_edit"
+                                />
+                                <label
+                                    class="form-check-label"
+                                >Impact on deadline</label>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Final Condition</label>
+                                <textarea
+                                    class="form-control"
+                                    name="final_condition"
+                                    rows="4"
+                                    t-att-disabled="None if supplier_can_edit else 'disabled'"
+                                >
+                                    <t t-esc="occurrence.final_condition or ''" />
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">Treatment Plan</div>
+                        <div class="card-body">
+                            <ul class="list-group mb-3">
+                                <li
+                                    t-foreach="occurrence.action_ids"
+                                    t-as="action"
+                                    class="list-group-item"
+                                >
+                                    <strong t-esc="action.name" />
+                                    <span class="text-muted">
+                                        —
+                                        <span t-field="action.date_deadline" />
+                                        —
+                                        <span t-field="action.stage_id" />
+                                    </span>
+                                </li>
+                            </ul>
+                            <t t-if="supplier_can_edit">
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="action_name"
+                                            placeholder="New corrective action"
+                                        />
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <input
+                                            type="date"
+                                            class="form-control"
+                                            name="action_deadline"
+                                        />
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="action_description"
+                                            placeholder="Details"
+                                        />
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">Supplier Evidence</div>
+                        <div class="card-body">
+                            <ul class="list-group mb-3">
+                                <li
+                                    t-foreach="occurrence.supplier_evidence_ids"
+                                    t-as="evidence"
+                                    class="list-group-item"
+                                >
+                                    <span t-field="evidence.name" />
+                                    —
+                                    <span t-field="evidence.evidence_type" />
+                                </li>
+                            </ul>
+                            <t t-if="supplier_can_edit">
+                                <div class="js_evidence_rows">
+                                    <div class="row js_evidence_row align-items-end">
+                                        <div class="col-md-4 mb-2">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="evidence_name"
+                                                placeholder="Evidence title"
+                                            />
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <select
+                                                class="form-select"
+                                                name="evidence_type"
+                                            >
+                                                <option value="photo">
+                                                    Photographs
+                                                </option>
+                                                <option value="measurement">
+                                                    Measurements
+                                                </option>
+                                                <option value="sketch">Sketch</option>
+                                                <option value="document">
+                                                    Document
+                                                </option>
+                                                <option value="report">
+                                                    Report / Test
+                                                </option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <input
+                                                type="file"
+                                                class="form-control"
+                                                name="evidence_file"
+                                            />
+                                        </div>
+                                        <div class="col-md-1 mb-2">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link text-danger js_remove_row"
+                                                title="Remove"
+                                            >
+                                                <i class="fa fa-times" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary btn-sm js_add_evidence_row"
+                                >
+                                    <i class="fa fa-plus" />
+                                    Add evidence
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="card mb-3">
+                        <div class="card-header">Complementary Documents</div>
+                        <div class="card-body">
+                            <ul class="list-group mb-3">
+                                <li
+                                    t-foreach="occurrence.document_ids"
+                                    t-as="document"
+                                    class="list-group-item"
+                                >
+                                    <span t-field="document.document_type" />
+                                    <t t-if="document.name">
+                                        —
+                                        <span t-field="document.name" />
+                                    </t>
+                                </li>
+                            </ul>
+                            <t t-if="supplier_can_edit">
+                                <div class="js_document_rows">
+                                    <div class="row js_document_row align-items-end">
+                                        <div class="col-md-4 mb-2">
+                                            <select
+                                                class="form-select"
+                                                name="document_type"
+                                            >
+                                                <option value="" />
+                                                <option value="calculation_memo">
+                                                    Calculation Memo
+                                                </option>
+                                                <option value="revised_project">
+                                                    Revised Project
+                                                </option>
+                                                <option value="report">Report</option>
+                                                <option value="certificate">
+                                                    Certificate
+                                                </option>
+                                                <option value="test">Test</option>
+                                                <option
+                                                    value="as_built"
+                                                >As Built</option>
+                                                <option value="punch_list">
+                                                    Punch List
+                                                </option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4 mb-2">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                name="document_name"
+                                                placeholder="Document title"
+                                            />
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <input
+                                                type="file"
+                                                class="form-control"
+                                                name="document_file"
+                                            />
+                                        </div>
+                                        <div class="col-md-1 mb-2">
+                                            <button
+                                                type="button"
+                                                class="btn btn-link text-danger js_remove_row"
+                                                title="Remove"
+                                            >
+                                                <i class="fa fa-times" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-secondary btn-sm js_add_document_row"
+                                >
+                                    <i class="fa fa-plus" />
+                                    Add document
+                                </button>
+                            </t>
+                        </div>
+                    </div>
+
+                    <t t-if="supplier_can_edit">
+                        <button type="submit" class="btn btn-secondary">
+                            Save Response
+                        </button>
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            t-attf-formaction="/my/occurrences/#{occurrence.id}/submit"
+                        >
+                            Submit for Verification
+                        </button>
+                    </t>
+                </form>
+
+                <div t-if="occurrence.verification_result" class="card mb-3">
+                    <div class="card-header">Verification</div>
+                    <div class="card-body">
+                        <p>
+                            <strong>Result:</strong>
+                            <span t-field="occurrence.verification_result" />
+                        </p>
+                        <p t-if="occurrence.evaluation_comments">
+                            <strong>Inspector opinion:</strong>
+                            <span t-field="occurrence.evaluation_comments" />
+                        </p>
+                    </div>
+                </div>
+
+                <div id="occurrence_communication" class="mt-4">
+                    <h4>Communication</h4>
+                    <t t-call="portal.message_thread">
+                        <t t-set="object" t-value="occurrence" />
+                    </t>
+                </div>
+            </div>
+            <script>
+                (function () {
+                    function addRow(containerSelector, rowSelector) {
+                        const container = document.querySelector(containerSelector);
+                        if (!container) {
+                            return;
+                        }
+                        const rows = container.querySelectorAll(rowSelector);
+                        const last = rows[rows.length - 1];
+                        const clone = last.cloneNode(true);
+                        clone.querySelectorAll("input, select").forEach((el) => {
+                            if (el.tagName === "SELECT") {
+                                el.selectedIndex = 0;
+                            } else {
+                                el.value = "";
+                            }
+                        });
+                        container.appendChild(clone);
+                    }
+                    function removeRow(button) {
+                        const row = button.closest(
+                            ".js_evidence_row, .js_document_row"
+                        );
+                        if (!row) {
+                            return;
+                        }
+                        const selector = row.classList.contains("js_evidence_row")
+                            ? ".js_evidence_row"
+                            : ".js_document_row";
+                        const siblings = row.parentElement.querySelectorAll(selector);
+                        if (siblings.length > 1) {
+                            row.remove();
+                        }
+                    }
+                    document.addEventListener("click", function (ev) {
+                        if (ev.target.closest(".js_add_evidence_row")) {
+                            ev.preventDefault();
+                            addRow(".js_evidence_rows", ".js_evidence_row");
+                        }
+                        if (ev.target.closest(".js_add_document_row")) {
+                            ev.preventDefault();
+                            addRow(".js_document_rows", ".js_document_row");
+                        }
+                        if (ev.target.closest(".js_remove_row")) {
+                            ev.preventDefault();
+                            removeRow(ev.target.closest(".js_remove_row"));
+                        }
+                    });
+                })();
+            </script>
+        </t>
+    </template>
+</odoo>

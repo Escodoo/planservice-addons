@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_nc_portal,mgmtsystem.nonconformity.portal,mgmtsystem_nonconformity.model_mgmtsystem_nonconformity,base.group_portal,1,1,0,0
+access_nc_stage_portal,mgmtsystem.nonconformity.stage.portal,mgmtsystem_nonconformity.model_mgmtsystem_nonconformity_stage,base.group_portal,1,0,0,0
+access_nc_origin_portal,mgmtsystem.nonconformity.origin.portal,mgmtsystem_nonconformity.model_mgmtsystem_nonconformity_origin,base.group_portal,1,0,0,0
+access_nc_evidence_portal,nc.evidence.portal,planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_evidence,base.group_portal,1,1,1,1
+access_nc_document_portal,nc.document.portal,planservice_mgmtsystem_occurrence.model_mgmtsystem_nonconformity_document,base.group_portal,1,1,1,1
+access_immediate_action_portal,occurrence.immediate.action.portal,planservice_mgmtsystem_occurrence.model_mgmtsystem_occurrence_immediate_action,base.group_portal,1,0,0,0
+access_mgmtsystem_action_portal,mgmtsystem.action.portal,mgmtsystem_action.model_mgmtsystem_action,base.group_portal,1,0,0,0
+access_mgmtsystem_action_stage_portal,mgmtsystem.action.stage.portal,mgmtsystem_action.model_mgmtsystem_action_stage,base.group_portal,1,0,0,0

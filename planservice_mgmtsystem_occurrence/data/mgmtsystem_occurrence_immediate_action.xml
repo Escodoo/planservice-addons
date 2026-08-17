@@ -1,0 +1,36 @@
+<odoo noupdate="1">
+    <record id="immediate_action_none" model="mgmtsystem.occurrence.immediate.action">
+        <field name="name">None</field>
+        <field name="code">none</field>
+        <field name="sequence">10</field>
+    </record>
+    <record
+        id="immediate_action_protect"
+        model="mgmtsystem.occurrence.immediate.action"
+    >
+        <field name="name">Protect / Isolate</field>
+        <field name="code">protect</field>
+        <field name="sequence">20</field>
+    </record>
+    <record
+        id="immediate_action_suspend"
+        model="mgmtsystem.occurrence.immediate.action"
+    >
+        <field name="name">Suspend</field>
+        <field name="code">suspend</field>
+        <field name="sequence">30</field>
+    </record>
+    <record
+        id="immediate_action_preserve"
+        model="mgmtsystem.occurrence.immediate.action"
+    >
+        <field name="name">Preserve Evidence</field>
+        <field name="code">preserve</field>
+        <field name="sequence">40</field>
+    </record>
+    <record id="immediate_action_notify" model="mgmtsystem.occurrence.immediate.action">
+        <field name="name">Notify Engineering</field>
+        <field name="code">notify</field>
+        <field name="sequence">50</field>
+    </record>
+</odoo>
