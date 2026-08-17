@@ -286,7 +286,12 @@ class TestOccurrencePortal(TransactionCase):
                     lambda act: act.name == "Realign the column"
                 )
             )
-            submit_ok = controller.portal_occurrence_submit(self.nc.id)
+            submit_ok = controller.portal_occurrence_submit(
+                self.nc.id,
+                containment_text="Isolated on site.",
+                cause_justification="Formwork failure.",
+                disposition="correct",
+            )
             self.assertIn(getattr(submit_ok, "status_code", 303), (200, 302, 303))
             self.assertEqual(self.nc.state, "waiting_verification")
             blocked = controller.portal_occurrence_update(self.nc.id)
@@ -295,6 +300,27 @@ class TestOccurrencePortal(TransactionCase):
             self.assertIn(getattr(missing_update, "status_code", 303), (200, 302, 303))
             missing_submit = controller.portal_occurrence_submit(self.other_nc.id)
             self.assertIn(getattr(missing_submit, "status_code", 303), (200, 302, 303))
+
+    def test_portal_list_redirects_without_read_access(self):
+        user = (
+            self.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Internal without SGI",
+                    "login": "no_occurrence_access",
+                    "groups_id": [(6, 0, [self.env.ref("base.group_user").id])],
+                }
+            )
+        )
+        Occurrence = self.env["mgmtsystem.nonconformity"].with_user(user)
+        self.assertFalse(Occurrence.has_access("read"))
+        controller = OccurrenceCustomerPortal()
+        with MockRequest(self.env(user=user)):
+            response = controller.portal_my_occurrences()
+            self.assertIn(getattr(response, "status_code", 303), (200, 302, 303))
+            values = controller._prepare_home_portal_values(["occurrence_count"])
+            self.assertEqual(values["occurrence_count"], 0)
 
     def test_get_occurrence_returns_none_without_access(self):
         controller = OccurrenceCustomerPortal()
