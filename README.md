@@ -22,7 +22,11 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [planservice_hr_timesheet_day_percentage](planservice_hr_timesheet_day_percentage/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Log timesheets as a percentage of the working day
+[planservice_mgmtsystem_occurrence](planservice_mgmtsystem_occurrence/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Field occurrence register on management-system nonconformities
+[planservice_mgmtsystem_occurrence_portal](planservice_mgmtsystem_occurrence_portal/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Let suppliers answer occurrence records from the portal
+[planservice_mgmtsystem_occurrence_tier_validation](planservice_mgmtsystem_occurrence_tier_validation/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Tier validation for occurrence verification and concessions
 [planservice_project_task_hour_plan](planservice_project_task_hour_plan/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Plan task hours by month and sync with planned dates
+[planservice_web_theme](planservice_web_theme/) | 18.0.1.0.0 | <a href='https://github.com/marcelsavegnago'><img src='https://github.com/marcelsavegnago.png' width='32' height='32' style='border-radius:50%;' alt='marcelsavegnago'/></a> | Apply Planservice brand colors to the backend navbar and buttons
 
 [//]: # (end addons)
 
