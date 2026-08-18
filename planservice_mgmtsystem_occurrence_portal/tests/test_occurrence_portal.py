@@ -8,6 +8,7 @@ from unittest.mock import patch
 import odoo.http
 from odoo.exceptions import AccessError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.misc import DotDict
 
 from odoo.addons.planservice_mgmtsystem_occurrence_portal.controllers.portal import (
     OccurrenceCustomerPortal,
@@ -17,6 +18,8 @@ from odoo.addons.planservice_mgmtsystem_occurrence_portal.controllers.portal imp
 @contextlib.contextmanager
 def mock_request(env):
     """Push a portal request on the HTTP stack without depending on website."""
+    lang_code = env.context.get("lang") or "en_US"
+    env = env(context=dict(env.context, lang=lang_code))
     request = SimpleNamespace(
         env=env,
         cr=env.cr,
@@ -25,11 +28,13 @@ def mock_request(env):
         db=env.registry.db_name,
         registry=env.registry,
         params={},
-        session=dict(odoo.http.get_default_session()),
+        session=DotDict(odoo.http.get_default_session()),
         httprequest=SimpleNamespace(
             form=SimpleNamespace(getlist=lambda _name: []),
             files=SimpleNamespace(getlist=lambda _name: []),
         ),
+        lang=env["res.lang"]._get_data(code=lang_code),
+        is_frontend=True,
         redirect=env["ir.http"]._redirect,
         render=lambda *_args, **_kwargs: "<MockResponse>",
     )
