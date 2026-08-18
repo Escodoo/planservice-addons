@@ -11,6 +11,10 @@
     >
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
+                <t
+                    t-set="icon"
+                    t-value="'/planservice_mgmtsystem_occurrence_portal/static/src/img/occurrence.png'"
+                />
                 <t t-set="title">Occurrences</t>
                 <t t-set="url" t-value="'/my/occurrences'" />
                 <t t-set="text">Answer occurrence records assigned to you</t>
