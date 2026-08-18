@@ -1,16 +1,43 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import contextlib
 from types import SimpleNamespace
 from unittest.mock import patch
 
+import odoo.http
 from odoo.exceptions import AccessError
 from odoo.tests import TransactionCase, tagged
 
 from odoo.addons.planservice_mgmtsystem_occurrence_portal.controllers.portal import (
     OccurrenceCustomerPortal,
 )
-from odoo.addons.website.tools import MockRequest
+
+
+@contextlib.contextmanager
+def mock_request(env):
+    """Push a portal request on the HTTP stack without depending on website."""
+    request = SimpleNamespace(
+        env=env,
+        cr=env.cr,
+        uid=env.uid,
+        context=env.context,
+        db=env.registry.db_name,
+        registry=env.registry,
+        params={},
+        session=dict(odoo.http.get_default_session()),
+        httprequest=SimpleNamespace(
+            form=SimpleNamespace(getlist=lambda _name: []),
+            files=SimpleNamespace(getlist=lambda _name: []),
+        ),
+        redirect=env["ir.http"]._redirect,
+        render=lambda *_args, **_kwargs: "<MockResponse>",
+    )
+    odoo.http._request_stack.push(request)
+    try:
+        yield request
+    finally:
+        odoo.http._request_stack.pop()
 
 
 @tagged("post_install", "-at_install")
@@ -117,7 +144,7 @@ class TestOccurrencePortal(TransactionCase):
 
     def test_portal_list_search_and_stage_filter(self):
         controller = OccurrenceCustomerPortal()
-        with MockRequest(self.env(user=self.portal_user)):
+        with mock_request(self.env(user=self.portal_user)):
             values = controller._prepare_my_occurrences_values(
                 search="Portal",
                 search_in="name",
@@ -167,7 +194,7 @@ class TestOccurrencePortal(TransactionCase):
             controller._occurrence_classification_search_domain("missing-xyz"),
             [("classification", "ilike", "missing-xyz")],
         )
-        with MockRequest(self.env(user=self.portal_user)):
+        with mock_request(self.env(user=self.portal_user)):
             values = controller._prepare_my_occurrences_values(
                 sortby="invalid",
                 filterby="invalid",
@@ -203,7 +230,7 @@ class TestOccurrencePortal(TransactionCase):
 
     def test_home_counter_and_access_action(self):
         controller = OccurrenceCustomerPortal()
-        with MockRequest(self.env(user=self.portal_user)):
+        with mock_request(self.env(user=self.portal_user)):
             values = controller._prepare_home_portal_values(["occurrence_count"])
             self.assertGreaterEqual(values["occurrence_count"], 1)
         action = self.nc.with_user(self.portal_user)._get_access_action()
@@ -236,7 +263,7 @@ class TestOccurrencePortal(TransactionCase):
     def test_portal_routes_and_post_helpers(self):
         controller = OccurrenceCustomerPortal()
         self.nc.action_release_to_supplier()
-        with MockRequest(self.env(user=self.portal_user)) as req:
+        with mock_request(self.env(user=self.portal_user)) as req:
             req.httprequest.form.getlist = lambda name: {
                 "evidence_name": ["", "Axis photo"],
                 "evidence_type": ["photo", "photo"],
@@ -316,7 +343,7 @@ class TestOccurrencePortal(TransactionCase):
         Occurrence = self.env["mgmtsystem.nonconformity"].with_user(user)
         self.assertFalse(Occurrence.has_access("read"))
         controller = OccurrenceCustomerPortal()
-        with MockRequest(self.env(user=user)):
+        with mock_request(self.env(user=user)):
             response = controller.portal_my_occurrences()
             self.assertIn(getattr(response, "status_code", 303), (200, 302, 303))
             values = controller._prepare_home_portal_values(["occurrence_count"])
@@ -324,6 +351,6 @@ class TestOccurrencePortal(TransactionCase):
 
     def test_get_occurrence_returns_none_without_access(self):
         controller = OccurrenceCustomerPortal()
-        with MockRequest(self.env(user=self.portal_user)):
+        with mock_request(self.env(user=self.portal_user)):
             self.assertFalse(controller._get_occurrence(self.other_nc.id))
             self.assertTrue(controller._get_occurrence(self.nc.id))

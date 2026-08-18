@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     "development_status": "Beta",
     "maintainers": ["marcelsavegnago"],
-    "depends": ["planservice_mgmtsystem_occurrence", "portal", "website"],
+    "depends": ["planservice_mgmtsystem_occurrence", "portal"],
     "data": [
         "security/ir.model.access.csv",
         "security/occurrence_portal_security.xml",
