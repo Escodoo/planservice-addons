@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_plan_role_manager,project.plan.role.manager,model_project_plan_role,project.group_project_manager,1,1,1,1
+access_project_plan_role_user,project.plan.role.user,model_project_plan_role,project.group_project_user,1,0,0,0
+access_project_plan_stage_manager,project.plan.stage.manager,model_project_plan_stage,project.group_project_manager,1,1,1,1
+access_project_plan_stage_user,project.plan.stage.user,model_project_plan_stage,project.group_project_user,1,0,0,0
+access_project_plan_stage_month_manager,project.plan.stage.month.manager,model_project_plan_stage_month,project.group_project_manager,1,1,1,1
+access_project_plan_stage_month_user,project.plan.stage.month.user,model_project_plan_stage_month,project.group_project_user,1,0,0,0
+access_project_plan_line_manager,project.plan.line.manager,model_project_plan_line,project.group_project_manager,1,1,1,1
+access_project_plan_cell_manager,project.plan.cell.manager,model_project_plan_cell,project.group_project_manager,1,1,1,1
+access_project_plan_line_user,project.plan.line.user,model_project_plan_line,project.group_project_user,1,0,0,0
+access_project_plan_cell_user,project.plan.cell.user,model_project_plan_cell,project.group_project_user,1,0,0,0
