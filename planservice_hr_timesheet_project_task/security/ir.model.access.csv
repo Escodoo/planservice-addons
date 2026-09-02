@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_timesheet_location_manager,timesheet.location.manager,model_timesheet_location,hr_timesheet.group_timesheet_manager,1,1,1,1
+access_timesheet_location_user,timesheet.location.user,model_timesheet_location,hr_timesheet.group_hr_timesheet_user,1,0,0,0
+access_timesheet_attachment_wizard_user,timesheet.attachment.wizard.user,model_timesheet_attachment_wizard,hr_timesheet.group_hr_timesheet_user,1,1,1,1
