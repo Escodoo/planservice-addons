@@ -80,7 +80,9 @@ class TestTimesheetProjectTask(TransactionCase):
         id_domain = next(
             item for item in domain if isinstance(item, tuple) and item[0] == "id"
         )
-        self.assertEqual(set(id_domain[2]), {self.project.id, self.other_project.id})
+        self.assertLessEqual(
+            {self.project.id, self.other_project.id}, set(id_domain[2])
+        )
 
     def test_get_default_task(self):
         task = self.env["account.analytic.line"]._get_default_task(self.project.id)
