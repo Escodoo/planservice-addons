@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="project.open_create_project" model="ir.actions.act_window">
+        <field name="view_id" ref="project.edit_project" />
+    </record>
+    <record id="view_project_kanban_open_form" model="ir.ui.view">
+        <field name="name">project.project.kanban.open.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="action" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_project_form_plan_matrix" model="ir.ui.view">
+        <field name="name">project.project.form.plan.matrix</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_start']" position="attributes">
+                <attribute
+                    name="options"
+                >{'end_date_field': 'date', 'always_range': '1', 'min_precision': 'months', 'max_precision': 'months'}</attribute>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page name="plan" string="Plan" groups="project.group_project_manager">
+                    <div class="o_row mb-3">
+                        <button
+                            name="action_load_months"
+                            type="object"
+                            string="Load Months"
+                            class="btn-secondary"
+                            icon="fa-calendar"
+                            confirm="This will load all months between project start and end dates. Continue?"
+                        />
+                        <button
+                            name="action_generate_plan"
+                            type="object"
+                            string="Generate Plan"
+                            class="btn-primary"
+                            icon="fa-cogs"
+                        />
+                    </div>
+                    <p class="text-muted mb-3">
+                        Click "Load Months" to generate month columns based on project dates.
+                        Then add plan lines with roles and assigned users.
+                        Fill capacity percentages and click "Generate Plan" to create/update tasks.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="plan_first_month" invisible="1" />
+                            <field name="plan_last_month" invisible="1" />
+                        </group>
+                    </group>
+                    <field name="plan_line_ids" nolabel="1">
+                        <list editable="bottom" create="true" delete="true">
+                            <field name="sequence" widget="handle" />
+                            <field name="role_id" required="1" />
+                            <field name="user_id" required="1" />
+                            <field name="total_hours" readonly="1" sum="Total" />
+                            <button
+                                name="%(action_project_plan_cell)d"
+                                type="action"
+                                string="View Cells"
+                                class="btn-secondary"
+                                icon="fa-th"
+                                context="{'default_line_id': id}"
+                            />
+                        </list>
+                    </field>
+                </page>
+                <page
+                    name="stages"
+                    string="Stages"
+                    groups="project.group_project_manager"
+                >
+                    <div class="o_row mb-3">
+                        <button
+                            name="action_load_stages"
+                            type="object"
+                            string="Load Stages"
+                            class="btn-primary"
+                            icon="fa-tags"
+                        />
+                    </div>
+                    <p class="text-muted mb-3">
+                        Associate a stage to a range of months. Click "Load Stages"
+                        to apply these associations to the plan cells.
+                    </p>
+                    <field name="stage_month_ids" nolabel="1">
+                        <list editable="bottom" create="true" delete="true">
+                            <field name="stage_id" required="1" />
+                            <field
+                                name="date_from"
+                                required="1"
+                                widget="date"
+                                options="{'min_precision': 'months', 'max_precision': 'months'}"
+                            />
+                            <field
+                                name="date_to"
+                                required="1"
+                                widget="date"
+                                options="{'min_precision': 'months', 'max_precision': 'months'}"
+                            />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
