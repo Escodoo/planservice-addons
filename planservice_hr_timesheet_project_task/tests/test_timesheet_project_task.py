@@ -103,9 +103,7 @@ class TestTimesheetProjectTask(TransactionCase):
 
     def test_get_planned_percentage_no_line(self):
         line = self.env["account.analytic.line"].new({})
-        self.assertEqual(
-            line._get_planned_percentage(self.task.id, self.date), 0.0
-        )
+        self.assertEqual(line._get_planned_percentage(self.task.id, self.date), 0.0)
 
     def test_get_planned_percentage_with_plan(self):
         plan_line = self.env["project.plan.line"].create(
@@ -118,9 +116,7 @@ class TestTimesheetProjectTask(TransactionCase):
         cell = plan_line.cell_ids.filtered(lambda c: c.month.month == 1)
         cell.capacity_percent = 50.0
         line = self.env["account.analytic.line"].new({})
-        self.assertEqual(
-            line._get_planned_percentage(self.task.id, self.date), 50.0
-        )
+        self.assertEqual(line._get_planned_percentage(self.task.id, self.date), 50.0)
 
     def test_create_auto_task(self):
         line = self.env["account.analytic.line"].create(
