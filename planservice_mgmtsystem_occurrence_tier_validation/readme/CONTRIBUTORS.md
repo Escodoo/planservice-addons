@@ -1,0 +1,3 @@
+- [Escodoo](https://escodoo.com.br):
+  - Marcel Savegnago \<marcel.savegnago@escodoo.com.br\>
+  - Clovis Parzewski \<clovis.parzewski@escodoo.com.br\>
