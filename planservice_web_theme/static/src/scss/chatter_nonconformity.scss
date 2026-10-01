@@ -1,0 +1,8 @@
+// Non conformities button of the Chatter (mgmtsystem_nonconformity) keeps
+// the former Planservice red, as an alert next to the gray brand color.
+.btn.o_ChatterTopbar_buttonNonConformities {
+    --btn-color: #{$planservice-alert-color};
+    --btn-hover-color: #{$planservice-alert-color};
+    --btn-active-color: #{$planservice-alert-color};
+    color: $planservice-alert-color;
+}

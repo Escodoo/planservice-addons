@@ -1,6 +1,7 @@
-// Planservice brand for Enterprise dark mode. A slightly darker red
-// keeps the navbar readable against the dark gray workspace.
-$o-community-color: #b50e00 !default;
-$o-enterprise-color: #b50e00 !default;
-$o-brand-odoo: #b50e00 !default;
-$o-brand-primary: #b50e00 !default;
+// Planservice brand for Enterprise dark mode. The same dark gray as the
+// light scheme stays distinguishable from the darker workspace.
+$o-community-color: #524d46 !default;
+$o-enterprise-color: #524d46 !default;
+$o-brand-odoo: #524d46 !default;
+$o-brand-primary: #524d46 !default;
+$planservice-alert-color: #d01000 !default;

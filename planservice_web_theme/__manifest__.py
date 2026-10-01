@@ -4,7 +4,7 @@
 {
     "name": "Planservice Web Theme",
     "summary": "Apply Planservice brand colors to the backend navbar and buttons",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Hidden",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",
@@ -13,6 +13,9 @@
     "maintainers": ["marcelsavegnago"],
     "depends": ["web"],
     "assets": {
+        "web.assets_backend": [
+            "planservice_web_theme/static/src/scss/chatter_nonconformity.scss",
+        ],
         "web._assets_primary_variables": [
             (
                 "prepend",
