@@ -269,6 +269,39 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
         with self.assertRaises(UserError):
             snapshot.attachment_id.unlink()
 
+    def _reject_first_revision(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        return self.nc.revision_ids
+
+    def test_snapshot_empty_write_is_a_noop(self):
+        snapshot = self._reject_first_revision()
+        self.assertTrue(snapshot.write({}))
+
+    def test_snapshot_can_be_removed_on_module_uninstall(self):
+        snapshot = self._reject_first_revision()
+        attachment = snapshot.attachment_id
+        snapshot.with_context(module_uninstall=True).unlink()
+        self.assertFalse(snapshot.exists())
+        attachment.with_context(module_uninstall=True).unlink()
+        self.assertFalse(attachment.exists())
+
+    def test_snapshot_attachment_guard_only_covers_its_content(self):
+        attachment = self._reject_first_revision().attachment_id
+        attachment.write({"description": "Reviewed by the auditor"})
+        self.assertEqual(attachment.description, "Reviewed by the auditor")
+        other = self.env["ir.attachment"].create({"name": "other.txt", "raw": b"x"})
+        other.unlink()
+        self.assertFalse(other.exists())
+        self.assertTrue(self.env["ir.attachment"].browse().write({"name": "none"}))
+
+    def test_close_is_only_available_while_waiting_verification(self):
+        with self.assertRaises(UserError):
+            self.nc.action_close()
+
     def test_snapshot_survives_editing_the_next_revision(self):
         self.nc.action_release_to_supplier()
         self._fill_supplier_response(self.nc)

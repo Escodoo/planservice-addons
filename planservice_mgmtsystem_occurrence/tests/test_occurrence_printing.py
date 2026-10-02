@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Dener William <dener.gimenes@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from unittest.mock import patch
+
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
@@ -31,21 +33,22 @@ class TestOccurrencePrinting(OccurrenceTestCase):
             }
         )
 
-    def _reject_revision_zero(self):
-        self.nc.action_release_to_supplier()
+    def _reject_revision_zero(self, nc=None):
+        nc = nc or self.nc
+        nc.action_release_to_supplier()
         self.env["mgmtsystem.action"].create(
             {"name": "Fix", "type_action": "correction", "user_id": self.env.user.id}
         )
-        self.nc.write(
+        nc.write(
             {
                 "containment_text": "Contained.",
                 "cause_justification": "Cause.",
                 "disposition": "conclude",
             }
         )
-        self.nc.action_submit_response()
-        self.nc.evaluation_comments = "Not accepted."
-        self.nc.action_reject()
+        nc.action_submit_response()
+        nc.evaluation_comments = "Not accepted."
+        nc.action_reject()
 
     def _official(self, nc=None):
         nc = nc or self.nc
@@ -115,3 +118,35 @@ class TestOccurrencePrinting(OccurrenceTestCase):
             self.nc.get_occurrence_report_filename(official=True),
             f"Occurrence Record - {self.nc.ref} - 00",
         )
+
+    def test_official_print_of_several_records_merges_their_snapshots(self):
+        other = self.nc.copy({"name": "Second printing occurrence"})
+        self._reject_revision_zero()
+        self._reject_revision_zero(other)
+        merge = "odoo.addons.planservice_mgmtsystem_occurrence.models.ir_actions_report"
+        with patch(f"{merge}.merge_pdf", return_value=b"merged") as merge_pdf:
+            content = self._official(self.nc | other)
+        self.assertEqual(content, b"merged")
+        merged = merge_pdf.call_args.args[0]
+        self.assertEqual(
+            merged,
+            [
+                self.nc.revision_ids.attachment_id.raw,
+                other.revision_ids.attachment_id.raw,
+            ],
+        )
+
+    def test_other_reports_keep_the_request_language(self):
+        other = self.env["ir.actions.report"].search(
+            [
+                (
+                    "report_name",
+                    "not in",
+                    [OCCURRENCE_REPORT_NAME, OCCURRENCE_OFFICIAL_REPORT_NAME],
+                )
+            ],
+            limit=1,
+        )
+        report = self.env["ir.actions.report"].with_context(lang="en_US")
+        same = report._occurrence_report_in_user_lang(other.report_name)
+        self.assertEqual(same.env.context["lang"], "en_US")

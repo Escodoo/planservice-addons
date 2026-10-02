@@ -13,11 +13,7 @@ class TestOccurrenceReportLang(OccurrenceTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        lang = cls.env["res.lang"]._activate_and_install_lang("pt_BR")
-        if not lang:
-            cls.skip_pt_br = True
-            return
-        cls.skip_pt_br = False
+        cls.env["res.lang"]._activate_and_install_lang("pt_BR")
         cls.env.user.lang = "pt_BR"
         cls.partner = cls.env["res.partner"].create(
             {"name": "Supplier Partner", "is_company": True}
@@ -34,11 +30,6 @@ class TestOccurrenceReportLang(OccurrenceTestCase):
         cls.report = cls.env.ref(
             "planservice_mgmtsystem_occurrence.action_occurrence_report_draft"
         )
-
-    def setUp(self):
-        super().setUp()
-        if self.skip_pt_br:
-            self.skipTest("pt_BR language is not available")
 
     def _report_env(self):
         """Environment like an HTTP print request: user is pt_BR, no lang key."""
