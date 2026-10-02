@@ -3,7 +3,7 @@
 
 from unittest.mock import Mock
 
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tools import mute_logger
 
@@ -139,22 +139,178 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
         action.stage_id = close_stage
         self._force_tier_validated(self.nc)
         self.nc.action_approve()
-        self.assertEqual(self.nc.state, "done")
+        self.assertEqual(self.nc.state, "waiting_verification")
         self.assertEqual(self.nc.verification_result, "approved")
+        self.nc.action_close()
+        self.assertEqual(self.nc.state, "done")
+        self.assertEqual(self.nc.closure_decision, "close")
 
     def test_submit_requires_containment(self):
         self.nc.action_release_to_supplier()
         with self.assertRaises(UserError):
             self.nc.action_submit_response()
 
-    def test_reject_returns_to_supplier(self):
+    def test_reject_returns_to_inspector(self):
         self.nc.action_release_to_supplier()
         self._fill_supplier_response(self.nc)
         self.nc.action_submit_response()
         self.nc.evaluation_comments = "Rework is incomplete."
         self.nc.action_reject()
+        self.assertEqual(self.nc.state, "draft")
+        self.assertEqual(self.nc.revision_ids.result, "rejected")
+        self.assertFalse(self.nc.verification_result)
+        self.assertFalse(self.nc.evaluation_comments)
+        self.assertEqual(self.nc.rejection_opinion, "Rework is incomplete.")
+
+    def test_supplier_cannot_edit_after_rejection(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        portal_user = self.env["res.users"].create(
+            {
+                "name": "Supplier Portal",
+                "login": "supplier.portal.reject",
+                "groups_id": [(6, 0, [self.env.ref("base.group_portal").id])],
+            }
+        )
+        with self.assertRaises(AccessError):
+            self.nc.with_user(portal_user).write({"containment_text": "Late edit"})
+
+    def test_supplier_response_is_prefilled_in_the_next_revision(self):
+        self.nc.action_release_to_supplier()
+        action = self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        self.assertEqual(self.nc.containment_text, "Area isolated and work suspended.")
+        self.assertEqual(self.nc.disposition, "correct")
+        self.assertIn(action, self.nc.action_ids)
+
+    def test_revision_cycle_reject_edit_and_release_again(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Description is ambiguous."
+        self.nc.action_reject()
+        self.assertEqual((self.nc.state, self.nc.revision), ("draft", "01"))
+        self.nc.write({"description": "Clarified: 15mm deviation on axis B3."})
+        self.nc.action_release_to_supplier()
         self.assertEqual(self.nc.state, "waiting_supplier")
-        self.assertEqual(self.nc.verification_result, "rejected")
+        self.assertEqual(self.nc.revision, "01")
+        self.assertEqual(self.nc.description, "Clarified: 15mm deviation on axis B3.")
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Still incomplete."
+        self.nc.action_reject()
+        self.assertEqual(self.nc.revision, "02")
+        self.assertEqual(self.nc.revision_ids.mapped("revision"), ["01", "00"])
+
+    def test_revision_starts_at_zero(self):
+        self.assertEqual(self.nc.revision, "00")
+        self.assertEqual(self.nc.revision_number, 0)
+
+    def test_revision_cannot_be_edited(self):
+        with self.assertRaises(UserError):
+            self.nc.write({"revision": "07"})
+        with self.assertRaises(UserError):
+            self.nc.write({"revision_number": 7})
+        self.assertEqual(self.nc.revision, "00")
+
+    def test_reject_bumps_revision_and_keeps_reference(self):
+        ref = self.nc.ref
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        self.assertEqual(self.nc.revision, "01")
+        self.assertEqual(self.nc.ref, ref)
+
+    def test_reject_creates_snapshot_of_the_rejected_revision(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        snapshot = self.nc.revision_ids
+        self.assertEqual(len(snapshot), 1)
+        self.assertEqual(snapshot.revision, "00")
+        self.assertEqual(snapshot.result, "rejected")
+        self.assertEqual(snapshot.user_id, self.env.user)
+        self.assertTrue(snapshot.decision_date)
+        self.assertTrue(snapshot.attachment_id.raw)
+        self.assertEqual(self.nc.revision, "01")
+
+    def test_close_creates_snapshot(self):
+        action = self._to_waiting_verification("Condition restored, released.")
+        action.stage_id = self.env.ref("mgmtsystem_action.stage_close")
+        self._force_tier_validated(self.nc)
+        self.nc.action_approve()
+        self.assertFalse(self.nc.revision_ids)
+        self.nc.action_close()
+        self.assertEqual(self.nc.revision_ids.result, "approved")
+        self.assertEqual(self.nc.revision_ids.revision, "00")
+
+    def test_snapshot_is_immutable_even_for_admin(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        admin = self.env.ref("base.user_admin")
+        snapshot = self.nc.revision_ids.with_user(admin).sudo()
+        with self.assertRaises(UserError):
+            snapshot.write({"revision": "99"})
+        with self.assertRaises(UserError):
+            snapshot.unlink()
+        with self.assertRaises(UserError):
+            snapshot.attachment_id.write({"raw": b"tampered"})
+        with self.assertRaises(UserError):
+            snapshot.attachment_id.unlink()
+
+    def _reject_first_revision(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        return self.nc.revision_ids
+
+    def test_snapshot_empty_write_is_a_noop(self):
+        snapshot = self._reject_first_revision()
+        self.assertTrue(snapshot.write({}))
+
+    def test_snapshot_can_be_removed_on_module_uninstall(self):
+        snapshot = self._reject_first_revision()
+        attachment = snapshot.attachment_id
+        snapshot.with_context(module_uninstall=True).unlink()
+        self.assertFalse(snapshot.exists())
+        attachment.with_context(module_uninstall=True).unlink()
+        self.assertFalse(attachment.exists())
+
+    def test_snapshot_attachment_guard_only_covers_its_content(self):
+        attachment = self._reject_first_revision().attachment_id
+        attachment.write({"description": "Reviewed by the auditor"})
+        self.assertEqual(attachment.description, "Reviewed by the auditor")
+        other = self.env["ir.attachment"].create({"name": "other.txt", "raw": b"x"})
+        other.unlink()
+        self.assertFalse(other.exists())
+        self.assertTrue(self.env["ir.attachment"].browse().write({"name": "none"}))
+
+    def test_close_is_only_available_while_waiting_verification(self):
+        with self.assertRaises(UserError):
+            self.nc.action_close()
+
+    def test_snapshot_survives_editing_the_next_revision(self):
+        self.nc.action_release_to_supplier()
+        self._fill_supplier_response(self.nc)
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Rework is incomplete."
+        self.nc.action_reject()
+        before = self.nc.revision_ids.attachment_id.raw
+        self.nc.description = "Description corrected in revision 01."
+        self.assertEqual(self.nc.revision_ids.attachment_id.raw, before)
 
     def test_reclassify_returns_to_draft(self):
         self.nc.action_release_to_supplier()
@@ -232,23 +388,102 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
         with self.assertRaises(UserError):
             self.nc.action_submit_response()
 
-    def test_approve_with_comments_and_keep_open(self):
+    def _to_waiting_verification(self, opinion="Inspector opinion."):
         self.nc.action_release_to_supplier()
         action = self._fill_supplier_response(self.nc)
         self.nc.action_submit_response()
-        self.nc.evaluation_comments = "Keep monitoring the axis."
-        self._clear_tier_reviews(self.nc)
+        self.nc.evaluation_comments = opinion
+        return action
+
+    def _add_comment(self, **extra):
+        vals = {
+            "nonconformity_id": self.nc.id,
+            "name": "Repaint the touched-up area.",
+            "user_id": self.env.user.id,
+            "deadline": "2031-02-01",
+        }
+        vals.update(extra)
+        return self.env["mgmtsystem.nonconformity.verification.comment"].create(vals)
+
+    def test_approve_with_comments_requires_a_comment(self):
+        self._to_waiting_verification()
+        with self.assertRaises(UserError):
+            self.nc.action_approve_with_comments()
+
+    def test_approve_with_comments_requires_complete_comments(self):
+        self._to_waiting_verification()
+        self._add_comment(user_id=False)
+        with self.assertRaises(UserError):
+            self.nc.action_approve_with_comments()
+        self.nc.verification_comment_ids.unlink()
+        self._add_comment(deadline=False)
+        with self.assertRaises(UserError):
+            self.nc.action_approve_with_comments()
+        self.assertFalse(self.nc.verification_result)
+
+    def test_approve_with_comments_does_not_close_by_itself(self):
+        action = self._to_waiting_verification()
+        self._add_comment()
+        self.nc.action_approve_with_comments()
+        self.assertEqual(self.nc.state, "waiting_verification")
+        self.assertEqual(self.nc.verification_result, "approved_with_comments")
+        self.assertFalse(self.nc.revision_ids)
+        action.stage_id = self.env.ref("mgmtsystem_action.stage_close")
+        self._force_tier_validated(self.nc)
+        self.nc.action_close()
+        self.assertEqual(self.nc.state, "done")
+        self.assertEqual(self.nc.revision_ids.result, "approved_with_comments")
+        self.assertEqual(len(self.nc.verification_comment_ids), 1)
+
+    def test_approve_with_comments_and_keep_open(self):
+        self._to_waiting_verification("Keep monitoring the axis.")
+        self._add_comment()
+        self.nc.action_approve_with_comments()
         self.nc.action_keep_open()
         self.assertEqual(self.nc.state, "open")
         self.assertEqual(self.nc.closure_decision, "keep_open")
-        self.nc.action_submit_response()
-        self.nc.evaluation_comments = "Released with comments."
-        close_stage = self.env.ref("mgmtsystem_action.stage_close")
-        action.stage_id = close_stage
+        self.assertFalse(self.nc.verification_result)
+        self.assertEqual(len(self.nc.verification_comment_ids), 1)
+        self.assertFalse(self.nc.revision_ids)
+
+    def test_result_cannot_be_recorded_twice(self):
+        self._to_waiting_verification()
+        self.nc.action_approve()
+        with self.assertRaises(UserError):
+            self.nc.action_approve()
+
+    def test_close_requires_an_approved_result(self):
+        self._to_waiting_verification()
+        with self.assertRaises(UserError):
+            self.nc.action_close()
+
+    def test_close_blocked_while_reinspection_is_pending(self):
+        action = self._to_waiting_verification()
+        action.stage_id = self.env.ref("mgmtsystem_action.stage_close")
         self._force_tier_validated(self.nc)
-        self.nc.action_approve_with_comments()
+        self.nc.write(
+            {"reinspection_required": True, "reinspection_date": "2031-03-01"}
+        )
+        self.nc.action_approve()
+        with self.assertRaises(UserError):
+            self.nc.action_close()
+        self.nc.write({"reinspection_done_date": "2031-03-01"})
+        with self.assertRaises(UserError):
+            self.nc.action_close()
+        self.nc.write({"reinspection_result": "satisfactory"})
+        self.nc.action_close()
         self.assertEqual(self.nc.state, "done")
-        self.assertEqual(self.nc.verification_result, "approved_with_comments")
+
+    def test_reinspection_requires_a_planned_date(self):
+        with self.assertRaises(ValidationError):
+            self.nc.write({"reinspection_required": True})
+
+    def test_decision_requires_the_inspector_opinion(self):
+        self._to_waiting_verification(opinion=False)
+        with self.assertRaises(UserError):
+            self.nc.action_approve()
+        with self.assertRaises(UserError):
+            self.nc.action_reject()
 
     def test_reclassify_opens_wizard_and_blocks_wrong_stage(self):
         action = self.nc.action_reclassify()
@@ -324,6 +559,7 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
         lang = self.env["res.lang"]._activate_lang("pt_BR")
         if not lang:
             self.skipTest("pt_BR language is not available")
+        self.env.user.lang = lang.code
         html, _report_type = (
             self.env["ir.actions.report"]
             .with_context(lang=lang.code)

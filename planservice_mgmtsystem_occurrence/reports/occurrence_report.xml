@@ -7,7 +7,7 @@
         <field name="default" eval="False" />
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">20</field>
+        <field name="margin_top">24</field>
         <field name="margin_bottom">18</field>
         <field name="margin_left">7</field>
         <field name="margin_right">7</field>
@@ -16,12 +16,52 @@
         <field name="dpi">90</field>
     </record>
 
+    <!-- The OCA print is replaced by the draft and official prints below. -->
     <record
         id="mgmtsystem_nonconformity.action_mgmtsystem_nonconformity_report"
         model="ir.actions.report"
     >
-        <field name="name">Occurrence Record</field>
-        <field name="print_report_name">'Occurrence Record - %s' % (object.ref)</field>
+        <field name="binding_model_id" eval="False" />
+    </record>
+
+    <record id="action_occurrence_report_draft" model="ir.actions.report">
+        <field name="name">Occurrence Record - Draft</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="binding_model_id"
+            ref="mgmtsystem_nonconformity.model_mgmtsystem_nonconformity"
+        />
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >mgmtsystem_nonconformity.report_mgmtsystem_nonconformity</field>
+        <field
+            name="report_file"
+        >mgmtsystem_nonconformity.report_mgmtsystem_nonconformity</field>
+        <field name="print_report_name">object.get_occurrence_report_filename()</field>
+        <field
+            name="paperformat_id"
+            ref="planservice_mgmtsystem_occurrence.paperformat_occurrence_record"
+        />
+    </record>
+
+    <record id="action_occurrence_report_official" model="ir.actions.report">
+        <field name="name">Occurrence Record - Official</field>
+        <field name="model">mgmtsystem.nonconformity</field>
+        <field
+            name="binding_model_id"
+            ref="mgmtsystem_nonconformity.model_mgmtsystem_nonconformity"
+        />
+        <field name="report_type">qweb-pdf</field>
+        <field
+            name="report_name"
+        >planservice_mgmtsystem_occurrence.report_occurrence_official</field>
+        <field
+            name="report_file"
+        >planservice_mgmtsystem_occurrence.report_occurrence_official</field>
+        <field
+            name="print_report_name"
+        >object.get_occurrence_report_filename(official=True)</field>
         <field
             name="paperformat_id"
             ref="planservice_mgmtsystem_occurrence.paperformat_occurrence_record"

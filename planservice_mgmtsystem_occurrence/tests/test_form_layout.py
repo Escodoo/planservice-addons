@@ -98,6 +98,21 @@ class TestFormLayout(OccurrenceTestCase):
         self.assertEqual(stop_date.get("invisible"), "not stop_work")
         self.assertEqual(stop_date.get("required"), "stop_work")
 
+    def test_revision_history_is_a_read_only_page(self):
+        page = self.arch.xpath("//page[@name='revision_history']")[0]
+        field = page.xpath(".//field[@name='revision_ids']")[0]
+        self.assertEqual(field.get("readonly"), "1")
+        self.assertEqual(page.get("invisible"), "not revision_ids")
+
+    def test_rejection_opinion_is_highlighted_on_the_supplier_page(self):
+        page = self.arch.xpath("//page[@name='supplier_response']")[0]
+        self.assertEqual(
+            page.get("invisible"), "state == 'draft' and not revision_number"
+        )
+        alert = page.xpath(".//div[hasclass('alert-warning')]")[0]
+        self.assertEqual(alert.get("invisible"), "not rejection_opinion")
+        self.assertTrue(alert.xpath(".//field[@name='rejection_opinion']"))
+
     def test_defaults_are_the_current_user(self):
         defaults = self.model.default_get(
             ["responsible_user_id", "user_id", "inspector_id"]
