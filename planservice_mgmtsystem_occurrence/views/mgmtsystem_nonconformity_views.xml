@@ -60,30 +60,6 @@
             <xpath expr="//header/field[@name='stage_id']" position="attributes">
                 <attribute name="options">{'clickable': 0}</attribute>
             </xpath>
-            <xpath expr="//group[@name='config']" position="inside">
-                <field name="project_id" readonly="state != 'draft'" />
-                <field name="classification" readonly="state != 'draft'" />
-                <field name="priority" readonly="state != 'draft'" />
-                <field name="work_division" readonly="state != 'draft'" />
-                <field
-                    name="work_division_other"
-                    invisible="work_division != 'other'"
-                    required="work_division == 'other'"
-                    readonly="state != 'draft'"
-                />
-                <field name="stop_work" readonly="state != 'draft'" />
-                <field
-                    name="stop_work_date"
-                    invisible="not stop_work"
-                    required="stop_work"
-                    readonly="state != 'draft'"
-                />
-            </xpath>
-            <xpath expr="//group[@name='meta']" position="inside">
-                <field name="inspector_id" readonly="state != 'draft'" />
-                <field name="opening_date" readonly="state != 'draft'" />
-                <field name="revision" readonly="state != 'draft'" />
-            </xpath>
             <xpath expr="//group[@name='effectiveness_review']" position="attributes">
                 <attribute
                     name="invisible"
@@ -326,6 +302,75 @@
                         readonly="state != 'waiting_verification'"
                     />
                 </page>
+            </xpath>
+            <xpath expr="//group[@name='main']" position="before">
+                <div class="oe_title">
+                    <h1>Occurrence Record</h1>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='config']/field[@name='name']" position="after">
+                <xpath
+                    expr="//group[@name='config']/field[@name='create_date']"
+                    position="move"
+                />
+                <field name="project_id" readonly="state != 'draft'" />
+                <xpath expr="//field[@name='ref']" position="move" />
+                <field name="revision" readonly="state != 'draft'" />
+                <field name="inspector_id" readonly="1" />
+                <xpath
+                    expr="//group[@name='config']/field[@name='partner_id']"
+                    position="move"
+                />
+                <field name="opening_date" readonly="state != 'draft'" />
+            </xpath>
+            <xpath expr="//group[@name='meta']" position="inside">
+                <field name="work_division" readonly="state != 'draft'" />
+                <field
+                    name="work_division_other"
+                    invisible="work_division != 'other'"
+                    required="work_division == 'other'"
+                    readonly="state != 'draft'"
+                />
+                <xpath
+                    expr="//group[@name='config']/field[@name='reference']"
+                    position="move"
+                />
+                <xpath
+                    expr="//group[@name='config']/field[@name='origin_ids']"
+                    position="move"
+                />
+                <field name="classification" readonly="state != 'draft'" />
+                <field name="priority" readonly="state != 'draft'" />
+                <field name="stop_work" readonly="state != 'draft'" />
+                <field
+                    name="stop_work_date"
+                    invisible="not stop_work"
+                    required="stop_work"
+                    readonly="state != 'draft'"
+                />
+                <xpath
+                    expr="//group[@name='meta']/field[@name='manager_user_id']"
+                    position="move"
+                />
+                <xpath
+                    expr="//group[@name='meta']/field[@name='system_id']"
+                    position="move"
+                />
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='meta']/field[@name='responsible_user_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='meta']/field[@name='user_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>
