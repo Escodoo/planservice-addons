@@ -109,6 +109,11 @@ msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
+msgid "<strong>Rejected in the previous revision:</strong>"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Result:</strong>"
 msgstr ""
 
@@ -396,4 +401,9 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Verification"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
+msgid "— Rev."
 msgstr ""
