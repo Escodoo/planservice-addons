@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Dener William <dener.gimenes@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <!-- The base record is noupdate, so it is reconfigured with a function.
+         Reference format: YYYYMM-NNN, with one counter per month. -->
+    <function model="ir.sequence" name="write">
+        <value
+            model="ir.sequence"
+            eval="[ref('mgmtsystem_nonconformity.seq_mgmtsystem_nonconformity')]"
+        />
+        <value
+            eval="{
+                'prefix': '%(range_year)s%(range_month)s-',
+                'padding': 3,
+                'use_date_range': True,
+            }"
+        />
+    </function>
+</odoo>

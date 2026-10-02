@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Dener William <dener.gimenes@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record
+        id="mgmtsystem_nonconformity.open_mgmtsystem_nonconformity_list"
+        model="ir.actions.act_window"
+    >
+        <field name="name">Occurrence Record</field>
+    </record>
+
+    <record id="mgmtsystem_nonconformity.menu_open_nonconformity" model="ir.ui.menu">
+        <field name="name">R.O.</field>
+    </record>
+</odoo>

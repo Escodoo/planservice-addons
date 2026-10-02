@@ -4,12 +4,14 @@
 from unittest.mock import Mock
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import tagged
 from odoo.tools import mute_logger
+
+from .common import OccurrenceTestCase
 
 
 @tagged("post_install", "-at_install")
-class TestOccurrenceWorkflow(TransactionCase):
+class TestOccurrenceWorkflow(OccurrenceTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
