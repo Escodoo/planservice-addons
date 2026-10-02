@@ -3,7 +3,7 @@
 {
     "name": "Planservice Occurrence Record",
     "summary": "Field occurrence register on management-system nonconformities",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "category": "Management System",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",
