@@ -1,5 +1,5 @@
-# Copyright 2026 Escodoo
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 {
     "name": "Planservice Web List Default View",
