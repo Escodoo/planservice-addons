@@ -1,2 +1,2 @@
 - [Escodoo](https://escodoo.com.br):
-  - Dener William
+  - Dener William <dener.gimenes@escodoo.com.br>

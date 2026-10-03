@@ -68,7 +68,7 @@ Contributors
 
 - `Escodoo <https://escodoo.com.br>`__:
 
-  - Dener William
+  - Dener William dener.gimenes@escodoo.com.br
 
 Maintainers
 -----------

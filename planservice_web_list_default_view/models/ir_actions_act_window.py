@@ -1,5 +1,5 @@
-# Copyright 2026 Escodoo
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
 
 from odoo import api, models
 
@@ -13,9 +13,11 @@ class IrActionsActWindow(models.Model):
         res = super()._compute_views()
         for act in self:
             views = act.views
-            list_views = [view for view in views if view[1] == "list"]
-            if list_views and views[0][1] != "list":
-                act.views = list_views[:1] + [
-                    view for view in views if view is not list_views[0]
-                ]
+            list_index = next(
+                (index for index, view in enumerate(views) if view[1] == "list"), 0
+            )
+            if list_index:
+                act.views = (
+                    [views[list_index]] + views[:list_index] + views[list_index + 1 :]
+                )
         return res
