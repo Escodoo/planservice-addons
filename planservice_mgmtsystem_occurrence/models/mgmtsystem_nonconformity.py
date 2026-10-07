@@ -4,6 +4,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from .ir_sequence import NONCONFORMITY_SEQUENCE_CODE
 from .occurrence_selection import (
     CLASSIFICATION_SELECTION,
     DISCIPLINE_SELECTION,
@@ -26,7 +27,15 @@ STAGE_XMLID = {
 class MgmtsystemNonconformity(models.Model):
     _inherit = "mgmtsystem.nonconformity"
 
+    ref = fields.Char(default=lambda self: self._default_ref())
     origin_ids = fields.Many2many(default=lambda self: self._default_origin_ids())
+    responsible_user_id = fields.Many2one(default=lambda self: self.env.user)
+    manager_user_id = fields.Many2one(
+        compute="_compute_manager_user_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
     project_id = fields.Many2one("project.project", "Project / Work")
     inspector_id = fields.Many2one(
@@ -146,12 +155,50 @@ class MgmtsystemNonconformity(models.Model):
         ]
     )
 
+    @api.depends("project_id")
+    def _compute_manager_user_id(self):
+        """Follow the project manager when the project changes.
+
+        Keeps the current manager if the project has none or was removed.
+        """
+        for nc in self:
+            nc.manager_user_id = nc.project_id.sudo().user_id or nc.manager_user_id
+
+    def _default_ref(self):
+        """Provisional reference shown in a new form; the real one is drawn on save."""
+        sequence = (
+            self.env["ir.sequence"]
+            .sudo()
+            .search(
+                [
+                    ("code", "=", NONCONFORMITY_SEQUENCE_CODE),
+                    ("company_id", "in", [self.env.company.id, False]),
+                ],
+                order="company_id",
+                limit=1,
+            )
+        )
+        if not sequence:
+            return "NEW"
+        day = self.env.context.get("ir_sequence_date") or fields.Date.to_string(
+            fields.Date.context_today(self)
+        )
+        return sequence._get_next_preview(day)
+
     def _default_origin_ids(self):
         origin = self.env.ref(
             "planservice_mgmtsystem_occurrence.origin_field_occurrence",
             raise_if_not_found=False,
         )
         return origin
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Number the reference (YYYYMM-NNN) by the user's local date, not UTC."""
+        if not self.env.context.get("ir_sequence_date"):
+            today = fields.Date.to_string(fields.Date.context_today(self))
+            self = self.with_context(ir_sequence_date=today)
+        return super().create(vals_list)
 
     def _get_occurrence_report_labels(self):
         return {

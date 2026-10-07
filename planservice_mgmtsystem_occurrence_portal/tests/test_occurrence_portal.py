@@ -7,9 +7,12 @@ from unittest.mock import patch
 
 import odoo.http
 from odoo.exceptions import AccessError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import tagged
 from odoo.tools.misc import DotDict
 
+from odoo.addons.planservice_mgmtsystem_occurrence.tests.common import (
+    OccurrenceTestCase,
+)
 from odoo.addons.planservice_mgmtsystem_occurrence_portal.controllers.portal import (
     OccurrenceCustomerPortal,
 )
@@ -46,7 +49,7 @@ def mock_request(env):
 
 
 @tagged("post_install", "-at_install")
-class TestOccurrencePortal(TransactionCase):
+class TestOccurrencePortal(OccurrenceTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

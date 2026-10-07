@@ -531,6 +531,11 @@ msgid "Location / Axis / Elevation"
 msgstr "Local / Eixo / Cota"
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__manager_user_id
+msgid "Manager"
+msgstr "Gerente"
+
+#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__measurement
 msgid "Measurements"
 msgstr "Medições"
@@ -658,6 +663,12 @@ msgstr "A ocorrência %(ref)s foi liberada para %(partner)s."
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_occurrence_immediate_action
 msgid "Occurrence Immediate Action"
 msgstr "Ação imediata da ocorrência"
+
+#. module: planservice_mgmtsystem_occurrence
+#: model:ir.actions.act_window,name:mgmtsystem_nonconformity.open_mgmtsystem_nonconformity_list
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
+msgid "Occurrence Record"
+msgstr "Registro de Ocorrência"
 
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
@@ -840,6 +851,11 @@ msgid "Punch List"
 msgstr "Punch List"
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.ui.menu,name:mgmtsystem_nonconformity.menu_open_nonconformity
+msgid "R.O."
+msgstr "R.O."
+
+#. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_reclassify_form
 msgid "Reason for reclassification"
 msgstr "Motivo da reclassificação"
@@ -869,6 +885,11 @@ msgstr "Nº do registro"
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Redo"
 msgstr "Refazer"
+
+#. module: planservice_mgmtsystem_occurrence
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__ref
+msgid "Reference"
+msgstr "Referência"
 
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__reference_date
@@ -961,6 +982,7 @@ msgid "Response Date"
 msgstr "Data da resposta"
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__responsible_user_id
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Responsible"
 msgstr "Responsável"
@@ -992,6 +1014,7 @@ msgid "Section"
 msgstr "Seção"
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model,name:planservice_mgmtsystem_occurrence.model_ir_sequence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__sequence
 msgid "Sequence"
 msgstr "Sequência"
@@ -1122,6 +1145,16 @@ msgstr "Ensaio"
 #: model:ir.model.constraint,message:planservice_mgmtsystem_occurrence.constraint_mgmtsystem_occurrence_immediate_action_code_uniq
 msgid "The immediate action code must be unique."
 msgstr "O código da ação imediata deve ser único."
+
+#. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/ir_sequence.py:0
+msgid ""
+"The reference for this month was being created by another user. Please save "
+"again."
+msgstr ""
+"A referência deste mês estava sendo criada por outro usuário. Salve "
+"novamente."
 
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
