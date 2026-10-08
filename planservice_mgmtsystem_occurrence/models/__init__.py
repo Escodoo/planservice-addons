@@ -4,4 +4,8 @@ from . import mgmtsystem_occurrence_immediate_action
 from . import mgmtsystem_nonconformity_evidence
 from . import mgmtsystem_nonconformity_document
 from . import ir_sequence
+from . import ir_actions_report
+from . import ir_attachment
+from . import mgmtsystem_nonconformity_revision
+from . import mgmtsystem_nonconformity_verification_comment
 from . import mgmtsystem_nonconformity

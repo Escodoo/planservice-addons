@@ -30,19 +30,26 @@
                     type="object"
                     string="Approve and Release"
                     class="btn-primary"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
                 />
                 <button
                     name="action_approve_with_comments"
                     type="object"
                     string="Approve with Comments"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
                 />
                 <button
                     name="action_reject"
                     type="object"
                     string="Reject"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
+                />
+                <button
+                    name="action_close"
+                    type="object"
+                    string="Close"
+                    class="btn-primary"
+                    invisible="state != 'waiting_verification' or verification_result not in ('approved', 'approved_with_comments')"
                 />
                 <button
                     name="action_keep_open"
@@ -165,8 +172,16 @@
                 <page
                     string="Supplier Response"
                     name="supplier_response"
-                    invisible="state == 'draft'"
+                    invisible="state == 'draft' and not revision_number"
                 >
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not rejection_opinion"
+                    >
+                        <strong>Rejected in the previous revision:</strong>
+                        <field name="rejection_opinion" nolabel="1" />
+                    </div>
                     <group>
                         <group string="Initial Response and Containment">
                             <field
@@ -273,14 +288,8 @@
                     invisible="state in ('draft', 'waiting_supplier')"
                 >
                     <group>
-                        <field
-                            name="verification_result"
-                            readonly="state != 'waiting_verification'"
-                        />
-                        <field
-                            name="verification_date"
-                            readonly="state != 'waiting_verification'"
-                        />
+                        <field name="verification_result" readonly="1" />
+                        <field name="verification_date" readonly="1" />
                         <field
                             name="reinspection_required"
                             readonly="state != 'waiting_verification'"
@@ -288,19 +297,55 @@
                         <field
                             name="reinspection_date"
                             invisible="not reinspection_required"
+                            required="reinspection_required"
                             readonly="state != 'waiting_verification'"
                         />
                         <field
-                            name="closure_decision"
+                            name="reinspection_done_date"
+                            invisible="not reinspection_required"
                             readonly="state != 'waiting_verification'"
                         />
+                        <field
+                            name="reinspection_result"
+                            invisible="not reinspection_required"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field name="closure_decision" readonly="1" />
                     </group>
+                    <separator string="Verification Comments" />
+                    <field
+                        name="verification_comment_ids"
+                        context="{'default_revision': revision}"
+                        readonly="state != 'waiting_verification' or verification_result"
+                    >
+                        <list editable="bottom">
+                            <field name="revision" optional="show" />
+                            <field name="name" required="1" />
+                            <field name="user_id" required="1" />
+                            <field name="deadline" required="1" />
+                        </list>
+                    </field>
                     <separator string="Inspector Opinion" />
                     <field
                         name="evaluation_comments"
                         placeholder="Inspector opinion and comments for closing or keeping the record open"
                         readonly="state != 'waiting_verification'"
                     />
+                </page>
+                <page
+                    string="Revision History"
+                    name="revision_history"
+                    invisible="not revision_ids"
+                >
+                    <field name="revision_ids" readonly="1">
+                        <list>
+                            <field name="revision" />
+                            <field name="result" />
+                            <field name="user_id" />
+                            <field name="decision_date" />
+                            <field name="attachment_id" />
+                        </list>
+                    </field>
                 </page>
             </xpath>
             <xpath expr="//group[@name='main']" position="before">
@@ -315,7 +360,7 @@
                 />
                 <field name="project_id" readonly="state != 'draft'" />
                 <xpath expr="//field[@name='ref']" position="move" />
-                <field name="revision" readonly="state != 'draft'" />
+                <field name="revision" readonly="1" />
                 <field name="inspector_id" readonly="1" />
                 <xpath
                     expr="//group[@name='config']/field[@name='partner_id']"

@@ -4,6 +4,7 @@
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from .ir_actions_report import OCCURRENCE_REPORT_NAME
 from .ir_sequence import NONCONFORMITY_SEQUENCE_CODE
 from .occurrence_selection import (
     CLASSIFICATION_SELECTION,
@@ -22,6 +23,10 @@ STAGE_XMLID = {
     "done": "mgmtsystem_nonconformity.stage_done",
     "cancel": "mgmtsystem_nonconformity.stage_cancel",
 }
+
+
+REVISION_FIELDS = {"revision", "revision_number"}
+APPROVED_RESULTS = ("approved", "approved_with_comments")
 
 
 class MgmtsystemNonconformity(models.Model):
@@ -44,7 +49,13 @@ class MgmtsystemNonconformity(models.Model):
         tracking=True,
     )
     opening_date = fields.Date(default=fields.Date.context_today)
-    revision = fields.Char(default="00")
+    revision_number = fields.Integer(default=0, copy=False, readonly=True)
+    revision = fields.Char(
+        compute="_compute_revision",
+        store=True,
+        readonly=True,
+        copy=False,
+    )
     work_division = fields.Selection(WORK_DIVISION_SELECTION)
     work_division_other = fields.Char()
     classification = fields.Selection(CLASSIFICATION_SELECTION, tracking=True)
@@ -115,6 +126,13 @@ class MgmtsystemNonconformity(models.Model):
         "mgmtsystem.nonconformity.document",
         "nonconformity_id",
     )
+    revision_ids = fields.One2many(
+        "mgmtsystem.nonconformity.revision",
+        "nonconformity_id",
+        string="Revision History",
+        copy=False,
+        readonly=True,
+    )
 
     supplier_representative_id = fields.Many2one(
         "res.partner",
@@ -147,6 +165,19 @@ class MgmtsystemNonconformity(models.Model):
     verification_date = fields.Date()
     reinspection_required = fields.Boolean()
     reinspection_date = fields.Date()
+    reinspection_done_date = fields.Date("Reinspection Performed On")
+    reinspection_result = fields.Selection(
+        [
+            ("satisfactory", "Satisfactory"),
+            ("unsatisfactory", "Unsatisfactory"),
+        ],
+    )
+    verification_comment_ids = fields.One2many(
+        "mgmtsystem.nonconformity.verification.comment",
+        "nonconformity_id",
+        string="Verification Comments",
+        copy=False,
+    )
     closure_decision = fields.Selection(
         [
             ("close", "Close"),
@@ -154,6 +185,16 @@ class MgmtsystemNonconformity(models.Model):
             ("reclassify", "Reclassify"),
         ]
     )
+    rejection_opinion = fields.Text(
+        readonly=True,
+        copy=False,
+        help="Inspector opinion that rejected the previous revision.",
+    )
+
+    @api.depends("revision_number")
+    def _compute_revision(self):
+        for nc in self:
+            nc.revision = f"{nc.revision_number:02d}"
 
     @api.depends("project_id")
     def _compute_manager_user_id(self):
@@ -206,6 +247,54 @@ class MgmtsystemNonconformity(models.Model):
             "design_query": self.env._("Design Query (RFI/TQ)"),
             "inspector": self.env._("Inspector"),
         }
+
+    def get_occurrence_report_filename(self, official=False):
+        """Report file name in the user's language (not translatable in XML)."""
+        self.ensure_one()
+        env = self.with_context(lang=self.env.user.lang).env
+        title = env._("Occurrence Record")
+        if official:
+            revision = self.revision_ids[:1].revision or self.revision
+            return f"{title} - {self.ref} - {revision}"
+        draft = env._("Draft")
+        return f"{title} ({draft}) - {self.ref}"
+
+    def _create_revision_snapshot(self, result):
+        """Freeze the revision being decided as a read-only PDF with metadata."""
+        snapshots = self.env["mgmtsystem.nonconformity.revision"]
+        for rec in self:
+            content, _report_type = (
+                self.env["ir.actions.report"]
+                .with_context(occurrence_official=True)
+                ._render_qweb_pdf(OCCURRENCE_REPORT_NAME, rec.ids)
+            )
+            attachment = self.env["ir.attachment"].create(
+                {
+                    "name": f"{rec.ref}-{rec.revision}.pdf",
+                    "raw": content,
+                    "res_model": rec._name,
+                    "res_id": rec.id,
+                }
+            )
+            snapshots |= (
+                self.env["mgmtsystem.nonconformity.revision"]
+                .sudo()
+                .create(
+                    {
+                        "nonconformity_id": rec.id,
+                        "revision": rec.revision,
+                        "result": result,
+                        "user_id": self.env.user.id,
+                        "attachment_id": attachment.id,
+                    }
+                )
+            )
+        return snapshots
+
+    def _bump_revision(self):
+        """Start the next revision (00 -> 01 -> 02...); the reference is kept."""
+        for rec in self.with_context(occurrence_revision_bump=True):
+            rec.revision_number += 1
 
     def _get_stage_by_state(self, state):
         xmlid = STAGE_XMLID.get(state)
@@ -290,6 +379,14 @@ class MgmtsystemNonconformity(models.Model):
             if rec.stop_work and not rec.stop_work_date:
                 raise ValidationError(self.env._("Please set the work stoppage date."))
 
+    @api.constrains("reinspection_required", "reinspection_date")
+    def _check_reinspection_date(self):
+        for rec in self:
+            if rec.reinspection_required and not rec.reinspection_date:
+                raise ValidationError(
+                    self.env._("Please set the planned reinspection date.")
+                )
+
     @api.constrains("stage_id")
     def _check_open_with_action_comments(self):
         """Occurrence workflow does not use OCA action-plan comments."""
@@ -351,6 +448,43 @@ class MgmtsystemNonconformity(models.Model):
                     self.env._("Please enter the inspector opinion before closing.")
                 )
 
+    def _check_verification_comments(self):
+        for rec in self:
+            comments = rec.verification_comment_ids
+            if not comments:
+                raise UserError(
+                    self.env._("Please add at least one verification comment.")
+                )
+            if not all(comment._is_complete() for comment in comments):
+                raise UserError(
+                    self.env._(
+                        "Every verification comment needs a description, "
+                        "a responsible and a deadline."
+                    )
+                )
+
+    def _check_can_close(self):
+        for rec in self:
+            if rec.state != "waiting_verification":
+                raise UserError(
+                    self.env._(
+                        "Only an occurrence waiting for verification can be closed."
+                    )
+                )
+            if rec.verification_result not in APPROVED_RESULTS:
+                raise UserError(
+                    self.env._("Only an approved occurrence can be closed.")
+                )
+            if rec.reinspection_required and not (
+                rec.reinspection_done_date and rec.reinspection_result
+            ):
+                raise UserError(
+                    self.env._(
+                        "The reinspection is pending: register its date and "
+                        "result before closing."
+                    )
+                )
+
     def action_release_to_supplier(self):
         self._check_can_release()
         for rec in self:
@@ -389,12 +523,26 @@ class MgmtsystemNonconformity(models.Model):
         return True
 
     def action_approve(self):
-        return self._action_verify("approved", "close", "done")
+        return self._record_verification_result("approved")
 
     def action_approve_with_comments(self):
-        return self._action_verify("approved_with_comments", "close", "done")
+        return self._record_verification_result("approved_with_comments")
+
+    def action_close(self):
+        """Close an approved occurrence; this freezes the revision."""
+        self._check_can_close()
+        for rec in self:
+            rec.write({"closure_decision": "close"})
+            rec._move_to_stage("done")
+            rec._create_revision_snapshot(rec.verification_result)
+        return True
 
     def action_reject(self):
+        """Reject the response: freeze the revision and hand the record back.
+
+        The record returns to the inspector as the next revision. The supplier
+        response stays filled in so it can be adjusted, not redone.
+        """
         self._check_can_verify()
         for rec in self:
             rec.write(
@@ -404,9 +552,26 @@ class MgmtsystemNonconformity(models.Model):
                     "closure_decision": "keep_open",
                 }
             )
-            rec._move_to_stage("waiting_supplier")
+            rec._create_revision_snapshot("rejected")
+            rec._bump_revision()
+            rec.write(
+                {
+                    "rejection_opinion": rec.evaluation_comments,
+                    "evaluation_comments": False,
+                    "verification_result": False,
+                    "verification_date": False,
+                    "reinspection_required": False,
+                    "reinspection_date": False,
+                    "closure_decision": False,
+                }
+            )
+            rec._move_to_stage("draft")
             rec.message_post(
-                body=self.env._("Occurrence rejected and returned to the supplier."),
+                body=self.env._(
+                    "Occurrence rejected and returned to the inspector as "
+                    "revision %s.",
+                    rec.revision,
+                ),
                 subtype_xmlid="mail.mt_comment",
             )
         return True
@@ -418,6 +583,7 @@ class MgmtsystemNonconformity(models.Model):
                 {
                     "closure_decision": "keep_open",
                     "verification_date": fields.Date.context_today(rec),
+                    "verification_result": False,
                 }
             )
             rec._move_to_stage("open")
@@ -452,20 +618,33 @@ class MgmtsystemNonconformity(models.Model):
         self._move_to_stage("draft")
         return True
 
-    def _action_verify(self, result, decision, target_state):
+    def _record_verification_result(self, result):
+        """Record an approval; closing or keeping open is a separate decision."""
         self._check_can_verify()
         for rec in self:
+            if rec.verification_result:
+                raise UserError(
+                    self.env._("The verification result was already recorded.")
+                )
+            if result == "approved_with_comments":
+                rec._check_verification_comments()
             rec.write(
                 {
                     "verification_result": result,
                     "verification_date": fields.Date.context_today(rec),
-                    "closure_decision": decision,
                 }
             )
-            rec._move_to_stage(target_state)
         return True
 
     def write(self, vals):
+        if REVISION_FIELDS & set(vals) and not self.env.context.get(
+            "occurrence_revision_bump"
+        ):
+            raise UserError(
+                self.env._(
+                    "The revision is managed by the system and cannot be edited."
+                )
+            )
         self._check_portal_write(vals)
         result = super().write(vals)
         if self.env.context.get("occurrence_skip_auto_open"):

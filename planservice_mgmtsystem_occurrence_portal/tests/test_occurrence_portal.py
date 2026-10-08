@@ -124,6 +124,28 @@ class TestOccurrencePortal(OccurrenceTestCase):
         self.assertEqual(self.nc.containment_text, "Area isolated by the supplier.")
         self.assertEqual(self.nc.state, "open")
 
+    def test_portal_user_sees_revision_and_rejection_opinion(self):
+        self.nc.action_release_to_supplier()
+        self.nc.write(
+            {
+                "containment_text": "Area isolated.",
+                "cause_justification": "Formwork not checked.",
+                "disposition": "conclude",
+            }
+        )
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Evidence is missing."
+        self.nc.action_reject()
+        rec = self.nc.with_user(self.portal_user)
+        self.assertEqual(rec.revision, "01")
+        self.assertEqual(rec.rejection_opinion, "Evidence is missing.")
+        self.assertEqual(rec.containment_text, "Area isolated.")
+        with self.assertRaises(AccessError):
+            rec.write({"containment_text": "Edit while with the inspector"})
+        self.nc.action_release_to_supplier()
+        rec.write({"containment_text": "Area isolated and signposted."})
+        self.assertEqual(self.nc.containment_text, "Area isolated and signposted.")
+
     def test_portal_user_cannot_change_classification(self):
         self.nc.action_release_to_supplier()
         with self.assertRaises(AccessError):

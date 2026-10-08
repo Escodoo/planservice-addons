@@ -166,6 +166,7 @@
                 </h3>
                 <p class="text-muted">
                     <span t-field="occurrence.stage_id" />
+                    — Rev. <span t-field="occurrence.revision" />
                     <t t-if="occurrence.classification">
                         —
                         <span t-field="occurrence.classification" />
@@ -531,6 +532,11 @@
                         </button>
                     </t>
                 </form>
+
+                <div t-if="occurrence.rejection_opinion" class="alert alert-warning">
+                    <strong>Rejected in the previous revision:</strong>
+                    <span t-field="occurrence.rejection_opinion" />
+                </div>
 
                 <div t-if="occurrence.verification_result" class="card mb-3">
                     <div class="card-header">Verification</div>
