@@ -348,6 +348,17 @@ class TestOccurrenceWorkflow(TransactionCase):
         self.assertIn("waiting_verification", states)
         self.nc._check_open_with_action_comments()
 
+    def test_stage_state_field_offers_occurrence_steps(self):
+        stage_model = self.env["mgmtsystem.nonconformity.stage"]
+        values = [
+            value
+            for value, _label in stage_model._fields["state"]._description_selection(
+                self.env
+            )
+        ]
+        self.assertIn("waiting_supplier", values)
+        self.assertIn("waiting_verification", values)
+
     def test_document_and_supplier_evidence(self):
         document = self.env["mgmtsystem.nonconformity.document"].create(
             {
