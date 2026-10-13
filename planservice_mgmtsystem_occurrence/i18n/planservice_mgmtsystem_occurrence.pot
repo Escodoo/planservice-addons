@@ -1019,6 +1019,11 @@ msgid "Stage"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_stage__state
+msgid "State"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__stop_work_date
 msgid "Stop Work Date"
 msgstr ""
