@@ -1,0 +1,47 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_mgmtsystem_occurrence_tier_validation
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-14 21:30+0000\n"
+"PO-Revision-Date: 2026-08-14 21:30+0000\n"
+"Last-Translator: Marcel Savegnago <marcel.savegnago@escodoo.com.br>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:ir.model,name:planservice_mgmtsystem_occurrence_tier_validation.model_mgmtsystem_nonconformity
+msgid "Nonconformity"
+msgstr "Não Conformidade"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:tier.definition,name:planservice_mgmtsystem_occurrence_tier_validation.tier_definition_occurrence_concession
+msgid "Occurrence concession"
+msgstr "Concessão da ocorrência"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:tier.definition,name:planservice_mgmtsystem_occurrence_tier_validation.tier_definition_occurrence_verification
+msgid "Occurrence verification"
+msgstr "Verificação da ocorrência"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:ir.module.module,shortdesc:planservice_mgmtsystem_occurrence_tier_validation.module_planservice_mgmtsystem_occurrence_tier_validation
+msgid "Planservice Occurrence Tier Validation"
+msgstr "Validação em níveis da ocorrência Planservice"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:ir.module.module,summary:planservice_mgmtsystem_occurrence_tier_validation.module_planservice_mgmtsystem_occurrence_tier_validation
+msgid "Tier validation for occurrence verification and concessions"
+msgstr "Validação em níveis para verificação e concessões da ocorrência"
+
+#. module: planservice_mgmtsystem_occurrence_tier_validation
+#: model:ir.model,name:planservice_mgmtsystem_occurrence_tier_validation.model_tier_definition
+msgid "Tier Definition"
+msgstr "Definição de validação"
