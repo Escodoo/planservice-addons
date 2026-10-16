@@ -35,7 +35,7 @@
             <xpath expr="//group[@name='group_time_managment']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//notebook" position="inside">
+            <xpath expr="//notebook/page[@name='description']" position="before">
                 <page name="plan" string="Plan" groups="project.group_project_manager">
                     <div class="o_row mb-3">
                         <button
