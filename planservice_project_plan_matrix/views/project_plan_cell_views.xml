@@ -9,13 +9,13 @@
             <list create="false" delete="false" editable="top">
                 <field name="line_id" column_invisible="1" />
                 <field name="name" readonly="1" />
-                <field name="stage_id" readonly="1" options="{'no_create': True}" />
-                <field name="month" column_invisible="1" />
                 <field
                     name="capacity_percent"
                     decoration-muted="capacity_percent == 0"
                     decoration-bf="capacity_percent > 0"
                 />
+                <field name="stage_id" readonly="1" options="{'no_create': True}" />
+                <field name="month" column_invisible="1" />
                 <field name="hours" column_invisible="1" readonly="1" sum="Total" />
                 <field name="monthly_hours" column_invisible="1" />
             </list>
