@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="project_plan_line_company_rule" model="ir.rule">
+        <field name="name">Project Plan Line multi-company</field>
+        <field name="model_id" ref="model_project_plan_line" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="project_plan_cell_company_rule" model="ir.rule">
+        <field name="name">Project Plan Cell multi-company</field>
+        <field name="model_id" ref="model_project_plan_cell" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+    <record id="project_plan_stage_month_company_rule" model="ir.rule">
+        <field name="name">Project Plan Stage Month multi-company</field>
+        <field name="model_id" ref="model_project_plan_stage_month" />
+        <field name="domain_force">[('company_id', 'in', company_ids + [False])]</field>
+    </record>
+</odoo>
