@@ -34,6 +34,22 @@
             >
                 <attribute name="readonly">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='planned_date_start']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='planned_date_end']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_timeline_readonly" model="ir.ui.view">
+        <field name="name">project.task.timeline.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timeline.project_task_timeline" />
+        <field name="arch" type="xml">
+            <xpath expr="//timeline" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
         </field>
     </record>
     <record id="view_task_form_hide_pages" model="ir.ui.view">
