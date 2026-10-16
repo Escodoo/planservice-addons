@@ -1,7 +1,7 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class MgmtsystemNonconformityEvidence(models.Model):
@@ -52,3 +52,19 @@ class MgmtsystemNonconformityEvidence(models.Model):
         related="nonconformity_id.company_id",
         store=True,
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        for rec in records:
+            rec.attachment_ids._stamp_occurrence_revision(rec.nonconformity_id.revision)
+        return records
+
+    def write(self, vals):
+        result = super().write(vals)
+        if "attachment_ids" in vals:
+            for rec in self:
+                rec.attachment_ids._stamp_occurrence_revision(
+                    rec.nonconformity_id.revision
+                )
+        return result

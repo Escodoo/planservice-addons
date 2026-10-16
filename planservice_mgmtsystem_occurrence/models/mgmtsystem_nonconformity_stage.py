@@ -10,14 +10,13 @@ class MgmtsystemNonconformityStage(models.Model):
     state = fields.Selection(selection="_get_states")
 
     def _get_states(self):
-        states = super()._get_states()
-        extra = {
-            "draft": ("waiting_supplier", self.env._("Waiting Supplier")),
-            "open": ("waiting_verification", self.env._("Waiting Verification")),
-        }
-        result = []
-        for key, label in states:
-            result.append((key, label))
-            if key in extra:
-                result.append(extra[key])
-        return result
+        # Only the four steps of the occurrence flow are offered. The keys are
+        # kept on purpose: draft and done are also used by the base module, and
+        # waiting_supplier / waiting_verification are referenced across the
+        # module. "open" was merged into waiting_supplier and "cancel" is gone.
+        return [
+            ("draft", self.env._("Inspetor (abertura)")),
+            ("waiting_supplier", self.env._("Fornecedor (aguardando)")),
+            ("waiting_verification", self.env._("Inspetor (fechamento)")),
+            ("done", self.env._("Encerrada")),
+        ]

@@ -23,26 +23,33 @@
                     type="object"
                     string="Submit Response"
                     class="btn-primary"
-                    invisible="state not in ('waiting_supplier', 'open')"
+                    invisible="state != 'waiting_supplier'"
                 />
                 <button
                     name="action_approve"
                     type="object"
                     string="Approve and Release"
                     class="btn-primary"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
                 />
                 <button
                     name="action_approve_with_comments"
                     type="object"
                     string="Approve with Comments"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
                 />
                 <button
                     name="action_reject"
                     type="object"
                     string="Reject"
-                    invisible="state != 'waiting_verification'"
+                    invisible="state != 'waiting_verification' or verification_result"
+                />
+                <button
+                    name="action_close"
+                    type="object"
+                    string="Close"
+                    class="btn-primary"
+                    invisible="state != 'waiting_verification' or verification_result not in ('approved', 'approved_with_comments')"
                 />
                 <button
                     name="action_keep_open"
@@ -54,45 +61,27 @@
                     name="action_reclassify"
                     type="object"
                     string="Reclassify"
-                    invisible="state not in ('waiting_verification', 'open', 'draft')"
+                    invisible="state not in ('waiting_verification', 'draft')"
                 />
             </xpath>
             <xpath expr="//header/field[@name='stage_id']" position="attributes">
                 <attribute name="options">{'clickable': 0}</attribute>
-            </xpath>
-            <xpath expr="//group[@name='config']" position="inside">
-                <field name="project_id" readonly="state != 'draft'" />
-                <field name="classification" readonly="state != 'draft'" />
-                <field name="priority" readonly="state != 'draft'" />
-                <field name="work_division" readonly="state != 'draft'" />
-                <field
-                    name="work_division_other"
-                    invisible="work_division != 'other'"
-                    required="work_division == 'other'"
-                    readonly="state != 'draft'"
-                />
-                <field name="stop_work" readonly="state != 'draft'" />
-                <field
-                    name="stop_work_date"
-                    invisible="not stop_work"
-                    required="stop_work"
-                    readonly="state != 'draft'"
-                />
-            </xpath>
-            <xpath expr="//group[@name='meta']" position="inside">
-                <field name="inspector_id" readonly="state != 'draft'" />
-                <field name="opening_date" readonly="state != 'draft'" />
-                <field name="revision" readonly="state != 'draft'" />
+                <attribute
+                    name="domain"
+                >[('state', 'in', ['draft', 'waiting_supplier', 'waiting_verification', 'done'])]</attribute>
             </xpath>
             <xpath expr="//group[@name='effectiveness_review']" position="attributes">
                 <attribute
                     name="invisible"
-                >state not in ('open', 'done', 'waiting_verification')</attribute>
+                >state not in ('waiting_supplier', 'done', 'waiting_verification')</attribute>
             </xpath>
             <xpath expr="//field[@name='evaluation_comments']" position="attributes">
                 <attribute
                     name="readonly"
-                >state not in ('open', 'waiting_verification')</attribute>
+                >state not in ('waiting_supplier', 'waiting_verification')</attribute>
+            </xpath>
+            <xpath expr="//page[@name='procedures']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Technical Reference" name="technical_reference">
@@ -189,75 +178,80 @@
                 <page
                     string="Supplier Response"
                     name="supplier_response"
-                    invisible="state == 'draft'"
+                    invisible="state == 'draft' and not revision_number"
                 >
+                    <div
+                        class="alert alert-warning"
+                        role="alert"
+                        invisible="not rejection_opinion"
+                    >
+                        <strong>Rejected in the previous revision:</strong>
+                        <field name="rejection_opinion" nolabel="1" />
+                    </div>
                     <group>
                         <group string="Initial Response and Containment">
                             <field
                                 name="supplier_representative_id"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="supplier_technical_user_id"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="supplier_response_date"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="supplier_proposed_deadline"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                         </group>
                         <group string="Disposition">
                             <field
                                 name="disposition"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="concession_required"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="deadline_impact"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="new_deadline"
                                 invisible="not deadline_impact"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="supplier_conclusion_date"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                             <field
                                 name="supplier_conclusion_user_id"
-                                readonly="state not in ('waiting_supplier', 'open')"
+                                readonly="state != 'waiting_supplier'"
                             />
                         </group>
                     </group>
                     <separator string="Containment and Current Condition" />
                     <field
                         name="containment_text"
-                        readonly="state not in ('waiting_supplier', 'open')"
+                        readonly="state != 'waiting_supplier'"
                     />
                     <separator string="Identified Cause or Technical Justification" />
                     <field
                         name="cause_justification"
-                        readonly="state not in ('waiting_supplier', 'open')"
+                        readonly="state != 'waiting_supplier'"
                     />
                     <separator string="Final Condition" />
                     <field
                         name="final_condition"
-                        readonly="state not in ('waiting_supplier', 'open')"
+                        readonly="state != 'waiting_supplier'"
                     />
                     <separator string="Complementary Documents" />
-                    <field
-                        name="document_ids"
-                        readonly="state not in ('waiting_supplier', 'open')"
-                    >
+                    <field name="document_ids" readonly="state != 'waiting_supplier'">
                         <list>
                             <field name="document_type" />
                             <field name="name" />
@@ -279,7 +273,7 @@
                     <field
                         name="supplier_evidence_ids"
                         context="{'default_section': 'supplier'}"
-                        readonly="state not in ('waiting_supplier', 'open')"
+                        readonly="state != 'waiting_supplier'"
                     >
                         <list>
                             <field name="section" column_invisible="1" />
@@ -297,14 +291,8 @@
                     invisible="state in ('draft', 'waiting_supplier')"
                 >
                     <group>
-                        <field
-                            name="verification_result"
-                            readonly="state != 'waiting_verification'"
-                        />
-                        <field
-                            name="verification_date"
-                            readonly="state != 'waiting_verification'"
-                        />
+                        <field name="verification_result" readonly="1" />
+                        <field name="verification_date" readonly="1" />
                         <field
                             name="reinspection_required"
                             readonly="state != 'waiting_verification'"
@@ -312,13 +300,34 @@
                         <field
                             name="reinspection_date"
                             invisible="not reinspection_required"
+                            required="reinspection_required"
                             readonly="state != 'waiting_verification'"
                         />
                         <field
-                            name="closure_decision"
+                            name="reinspection_done_date"
+                            invisible="not reinspection_required"
                             readonly="state != 'waiting_verification'"
                         />
+                        <field
+                            name="reinspection_result"
+                            invisible="not reinspection_required"
+                            readonly="state != 'waiting_verification'"
+                        />
+                        <field name="closure_decision" readonly="1" />
                     </group>
+                    <separator string="Verification Comments" />
+                    <field
+                        name="verification_comment_ids"
+                        context="{'default_revision': revision}"
+                        readonly="state != 'waiting_verification' or verification_result"
+                    >
+                        <list editable="bottom">
+                            <field name="revision" optional="show" />
+                            <field name="name" required="1" />
+                            <field name="user_id" required="1" />
+                            <field name="deadline" required="1" />
+                        </list>
+                    </field>
                     <separator string="Inspector Opinion" />
                     <field
                         name="evaluation_comments"
@@ -326,6 +335,96 @@
                         readonly="state != 'waiting_verification'"
                     />
                 </page>
+                <page
+                    string="Revision History"
+                    name="revision_history"
+                    invisible="not revision_ids"
+                >
+                    <field name="revision_ids" readonly="1">
+                        <list>
+                            <field name="revision" />
+                            <field name="result" />
+                            <field name="user_id" />
+                            <field name="decision_date" />
+                            <field name="attachment_id" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//group[@name='main']" position="before">
+                <div class="oe_title">
+                    <h1>Occurrence Record</h1>
+                </div>
+            </xpath>
+            <xpath expr="//group[@name='config']/field[@name='name']" position="after">
+                <xpath
+                    expr="//group[@name='config']/field[@name='create_date']"
+                    position="move"
+                />
+                <field name="project_id" readonly="state != 'draft'" />
+                <xpath expr="//field[@name='ref']" position="move" />
+                <field name="revision" readonly="1" />
+                <field name="inspector_id" readonly="1" />
+                <xpath
+                    expr="//group[@name='config']/field[@name='partner_id']"
+                    position="move"
+                />
+                <field name="opening_date" readonly="state != 'draft'" />
+            </xpath>
+            <xpath expr="//group[@name='meta']" position="inside">
+                <field name="work_division" readonly="state != 'draft'" />
+                <field
+                    name="work_division_other"
+                    invisible="work_division != 'other'"
+                    required="work_division == 'other'"
+                    readonly="state != 'draft'"
+                />
+                <xpath
+                    expr="//group[@name='config']/field[@name='reference']"
+                    position="move"
+                />
+                <xpath
+                    expr="//group[@name='config']/field[@name='origin_ids']"
+                    position="move"
+                />
+                <field name="classification" readonly="state != 'draft'" />
+                <field name="priority" readonly="state != 'draft'" />
+                <field name="stop_work" readonly="state != 'draft'" />
+                <field
+                    name="stop_work_date"
+                    invisible="not stop_work"
+                    required="stop_work"
+                    readonly="state != 'draft'"
+                />
+                <xpath
+                    expr="//group[@name='meta']/field[@name='manager_user_id']"
+                    position="move"
+                />
+                <xpath
+                    expr="//group[@name='meta']/field[@name='system_id']"
+                    position="move"
+                />
+            </xpath>
+            <xpath expr="//field[@name='ref']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='meta']/field[@name='responsible_user_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='meta']/field[@name='user_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath
+                expr="//group[@name='meta']/field[@name='system_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>
