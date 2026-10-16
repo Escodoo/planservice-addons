@@ -28,6 +28,12 @@
             <xpath expr="//field[@name='hour_plan_ids']" position="attributes">
                 <attribute name="readonly">1</attribute>
             </xpath>
+            <xpath
+                expr="//field[@name='allocated_hours'][hasclass('o_task_planned_hours')]"
+                position="attributes"
+            >
+                <attribute name="readonly">1</attribute>
+            </xpath>
         </field>
     </record>
     <record id="view_task_form_hide_pages" model="ir.ui.view">
