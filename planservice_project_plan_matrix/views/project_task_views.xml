@@ -22,10 +22,7 @@
             >
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath
-                expr="//button[@name='action_reset_hour_plan']"
-                position="attributes"
-            >
+            <xpath expr="//page[@name='hour_plan']/group" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='hour_plan_ids']" position="attributes">
