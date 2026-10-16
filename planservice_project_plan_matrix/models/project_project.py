@@ -11,6 +11,11 @@ from odoo import Command, api, fields, models
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
+    label_tasks = fields.Char(
+        string="Use Tasks as",
+        default=lambda self: self.env._("Cargo"),
+        translate=True,
+    )
     plan_line_ids = fields.One2many(
         comodel_name="project.plan.line",
         inverse_name="project_id",

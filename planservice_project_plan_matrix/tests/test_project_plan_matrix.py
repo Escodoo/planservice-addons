@@ -196,3 +196,7 @@ class TestProjectPlanMatrix(TransactionCase):
         mar = line.cell_ids.filtered(lambda c: c.month.month == 3)
         self.assertEqual(jan.stage_id, self.stage)
         self.assertFalse(mar.stage_id)
+
+    def test_label_tasks_default(self):
+        project = self.env["project.project"].create({"name": "Label Project"})
+        self.assertEqual(project.label_tasks, "Cargo")
