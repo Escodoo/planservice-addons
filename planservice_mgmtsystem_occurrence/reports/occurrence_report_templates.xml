@@ -10,12 +10,62 @@
     </template>
 
     <template
+        id="occurrence_internal_layout"
+        inherit_id="web.internal_layout"
+        primary="True"
+        priority="99"
+    >
+        <!-- Repeated by wkhtmltopdf on every page. Plain inline styles keep it on
+             one line even when the Bootstrap grid is not loaded in the header. -->
+        <xpath expr="//div[hasclass('header')]" position="replace">
+            <div class="header" style="font-size: 9px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 25%; text-align: left;">
+                            <img
+                                t-if="company.logo"
+                                t-att-src="image_data_uri(company.logo)"
+                                style="height: 9mm; vertical-align: middle;"
+                            />
+                        </td>
+                        <td
+                            style="width: 50%; text-align: center; white-space: nowrap;"
+                        >
+                            <span t-esc="company.name" />
+                            <strong
+                                t-if="not env.context.get('occurrence_official')"
+                                style="color: #b00000;"
+                            >DRAFT - UNCONTROLLED</strong>
+                        </td>
+                        <td style="width: 25%; text-align: right;">
+                            <span
+                            t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
+                        />
+                            &#160;
+                            <span class="page" />
+                            /
+                            <span class="topage" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_occurrence_official">
+        <!-- Never rendered: the official print returns the stored snapshot. -->
+        <t t-call="web.html_container" />
+    </template>
+
+    <template
         id="report_mgmtsystem_nonconformity_document"
         inherit_id="mgmtsystem_nonconformity.report_mgmtsystem_nonconformity_document"
         priority="99"
     >
         <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
-            <attribute name="t-call">web.internal_layout</attribute>
+            <attribute
+                name="t-call"
+            >planservice_mgmtsystem_occurrence.occurrence_internal_layout</attribute>
         </xpath>
         <xpath expr="//t[@t-set='doc']" position="replace">
             <t
@@ -684,6 +734,12 @@
                             <t t-if="doc.reinspection_date">
                                 — <span t-field="doc.reinspection_date" />
                             </t>
+                            <t t-if="doc.reinspection_done_date">
+                                <br />
+                                Performed on
+                                <span t-field="doc.reinspection_done_date" />
+                                (<span t-field="doc.reinspection_result" />)
+                            </t>
                         </td>
                         <th>Closure Decision</th>
                         <td>
@@ -697,8 +753,34 @@
                         </td>
                     </tr>
                 </table>
+                <table t-if="doc.verification_comment_ids" class="o-ro-table">
+                    <thead>
+                        <tr>
+                            <th style="width:8%;">Rev.</th>
+                            <th>Verification Comment</th>
+                            <th style="width:20%;">Responsible</th>
+                            <th style="width:14%;">Deadline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="doc.verification_comment_ids" t-as="comment">
+                            <td>
+                                <span t-field="comment.revision" />
+                            </td>
+                            <td class="o-ro-text">
+                                <span t-field="comment.name" />
+                            </td>
+                            <td>
+                                <span t-field="comment.user_id" />
+                            </td>
+                            <td>
+                                <span t-field="comment.deadline" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-                <t t-if="doc.procedure_ids or doc.cause_ids or doc.analysis">
+                <t t-if="doc.cause_ids or doc.analysis">
                     <div class="o-ro-h">Additional information</div>
                     <table t-if="doc.analysis" class="o-ro-box">
                         <tr>
@@ -707,24 +789,6 @@
                                 <span t-field="doc.analysis" />
                             </td>
                         </tr>
-                    </table>
-                    <table t-if="doc.procedure_ids" class="o-ro-table">
-                        <thead>
-                            <tr>
-                                <th>Procedure</th>
-                                <th>Category</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr t-foreach="doc.procedure_ids" t-as="procedure">
-                                <td>
-                                    <span t-field="procedure.name" />
-                                </td>
-                                <td>
-                                    <span t-field="procedure.parent_id" />
-                                </td>
-                            </tr>
-                        </tbody>
                     </table>
                     <table t-if="doc.cause_ids" class="o-ro-table">
                         <thead>
@@ -844,7 +908,7 @@
                                 t-if="att.mimetype and att.mimetype.startswith('image') and att.raw"
                             >
                                 <img
-                                    t-att-src="image_data_uri(att.raw)"
+                                    t-att-src="image_data_uri(att.datas)"
                                     class="o-ro-img"
                                     t-att-alt="att.name"
                                 />
