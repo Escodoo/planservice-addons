@@ -30,4 +30,17 @@
             </xpath>
         </field>
     </record>
+    <record id="view_task_form_hide_pages" model="ir.ui.view">
+        <field name="name">project.task.form.hide.pages</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sub_tasks_page']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='extra_info']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
 </odoo>
