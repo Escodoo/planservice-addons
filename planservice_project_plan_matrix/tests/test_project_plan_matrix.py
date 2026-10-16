@@ -204,3 +204,16 @@ class TestProjectPlanMatrix(TransactionCase):
     def test_privacy_visibility_default(self):
         project = self.env["project.project"].create({"name": "Private Project"})
         self.assertEqual(project.privacy_visibility, "followers")
+
+    def test_milestones_disabled(self):
+        milestone_group = self.env.ref("project.group_project_milestone")
+        self.assertNotIn(milestone_group, self.env.ref("base.group_user").implied_ids)
+        self.assertFalse(milestone_group.users)
+        # The superuser passes every has_group() check, so use a real user.
+        admin = self.env.ref("base.user_admin")
+        project = (
+            self.env["project.project"]
+            .with_user(admin)
+            .create({"name": "No Milestones"})
+        )
+        self.assertFalse(project.allow_milestones)
