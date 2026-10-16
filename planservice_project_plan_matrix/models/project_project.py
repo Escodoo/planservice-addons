@@ -16,6 +16,7 @@ class ProjectProject(models.Model):
         default=lambda self: self.env._("Cargo"),
         translate=True,
     )
+    privacy_visibility = fields.Selection(default="followers")
     plan_line_ids = fields.One2many(
         comodel_name="project.plan.line",
         inverse_name="project_id",

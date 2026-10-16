@@ -200,3 +200,7 @@ class TestProjectPlanMatrix(TransactionCase):
     def test_label_tasks_default(self):
         project = self.env["project.project"].create({"name": "Label Project"})
         self.assertEqual(project.label_tasks, "Cargo")
+
+    def test_privacy_visibility_default(self):
+        project = self.env["project.project"].create({"name": "Private Project"})
+        self.assertEqual(project.privacy_visibility, "followers")
