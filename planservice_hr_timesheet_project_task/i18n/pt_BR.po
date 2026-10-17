@@ -19,40 +19,40 @@ msgstr ""
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__active
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model,name:planservice_hr_timesheet_project_task.model_account_analytic_line
 msgid "Analytic Line"
-msgstr ""
+msgstr "Linha Analítica"
 
 #. module: planservice_hr_timesheet_project_task
 #: model_terms:ir.ui.view,arch_db:planservice_hr_timesheet_project_task.hr_timesheet_line_tree_project_task
 #: model_terms:ir.ui.view,arch_db:planservice_hr_timesheet_project_task.view_timesheet_attachment_wizard_form
 msgid "Attach"
-msgstr ""
+msgstr "Anexar"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.actions.act_window,name:planservice_hr_timesheet_project_task.action_timesheet_attachment_wizard
 #: model_terms:ir.ui.view,arch_db:planservice_hr_timesheet_project_task.view_timesheet_attachment_wizard_form
 msgid "Attach Files"
-msgstr ""
+msgstr "Anexar Arquivos"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Qtd. de Anexos"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__attachment_ids
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__attachment_ids
 msgid "Attachments"
-msgstr ""
+msgstr "Anexos"
 
 #. module: planservice_hr_timesheet_project_task
 #: model_terms:ir.ui.view,arch_db:planservice_hr_timesheet_project_task.view_timesheet_attachment_wizard_form
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,help:planservice_hr_timesheet_project_task.field_account_analytic_line__planned_day_percentage
@@ -66,52 +66,52 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__create_uid
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__create_date
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__display_name
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome exibido"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__id
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__write_uid
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__write_date
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__line_id
 msgid "Line"
-msgstr ""
+msgstr "Linha"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__location_id
 msgid "Location"
-msgstr ""
+msgstr "Local"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__planned_day_percentage
@@ -121,35 +121,35 @@ msgstr "% Projetada"
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequência"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__smart_search
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_attachment_wizard__smart_search
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__smart_search
 msgid "Smart Search"
-msgstr ""
+msgstr "Pesquisa inteligente"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__task_id
 msgid "Task"
-msgstr ""
+msgstr "Tarefa"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model,name:planservice_hr_timesheet_project_task.model_timesheet_attachment_wizard
 msgid "Timesheet Attachment Wizard"
-msgstr ""
+msgstr "Assistente de Anexos da Planilha de Horas"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model,name:planservice_hr_timesheet_project_task.model_timesheet_location
 msgid "Timesheet Location"
-msgstr ""
+msgstr "Local da Planilha de Horas"
 
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.actions.act_window,name:planservice_hr_timesheet_project_task.action_timesheet_location
 #: model:ir.ui.menu,name:planservice_hr_timesheet_project_task.menu_timesheet_location
 msgid "Timesheet Locations"
-msgstr ""
+msgstr "Locais da Planilha de Horas"
 
 #. module: planservice_hr_timesheet_project_task
 #. odoo-python
