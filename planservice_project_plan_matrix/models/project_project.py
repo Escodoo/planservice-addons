@@ -140,7 +140,11 @@ class ProjectProject(models.Model):
 
         project_total_hours = 0.0
         for line in self.plan_line_ids:
-            cells = line.cell_ids.filtered(lambda c: c.capacity_percent > 0)
+            cells = line.cell_ids.filtered(
+                lambda c: c.capacity_percent > 0
+                and (not self.plan_first_month or c.month >= self.plan_first_month)
+                and (not self.plan_last_month or c.month <= self.plan_last_month)
+            )
             if not cells:
                 continue
 
@@ -158,13 +162,8 @@ class ProjectProject(models.Model):
                 limit=1,
             )
 
-            has_timesheets = existing_task and bool(
-                existing_task.timesheet_ids.filtered("line_id")
-            )
-
-            if existing_task and has_timesheets:
-                continue
-
+            # Tasks with timesheets are also updated: re-planning only rewrites
+            # the task plan, dates and planned time, never the logged hours.
             planned_date_end = self.env["project.task"]._date_to_planned_datetime(
                 last_month.replace(day=last_day)
             )

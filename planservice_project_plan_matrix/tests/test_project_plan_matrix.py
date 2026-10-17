@@ -132,6 +132,44 @@ class TestProjectPlanMatrix(TransactionCase):
         self.project.action_generate_plan()
         self.assertEqual(task.allocated_hours, 160.0)
 
+    def test_action_generate_plan_task_with_timesheets(self):
+        line = self._create_line()
+        cells = {cell.month.month: cell for cell in line.cell_ids}
+        cells[1].capacity_percent = 50.0
+        self.project.action_generate_plan()
+        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
+        employee = self.env["hr.employee"].create({"name": "Plan Employee"})
+        timesheet = self.env["account.analytic.line"].create(
+            {
+                "name": "Logged",
+                "project_id": self.project.id,
+                "task_id": task.id,
+                "employee_id": employee.id,
+                "date": date(2026, 1, 10),
+                "unit_amount": 2.0,
+            }
+        )
+        cells[1].capacity_percent = 0.0
+        cells[2].capacity_percent = 50.0
+        self.project.action_generate_plan()
+        self.assertEqual(task.hour_plan_ids.mapped("month"), [date(2026, 2, 1)])
+        self.assertEqual(task.planned_date_start.date().month, 2)
+        self.assertEqual(task.allocated_hours, 80.0)
+        self.assertTrue(timesheet.exists())
+        self.assertEqual(timesheet.unit_amount, 2.0)
+
+    def test_action_generate_plan_ignores_months_outside_project(self):
+        line = self._create_line()
+        for cell in line.cell_ids:
+            cell.capacity_percent = 50.0
+        self.project.date_start = date(2026, 2, 1)
+        self.project.action_generate_plan()
+        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
+        self.assertEqual(
+            task.hour_plan_ids.mapped("month"), [date(2026, 2, 1), date(2026, 3, 1)]
+        )
+        self.assertEqual(task.allocated_hours, 160.0)
+
     def test_action_generate_plan_no_cells(self):
         self._create_line()
         self.project.action_generate_plan()
