@@ -105,6 +105,18 @@
             <xpath expr="//label[@for='effective_hours']" position="attributes">
                 <attribute name="string">Actual Time</attribute>
             </xpath>
+            <xpath
+                expr="//div[field[@name='allocated_hours'][hasclass('o_task_planned_hours')]]"
+                position="after"
+            >
+                <field
+                    name="effective_hours"
+                    widget="timesheet_uom_no_toggle"
+                    readonly="1"
+                    invisible="not allow_timesheets"
+                    groups="hr_timesheet.group_hr_timesheet_user"
+                />
+            </xpath>
         </field>
     </record>
     <record id="view_task_search_collaborator" model="ir.ui.view">
