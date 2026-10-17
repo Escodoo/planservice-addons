@@ -199,3 +199,47 @@ class TestTimesheetProjectTask(TransactionCase):
         result = wizard.action_attach()
         self.assertEqual(result["type"], "ir.actions.act_window_close")
         self.assertIn(attachment, line.attachment_ids)
+
+    def _get_user_employee(self):
+        employee = self.env["hr.employee"].search(
+            [("user_id", "=", self.user.id)], limit=1
+        )
+        return employee or self.env["hr.employee"].create(
+            {"name": "Planned Employee", "user_id": self.user.id}
+        )
+
+    def test_planned_day_percentage(self):
+        plan_line = self.env["project.plan.line"].create(
+            {
+                "project_id": self.project.id,
+                "role_id": self.role.id,
+                "user_id": self.user.id,
+            }
+        )
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 1
+        ).capacity_percent = 40.0
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 2
+        ).capacity_percent = 70.0
+        employee = self._get_user_employee()
+        january = self._create_line(employee_id=employee.id, unit_amount=1.0)
+        february = self._create_line(
+            employee_id=employee.id, unit_amount=1.0, date=date(2026, 2, 10)
+        )
+        self.assertEqual(january.planned_day_percentage, 40.0)
+        self.assertEqual(february.planned_day_percentage, 70.0)
+
+    def test_planned_day_percentage_other_user(self):
+        plan_line = self.env["project.plan.line"].create(
+            {
+                "project_id": self.project.id,
+                "role_id": self.role.id,
+                "user_id": self.user.id,
+            }
+        )
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 1
+        ).capacity_percent = 40.0
+        line = self._create_line(unit_amount=1.0)
+        self.assertEqual(line.planned_day_percentage, 0.0)

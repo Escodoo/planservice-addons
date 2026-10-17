@@ -21,6 +21,9 @@
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="column_invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='day_percentage']" position="after">
+                <field name="planned_day_percentage" optional="show" />
+            </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="location_id" optional="show" />
                 <field name="attachment_count" optional="show" />
@@ -50,6 +53,9 @@
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='day_percentage']" position="after">
+                <field name="planned_day_percentage" />
+            </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="location_id" />
                 <field name="attachment_ids" widget="many2many_binary" />
@@ -64,6 +70,29 @@
         <field name="arch" type="xml">
             <xpath expr="//footer" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_form2_planned_day_percentage" model="ir.ui.view">
+        <field name="name">project.task.form.timesheet.planned.day.percentage</field>
+        <field name="model">project.task</field>
+        <field
+            name="inherit_id"
+            ref="planservice_hr_timesheet_day_percentage.view_task_form2_day_percentage"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
+                position="after"
+            >
+                <field name="planned_day_percentage" />
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='day_percentage']"
+                position="after"
+            >
+                <field name="planned_day_percentage" />
             </xpath>
         </field>
     </record>

@@ -20,10 +20,48 @@ class AccountAnalyticLine(models.Model):
         compute="_compute_attachment_count",
     )
 
+    planned_day_percentage = fields.Float(
+        string="Planned %",
+        compute="_compute_planned_day_percentage",
+        digits=(16, 2),
+        help="Capacity planned in the project plan for this collaborator, "
+        "task and month.",
+    )
+
     @api.depends("attachment_ids")
     def _compute_attachment_count(self):
         for line in self:
             line.attachment_count = len(line.attachment_ids)
+
+    @api.depends("task_id", "task_id.name", "date", "user_id", "employee_id")
+    def _compute_planned_day_percentage(self):
+        lines = self.filtered(lambda line: line.task_id and line.date)
+        (self - lines).planned_day_percentage = 0.0
+        if not lines:
+            return
+        cells = self.env["project.plan.cell"].search(
+            [
+                ("project_id", "in", lines.task_id.project_id.ids),
+                ("month", "in", list({line.date.replace(day=1) for line in lines})),
+            ]
+        )
+        capacity = {
+            (cell.project_id.id, cell.role_id.name, cell.user_id.id, cell.month): (
+                cell.capacity_percent
+            )
+            for cell in cells
+        }
+        for line in lines:
+            user = line.user_id or line.employee_id.user_id
+            line.planned_day_percentage = capacity.get(
+                (
+                    line.task_id.project_id.id,
+                    line.task_id.name,
+                    user.id,
+                    line.date.replace(day=1),
+                ),
+                0.0,
+            )
 
     task_id = fields.Many2one(
         "project.task",
