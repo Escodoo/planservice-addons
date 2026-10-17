@@ -17,6 +17,8 @@ class ProjectProject(models.Model):
         translate=True,
     )
     privacy_visibility = fields.Selection(default="followers")
+    allocated_hours = fields.Float(string="Planned Time")
+    effective_hours = fields.Float(string="Actual Time")
     plan_line_ids = fields.One2many(
         comodel_name="project.plan.line",
         inverse_name="project_id",

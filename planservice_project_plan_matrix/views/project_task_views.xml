@@ -85,6 +85,28 @@
             </xpath>
         </field>
     </record>
+    <record id="view_task_form_time_labels" model="ir.ui.view">
+        <field name="name">project.task.form.time.labels</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='unit_amount']"
+                position="attributes"
+            >
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']"
+                position="attributes"
+            >
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+            <xpath expr="//label[@for='effective_hours']" position="attributes">
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+        </field>
+    </record>
     <record id="view_task_form_hide_pages" model="ir.ui.view">
         <field name="name">project.task.form.hide.pages</field>
         <field name="model">project.task</field>
