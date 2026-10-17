@@ -23,8 +23,8 @@ msgstr "Linha Analítica"
 
 #. module: planservice_hr_timesheet_day_percentage
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_day_percentage.field_account_analytic_line__day_percentage
-msgid "Day %"
-msgstr "% do Dia"
+msgid "Actual %"
+msgstr "% Realizado"
 
 #. module: planservice_hr_timesheet_day_percentage
 #. odoo-python

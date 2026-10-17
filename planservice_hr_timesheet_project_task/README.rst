@@ -40,7 +40,7 @@ Usage
    assigned to you are available.
 3. The **task** is filled automatically from your assigned tasks on that
    project.
-4. Enter a short **description** and the **Day %**.
+4. Enter a short **description** and the **Actual %**.
 5. Time Spent is computed from the day percentage and hidden from the
    view.
 
