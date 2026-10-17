@@ -6,12 +6,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-17 03:56+0000\n"
-"PO-Revision-Date: 2026-10-17 03:56+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"MIME-Version: 1.0\n"
 "Language: pt_BR\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
@@ -19,7 +19,7 @@ msgstr ""
 #. module: planservice_project_plan_matrix
 #: model:ir.model.constraint,message:planservice_project_plan_matrix.constraint_project_plan_cell_line_month_uniq
 msgid "A plan line cannot have two cells for the same month."
-msgstr ""
+msgstr "Uma linha do plano não pode ter duas células para o mesmo mês."
 
 #. module: planservice_project_plan_matrix
 #. odoo-python
@@ -27,13 +27,14 @@ msgstr ""
 msgid ""
 "A plan line with the same role and user already exists in this project."
 msgstr ""
+"Já existe uma linha do plano com o mesmo cargo e usuário neste projeto."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__active
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_role__active
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__active
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__effective_hours
@@ -47,7 +48,7 @@ msgstr "Tempo realizado"
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__user_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__user_id
 msgid "Assigned To"
-msgstr ""
+msgstr "Atribuído a"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
@@ -55,17 +56,19 @@ msgid ""
 "Associate a stage to a range of months. Click \"Load Stages\"\n"
 "                        to apply these associations to the plan cells."
 msgstr ""
+"Associe uma etapa a um intervalo de meses. Clique em \"Carregar Etapas\"\n"
+"                        para aplicar essas associações às células do plano."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__capacity_percent
 msgid "Capacity (%)"
-msgstr ""
+msgstr "Capacidade (%)"
 
 #. module: planservice_project_plan_matrix
 #. odoo-python
 #: code:addons/planservice_project_plan_matrix/models/project_project.py:0
 msgid "Cargo"
-msgstr ""
+msgstr "Cargo"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
@@ -74,6 +77,9 @@ msgid ""
 "                        Then add plan lines with roles and assigned users.\n"
 "                        Fill capacity percentages and click \"Generate Plan\" to create/update tasks."
 msgstr ""
+"Clique em \"Carregar Meses\" para gerar as colunas de meses com base nas datas do projeto.\n"
+"                        Depois adicione as linhas do plano com os cargos e usuários atribuídos.\n"
+"                        Preencha os percentuais de capacidade e clique em \"Gerar Plano\" para criar/atualizar as tarefas."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__user_ids
@@ -85,14 +91,14 @@ msgstr "Colaborador"
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__color
 msgid "Color Index"
-msgstr ""
+msgstr "Índice de Cores"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__company_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__company_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__company_id
 msgid "Company"
-msgstr ""
+msgstr "Empresa"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__create_uid
@@ -101,7 +107,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__create_uid
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Criado por"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__create_date
@@ -110,7 +116,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__create_date
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Criado em"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__display_name
@@ -119,32 +125,32 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__display_name
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nome exibido"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_plan_cell__month
 msgid "First day of the calendar month."
-msgstr ""
+msgstr "Primeiro dia do mês."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__date_from
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "Generate Plan"
-msgstr ""
+msgstr "Gerar Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__hours
 msgid "Hours"
-msgstr ""
+msgstr "Horas"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_plan_cell__monthly_hours
 msgid "Hours of one resource used as 100% capacity for this month."
-msgstr ""
+msgstr "Horas de um recurso consideradas como 100% de capacidade neste mês."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__id
@@ -153,7 +159,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__write_uid
@@ -162,7 +168,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__write_uid
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Última atualização por"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__write_date
@@ -171,39 +177,39 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__write_date
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Última atualização em"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__line_id
 msgid "Line"
-msgstr ""
+msgstr "Linha"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "Load Months"
-msgstr ""
+msgstr "Carregar Meses"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "Load Stages"
-msgstr ""
+msgstr "Carregar Etapas"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__month
 msgid "Month"
-msgstr ""
+msgstr "Mês"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__monthly_hours
 msgid "Monthly Hours"
-msgstr ""
+msgstr "Horas Mensais"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__name
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_role__name
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__name
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_project__label_tasks
@@ -211,6 +217,8 @@ msgid ""
 "Name used to refer to the tasks of your project e.g. tasks, tickets, "
 "sprints, etc..."
 msgstr ""
+"Nome usado para se referir às tarefas de seu projeto, ex.: tarefas, "
+"chamados, sprints, etc..."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_project__privacy_visibility
@@ -230,49 +238,66 @@ msgid ""
 "\n"
 "In any case, an internal user with no project access rights can still access a task, provided that they are given the corresponding URL (and that they are part of the followers if the project is private)."
 msgstr ""
+"Pessoas que conseguirão visualizar esse projeto e suas tarefas.\n"
+"\n"
+"- Usuários internos convidados: ao seguir um projeto, os usuários internos terão acesso a todas as suas tarefas sem distinção. Caso contrário, eles só terão acesso às tarefas específicas que estão seguindo.\n"
+"\n"
+"Um usuário com o nível de direito de acesso de administrador > projeto ainda pode acessar esse projeto e suas tarefas, mesmo que não faça parte explicitamente dos seguidores.\n"
+"\n"
+"- Todos os usuários internos: todos os usuários internos podem acessar o projeto e todas as suas tarefas sem distinção.\n"
+"\n"
+"- Usuários do portal convidados e todos os usuários internos: todos os usuários internos podem acessar o projeto e todas as suas tarefas sem distinção.\n"
+"\n"
+"Ao seguir um projeto, os usuários do portal só terão acesso às tarefas específicas que estão seguindo.\n"
+"\n"
+"Quando um projeto é compartilhado em somente leitura, o usuário do portal é redirecionado para o seu portal. Eles podem visualizar as tarefas que estão seguindo, mas não editá-las.\n"
+"\n"
+"Quando um projeto é compartilhado em edição, o usuário do portal é redirecionado para o kanban e para as exibições de lista das tarefas. Ele pode modificar um número selecionado de campos nas tarefas.\n"
+"\n"
+"Em qualquer caso, um usuário interno sem direitos de acesso ao projeto ainda pode acessar uma tarefa, desde que receba o URL correspondente (e que faça parte dos seguidores se o projeto for privado)."
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "Plan"
-msgstr ""
+msgstr "Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.actions.act_window,name:planservice_project_plan_matrix.action_project_plan_cell
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__cell_ids
 msgid "Plan Cells"
-msgstr ""
+msgstr "Células do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__plan_first_month
 msgid "Plan First Month"
-msgstr ""
+msgstr "Primeiro Mês do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__plan_last_month
 msgid "Plan Last Month"
-msgstr ""
+msgstr "Último Mês do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__plan_line_ids
 msgid "Plan Lines"
-msgstr ""
+msgstr "Linhas do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_plan_cell_pivot
 msgid "Plan Matrix"
-msgstr ""
+msgstr "Matriz do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.actions.act_window,name:planservice_project_plan_matrix.action_project_plan_role
 #: model:ir.ui.menu,name:planservice_project_plan_matrix.menu_project_plan_role
 msgid "Plan Roles"
-msgstr ""
+msgstr "Cargos do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.actions.act_window,name:planservice_project_plan_matrix.action_project_plan_stage
 #: model:ir.ui.menu,name:planservice_project_plan_matrix.menu_project_plan_stage
 msgid "Plan Stages"
-msgstr ""
+msgstr "Etapas do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__allocated_hours
@@ -287,45 +312,45 @@ msgstr "Tempo previsto"
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__project_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__project_id
 msgid "Project"
-msgstr ""
+msgstr "Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_plan_cell
 msgid "Project Plan Cell"
-msgstr ""
+msgstr "Célula do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_plan_line
 msgid "Project Plan Line"
-msgstr ""
+msgstr "Linha do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_plan_role
 msgid "Project Plan Role"
-msgstr ""
+msgstr "Cargo do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_plan_stage
 msgid "Project Plan Stage"
-msgstr ""
+msgstr "Etapa do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_plan_stage_month
 msgid "Project Plan Stage Month"
-msgstr ""
+msgstr "Mês da Etapa do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__role_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__role_id
 msgid "Role/Cargo"
-msgstr ""
+msgstr "Cargo"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__sequence
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_role__sequence
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Sequência"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__smart_search
@@ -337,67 +362,69 @@ msgstr ""
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__smart_search
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_report_project_task_user__smart_search
 msgid "Smart Search"
-msgstr ""
+msgstr "Pesquisa inteligente"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__stage_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__stage_id
 msgid "Stage"
-msgstr ""
+msgstr "Etapa"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__stage_month_ids
 msgid "Stage Months"
-msgstr ""
+msgstr "Meses das Etapas"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "Stages"
-msgstr ""
+msgstr "Etapas"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_task
 msgid "Task"
-msgstr ""
+msgstr "Tarefa"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_report_project_task_user
 msgid "Tasks Analysis"
-msgstr ""
+msgstr "Análise de tarefas"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid ""
 "This will load all months between project start and end dates. Continue?"
 msgstr ""
+"Isso vai carregar todos os meses entre as datas de início e fim do projeto. "
+"Continuar?"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__date_to
 msgid "To"
-msgstr ""
+msgstr "Até"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_plan_cell_tree
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__total_hours
 msgid "Total Hours"
-msgstr ""
+msgstr "Total de Horas"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__label_tasks
 msgid "Use Tasks as"
-msgstr ""
+msgstr "Use tarefas como"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid "View Cells"
-msgstr ""
+msgstr "Ver Células"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__privacy_visibility
 msgid "Visibility"
-msgstr ""
+msgstr "Visibilidade"
