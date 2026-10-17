@@ -21,7 +21,7 @@
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="column_invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='day_percentage']" position="after">
+            <xpath expr="//field[@name='day_percentage']" position="before">
                 <field name="planned_day_percentage" optional="show" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
@@ -53,7 +53,7 @@
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='day_percentage']" position="after">
+            <xpath expr="//field[@name='day_percentage']" position="before">
                 <field name="planned_day_percentage" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
@@ -84,13 +84,13 @@
         <field name="arch" type="xml">
             <xpath
                 expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
-                position="after"
+                position="before"
             >
                 <field name="planned_day_percentage" />
             </xpath>
             <xpath
                 expr="//field[@name='timesheet_ids']/form//field[@name='day_percentage']"
-                position="after"
+                position="before"
             >
                 <field name="planned_day_percentage" />
             </xpath>
