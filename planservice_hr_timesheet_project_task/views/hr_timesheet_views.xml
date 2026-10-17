@@ -125,11 +125,21 @@
             >
                 <attribute name="options">{'max_date': 'today'}</attribute>
             </xpath>
+            <!-- Date | Employee | Location | Actual % | Planned % | Description -->
             <xpath
-                expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
-                position="before"
+                expr="//field[@name='timesheet_ids']/list/field[@name='employee_id']"
+                position="after"
             >
+                <field name="location_id" optional="show" />
+                <xpath
+                    expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
+                    position="move"
+                />
                 <field name="planned_day_percentage" readonly="1" />
+                <xpath
+                    expr="//field[@name='timesheet_ids']/list/field[@name='name']"
+                    position="move"
+                />
             </xpath>
             <xpath
                 expr="//field[@name='timesheet_ids']/form//field[@name='day_percentage']"
