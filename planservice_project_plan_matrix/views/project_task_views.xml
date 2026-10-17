@@ -107,6 +107,16 @@
             </xpath>
         </field>
     </record>
+    <record id="view_task_search_collaborator" model="ir.ui.view">
+        <field name="name">project.task.search.collaborator</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='user']" position="attributes">
+                <attribute name="string">Collaborator</attribute>
+            </xpath>
+        </field>
+    </record>
     <record id="view_task_form_hide_pages" model="ir.ui.view">
         <field name="name">project.task.form.hide.pages</field>
         <field name="model">project.task</field>

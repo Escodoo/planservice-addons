@@ -9,3 +9,4 @@ class ProjectTask(models.Model):
 
     allocated_hours = fields.Float(string="Planned Time")
     effective_hours = fields.Float(string="Actual Time")
+    user_ids = fields.Many2many(string="Collaborator")
