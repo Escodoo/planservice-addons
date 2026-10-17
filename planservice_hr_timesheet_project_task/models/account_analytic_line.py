@@ -1,7 +1,9 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.tools.misc import format_date
 
 
 class AccountAnalyticLine(models.Model):
@@ -132,6 +134,18 @@ class AccountAnalyticLine(models.Model):
             limit=1,
         )
         return cell.capacity_percent if cell else 0.0
+
+    @api.constrains("date", "project_id")
+    def _check_timesheet_not_in_future(self):
+        today = fields.Date.context_today(self)
+        for line in self:
+            if line.project_id and line.date and line.date > today:
+                raise ValidationError(
+                    _(
+                        "You cannot log hours for a future date (%(date)s).",
+                        date=format_date(self.env, line.date),
+                    )
+                )
 
     @api.model_create_multi
     def create(self, vals_list):

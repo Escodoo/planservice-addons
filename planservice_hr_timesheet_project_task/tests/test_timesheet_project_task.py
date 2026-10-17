@@ -1,8 +1,10 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import date
+from datetime import date, timedelta
 
+from odoo import fields
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
 
@@ -243,3 +245,19 @@ class TestTimesheetProjectTask(TransactionCase):
         ).capacity_percent = 40.0
         line = self._create_line(unit_amount=1.0)
         self.assertEqual(line.planned_day_percentage, 0.0)
+
+    def test_cannot_log_future_date(self):
+        tomorrow = fields.Date.context_today(self.env.user) + timedelta(days=1)
+        with self.assertRaises(ValidationError):
+            self._create_line(unit_amount=1.0, date=tomorrow)
+
+    def test_cannot_move_line_to_future_date(self):
+        line = self._create_line(unit_amount=1.0)
+        with self.assertRaises(ValidationError):
+            line.date = fields.Date.context_today(line) + timedelta(days=1)
+
+    def test_can_log_today(self):
+        line = self._create_line(
+            unit_amount=1.0, date=fields.Date.context_today(self.env.user)
+        )
+        self.assertTrue(line.exists())

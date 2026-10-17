@@ -150,3 +150,9 @@ msgstr ""
 #: model:ir.ui.menu,name:planservice_hr_timesheet_project_task.menu_timesheet_location
 msgid "Timesheet Locations"
 msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
+#. odoo-python
+#: code:addons/planservice_hr_timesheet_project_task/models/account_analytic_line.py:0
+msgid "You cannot log hours for a future date (%(date)s)."
+msgstr "Não é possível lançar horas em uma data futura (%(date)s)."
