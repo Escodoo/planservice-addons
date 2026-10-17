@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="hr_timesheet_line_tree_project_task" model="ir.ui.view">
+        <field name="name">account.analytic.line.list.project.task</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="editable" />
+                <attribute name="class">o_timesheet_plan_status</attribute>
+                <attribute
+                    name="decoration-success"
+                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
+                <attribute
+                    name="decoration-warning"
+                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
+                <attribute
+                    name="decoration-danger"
+                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
+            </xpath>
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute
+                    name="context"
+                >{'search_default_my_projects': False}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="options">{'max_date': 'today'}</attribute>
+            </xpath>
+            <!-- Date | Project | Task | Location | Actual % | Planned % | Description -->
+            <xpath expr="//field[@name='task_id']" position="after">
+                <field name="location_id" optional="show" />
+                <xpath expr="//field[@name='day_percentage']" position="move" />
+                <field name="planned_day_percentage" optional="show" readonly="1" />
+                <xpath expr="//field[@name='name']" position="move" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="attachment_count" optional="show" />
+                <button
+                    name="%(action_timesheet_attachment_wizard)d"
+                    type="action"
+                    string="Attach"
+                    icon="fa-paperclip"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_line_form_project_task" model="ir.ui.view">
+        <field name="name">account.analytic.line.form.project.task</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='project_id']" position="attributes">
+                <attribute
+                    name="context"
+                >{'search_default_my_projects': False}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='task_id']" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date']" position="attributes">
+                <attribute name="options">{'max_date': 'today'}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='day_percentage']" position="before">
+                <field name="planned_day_percentage" readonly="1" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="location_id" />
+                <field name="attachment_ids" widget="many2many_binary" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_timesheet_line_kanban_project_task" model="ir.ui.view">
+        <field name="name">account.analytic.line.kanban.project.task</field>
+        <field name="model">account.analytic.line</field>
+        <field name="inherit_id" ref="hr_timesheet.view_kanban_account_analytic_line" />
+        <field name="arch" type="xml">
+            <xpath expr="//footer" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_task_form2_planned_day_percentage" model="ir.ui.view">
+        <field name="name">project.task.form.timesheet.planned.day.percentage</field>
+        <field name="model">project.task</field>
+        <field
+            name="inherit_id"
+            ref="planservice_hr_timesheet_day_percentage.view_task_form2_day_percentage"
+        />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/list" position="attributes">
+                <attribute name="class">o_timesheet_plan_status</attribute>
+                <attribute
+                    name="decoration-success"
+                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
+                <attribute
+                    name="decoration-warning"
+                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
+                <attribute
+                    name="decoration-danger"
+                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='date']"
+                position="attributes"
+            >
+                <attribute name="options">{'max_date': 'today'}</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='date']"
+                position="attributes"
+            >
+                <attribute name="options">{'max_date': 'today'}</attribute>
+            </xpath>
+            <!-- Date | Employee | Location | Actual % | Planned % | Description -->
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='employee_id']"
+                position="after"
+            >
+                <field name="location_id" optional="show" />
+                <xpath
+                    expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
+                    position="move"
+                />
+                <field name="planned_day_percentage" readonly="1" />
+                <xpath
+                    expr="//field[@name='timesheet_ids']/list/field[@name='name']"
+                    position="move"
+                />
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='day_percentage']"
+                position="before"
+            >
+                <field name="planned_day_percentage" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
