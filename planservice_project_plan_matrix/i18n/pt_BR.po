@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-17 03:47+0000\n"
-"PO-Revision-Date: 2026-10-17 03:47+0000\n"
+"POT-Creation-Date: 2026-10-17 03:56+0000\n"
+"PO-Revision-Date: 2026-10-17 03:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -74,6 +74,13 @@ msgid ""
 "                        Then add plan lines with roles and assigned users.\n"
 "                        Fill capacity percentages and click \"Generate Plan\" to create/update tasks."
 msgstr ""
+
+#. module: planservice_project_plan_matrix
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__user_ids
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_report_project_task_user__user_ids
+#: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_task_search_collaborator
+msgid "Collaborator"
+msgstr "Colaborador"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__color
