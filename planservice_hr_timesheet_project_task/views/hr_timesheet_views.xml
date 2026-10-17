@@ -9,6 +9,16 @@
         <field name="arch" type="xml">
             <xpath expr="//list" position="attributes">
                 <attribute name="editable" />
+                <attribute name="class">o_timesheet_plan_status</attribute>
+                <attribute
+                    name="decoration-success"
+                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
+                <attribute
+                    name="decoration-warning"
+                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
+                <attribute
+                    name="decoration-danger"
+                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
             </xpath>
             <xpath expr="//field[@name='project_id']" position="attributes">
                 <attribute
@@ -82,6 +92,18 @@
             ref="planservice_hr_timesheet_day_percentage.view_task_form2_day_percentage"
         />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='timesheet_ids']/list" position="attributes">
+                <attribute name="class">o_timesheet_plan_status</attribute>
+                <attribute
+                    name="decoration-success"
+                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
+                <attribute
+                    name="decoration-warning"
+                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
+                <attribute
+                    name="decoration-danger"
+                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
+            </xpath>
             <xpath
                 expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
                 position="before"
