@@ -22,7 +22,7 @@
                 <attribute name="column_invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='day_percentage']" position="before">
-                <field name="planned_day_percentage" optional="show" />
+                <field name="planned_day_percentage" optional="show" readonly="1" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="location_id" optional="show" />
@@ -54,7 +54,7 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='day_percentage']" position="before">
-                <field name="planned_day_percentage" />
+                <field name="planned_day_percentage" readonly="1" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="location_id" />
@@ -86,13 +86,13 @@
                 expr="//field[@name='timesheet_ids']/list/field[@name='day_percentage']"
                 position="before"
             >
-                <field name="planned_day_percentage" />
+                <field name="planned_day_percentage" readonly="1" />
             </xpath>
             <xpath
                 expr="//field[@name='timesheet_ids']/form//field[@name='day_percentage']"
                 position="before"
             >
-                <field name="planned_day_percentage" />
+                <field name="planned_day_percentage" readonly="1" />
             </xpath>
         </field>
     </record>
