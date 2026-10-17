@@ -45,7 +45,7 @@ msgid ""
 "Percentage of the employee's working day. Updates Time Spent from the "
 "resource calendar hours per day."
 msgstr ""
-"Percentual do dia de trabalho do funcionário. Atualiza o Tempo Gasto a "
+"Percentual do dia de trabalho do funcionário. Atualiza o Tempo realizado a "
 "partir das horas por dia do calendário de recursos."
 
 #. module: planservice_hr_timesheet_day_percentage
@@ -64,3 +64,8 @@ msgstr ""
 "Não é possível lançar mais de 100%% do dia de trabalho "
 "(%(hours_per_day).2f h). %(employee)s teria %(used_percent).2f%% "
 "(%(used_hours).2f h) em %(date)s."
+
+#. module: planservice_hr_timesheet_day_percentage
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_day_percentage.field_account_analytic_line__smart_search
+msgid "Smart Search"
+msgstr "Pesquisa inteligente"
