@@ -34,11 +34,14 @@
             <xpath expr="//field[@name='date']" position="attributes">
                 <attribute name="options">{'max_date': 'today'}</attribute>
             </xpath>
-            <xpath expr="//field[@name='day_percentage']" position="before">
+            <!-- Date | Project | Task | Location | Actual % | Planned % | Description -->
+            <xpath expr="//field[@name='task_id']" position="after">
+                <field name="location_id" optional="show" />
+                <xpath expr="//field[@name='day_percentage']" position="move" />
                 <field name="planned_day_percentage" optional="show" readonly="1" />
+                <xpath expr="//field[@name='name']" position="move" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
-                <field name="location_id" optional="show" />
                 <field name="attachment_count" optional="show" />
                 <button
                     name="%(action_timesheet_attachment_wizard)d"
