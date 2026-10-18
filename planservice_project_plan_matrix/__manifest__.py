@@ -4,7 +4,7 @@
 {
     "name": "Project Plan Matrix",
     "summary": "Plan project resources by month with a matrix view",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "category": "Project",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",
@@ -24,6 +24,8 @@
         "views/project_plan_role_views.xml",
         "views/project_plan_cell_views.xml",
         "views/project_project_views.xml",
+        "views/project_task_views.xml",
     ],
+    "post_init_hook": "post_init_hook",
     "installable": True,
 }

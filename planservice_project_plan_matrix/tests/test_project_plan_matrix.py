@@ -3,6 +3,7 @@
 
 from datetime import date
 
+from odoo import Command
 from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
@@ -132,6 +133,44 @@ class TestProjectPlanMatrix(TransactionCase):
         self.project.action_generate_plan()
         self.assertEqual(task.allocated_hours, 160.0)
 
+    def test_action_generate_plan_task_with_timesheets(self):
+        line = self._create_line()
+        cells = {cell.month.month: cell for cell in line.cell_ids}
+        cells[1].capacity_percent = 50.0
+        self.project.action_generate_plan()
+        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
+        employee = self.env["hr.employee"].create({"name": "Plan Employee"})
+        timesheet = self.env["account.analytic.line"].create(
+            {
+                "name": "Logged",
+                "project_id": self.project.id,
+                "task_id": task.id,
+                "employee_id": employee.id,
+                "date": date(2026, 1, 10),
+                "unit_amount": 2.0,
+            }
+        )
+        cells[1].capacity_percent = 0.0
+        cells[2].capacity_percent = 50.0
+        self.project.action_generate_plan()
+        self.assertEqual(task.hour_plan_ids.mapped("month"), [date(2026, 2, 1)])
+        self.assertEqual(task.planned_date_start.date().month, 2)
+        self.assertEqual(task.allocated_hours, 80.0)
+        self.assertTrue(timesheet.exists())
+        self.assertEqual(timesheet.unit_amount, 2.0)
+
+    def test_action_generate_plan_ignores_months_outside_project(self):
+        line = self._create_line()
+        for cell in line.cell_ids:
+            cell.capacity_percent = 50.0
+        self.project.date_start = date(2026, 2, 1)
+        self.project.action_generate_plan()
+        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
+        self.assertEqual(
+            task.hour_plan_ids.mapped("month"), [date(2026, 2, 1), date(2026, 3, 1)]
+        )
+        self.assertEqual(task.allocated_hours, 160.0)
+
     def test_action_generate_plan_no_cells(self):
         self._create_line()
         self.project.action_generate_plan()
@@ -139,6 +178,61 @@ class TestProjectPlanMatrix(TransactionCase):
             [("project_id", "=", self.project.id), ("name", "=", "Project Manager")]
         )
         self.assertFalse(task)
+
+    def test_action_generate_plan_creates_cargos_stage(self):
+        self.env["project.task.type"].search([("name", "ilike", "cargos")]).write(
+            {"name": "Old Stage"}
+        )
+        line = self._create_line()
+        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
+        self.project.action_generate_plan()
+        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
+        self.assertEqual(task.stage_id.name, "Cargos")
+
+    def test_project_without_dates(self):
+        project = self.env["project.project"].create({"name": "No dates"})
+        line = self._create_line(project_id=project.id)
+        self.assertFalse(line.cell_ids)
+        project._update_plan_cells()
+        self.assertFalse(line.cell_ids)
+        self.assertIsNone(project.action_load_months())
+
+    def test_onchange_plan_dates_without_dates(self):
+        project = self.env["project.project"].new({"name": "No dates"})
+        project._onchange_plan_dates()
+        self.assertFalse(project.date_start)
+        self.assertFalse(project.date)
+
+    def test_line_create_keeps_given_cells(self):
+        line = self._create_line(
+            cell_ids=[
+                Command.create({"month": date(2026, 1, 1), "capacity_percent": 30.0})
+            ]
+        )
+        self.assertEqual(len(line.cell_ids), 3)
+        jan = line.cell_ids.filtered(lambda c: c.month.month == 1)
+        self.assertEqual(jan.capacity_percent, 30.0)
+
+    def test_action_load_stages_skips_incomplete_mapping(self):
+        project = self.env["project.project"].new(
+            {
+                "name": "Draft",
+                "stage_month_ids": [
+                    Command.create(
+                        {"date_from": date(2026, 1, 1), "date_to": date(2026, 1, 31)}
+                    )
+                ],
+            }
+        )
+        self.assertTrue(project.action_load_stages())
+
+    def test_sync_task_hour_plan_no_cells(self):
+        line = self._create_line()
+        task = self.env["project.task"].create(
+            {"name": "Project Manager", "project_id": self.project.id}
+        )
+        self.project._sync_task_hour_plan(task, line, line.cell_ids.browse())
+        self.assertFalse(task.hour_plan_ids)
 
     def test_sync_task_hour_plan(self):
         line = self._create_line()
@@ -196,3 +290,24 @@ class TestProjectPlanMatrix(TransactionCase):
         mar = line.cell_ids.filtered(lambda c: c.month.month == 3)
         self.assertEqual(jan.stage_id, self.stage)
         self.assertFalse(mar.stage_id)
+
+    def test_label_tasks_default(self):
+        project = self.env["project.project"].create({"name": "Label Project"})
+        self.assertEqual(project.label_tasks, "Cargo")
+
+    def test_privacy_visibility_default(self):
+        project = self.env["project.project"].create({"name": "Private Project"})
+        self.assertEqual(project.privacy_visibility, "followers")
+
+    def test_milestones_disabled(self):
+        milestone_group = self.env.ref("project.group_project_milestone")
+        self.assertNotIn(milestone_group, self.env.ref("base.group_user").implied_ids)
+        self.assertFalse(milestone_group.users)
+        # The superuser passes every has_group() check, so use a real user.
+        admin = self.env.ref("base.user_admin")
+        project = (
+            self.env["project.project"]
+            .with_user(admin)
+            .create({"name": "No Milestones"})
+        )
+        self.assertFalse(project.allow_milestones)
