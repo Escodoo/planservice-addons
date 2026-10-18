@@ -1,7 +1,9 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+from odoo.tools.misc import format_date
 
 
 class AccountAnalyticLine(models.Model):
@@ -20,10 +22,48 @@ class AccountAnalyticLine(models.Model):
         compute="_compute_attachment_count",
     )
 
+    planned_day_percentage = fields.Float(
+        string="Planned %",
+        compute="_compute_planned_day_percentage",
+        digits=(16, 2),
+        help="Capacity planned in the project plan for this collaborator, "
+        "task and month.",
+    )
+
     @api.depends("attachment_ids")
     def _compute_attachment_count(self):
         for line in self:
             line.attachment_count = len(line.attachment_ids)
+
+    @api.depends("task_id", "task_id.name", "date", "user_id", "employee_id")
+    def _compute_planned_day_percentage(self):
+        lines = self.filtered(lambda line: line.task_id and line.date)
+        (self - lines).planned_day_percentage = 0.0
+        if not lines:
+            return
+        cells = self.env["project.plan.cell"].search(
+            [
+                ("project_id", "in", lines.task_id.project_id.ids),
+                ("month", "in", list({line.date.replace(day=1) for line in lines})),
+            ]
+        )
+        capacity = {
+            (cell.project_id.id, cell.role_id.name, cell.user_id.id, cell.month): (
+                cell.capacity_percent
+            )
+            for cell in cells
+        }
+        for line in lines:
+            user = line.user_id or line.employee_id.user_id
+            line.planned_day_percentage = capacity.get(
+                (
+                    line.task_id.project_id.id,
+                    line.task_id.name,
+                    user.id,
+                    line.date.replace(day=1),
+                ),
+                0.0,
+            )
 
     task_id = fields.Many2one(
         "project.task",
@@ -94,6 +134,18 @@ class AccountAnalyticLine(models.Model):
             limit=1,
         )
         return cell.capacity_percent if cell else 0.0
+
+    @api.constrains("date", "project_id")
+    def _check_timesheet_not_in_future(self):
+        today = fields.Date.context_today(self)
+        for line in self:
+            if line.project_id and line.date and line.date > today:
+                raise ValidationError(
+                    _(
+                        "You cannot log hours for a future date (%(date)s).",
+                        date=format_date(self.env, line.date),
+                    )
+                )
 
     @api.model_create_multi
     def create(self, vals_list):

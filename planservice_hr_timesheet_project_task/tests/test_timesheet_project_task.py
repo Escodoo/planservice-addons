@@ -1,8 +1,10 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from datetime import date
+from datetime import date, timedelta
 
+from odoo import fields
+from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
 
@@ -161,6 +163,26 @@ class TestTimesheetProjectTask(TransactionCase):
         line.write({"project_id": self.project.id})
         self.assertEqual(line.task_id, self.task)
 
+    def test_write_auto_task_line_without_task(self):
+        line = self._create_line()
+        line.task_id = False
+        line.write({"project_id": self.project.id})
+        self.assertEqual(line.task_id, self.task)
+
+    def test_onchange_project_id_no_project(self):
+        line = self.env["account.analytic.line"].new({"date": self.date})
+        line._onchange_project_id()
+        self.assertFalse(line.task_id)
+
+    def test_onchange_planned_percentage_no_task(self):
+        line = self.env["account.analytic.line"].new({"unit_amount": 3.0})
+        line._onchange_planned_percentage()
+        self.assertEqual(line.unit_amount, 3.0)
+
+    def test_planned_day_percentage_no_task(self):
+        line = self.env["account.analytic.line"].new({"date": self.date})
+        self.assertEqual(line.planned_day_percentage, 0.0)
+
     def test_onchange_planned_percentage(self):
         plan_line = self.env["project.plan.line"].create(
             {
@@ -199,3 +221,63 @@ class TestTimesheetProjectTask(TransactionCase):
         result = wizard.action_attach()
         self.assertEqual(result["type"], "ir.actions.act_window_close")
         self.assertIn(attachment, line.attachment_ids)
+
+    def _get_user_employee(self):
+        employee = self.env["hr.employee"].search(
+            [("user_id", "=", self.user.id)], limit=1
+        )
+        return employee or self.env["hr.employee"].create(
+            {"name": "Planned Employee", "user_id": self.user.id}
+        )
+
+    def test_planned_day_percentage(self):
+        plan_line = self.env["project.plan.line"].create(
+            {
+                "project_id": self.project.id,
+                "role_id": self.role.id,
+                "user_id": self.user.id,
+            }
+        )
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 1
+        ).capacity_percent = 40.0
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 2
+        ).capacity_percent = 70.0
+        employee = self._get_user_employee()
+        january = self._create_line(employee_id=employee.id, unit_amount=1.0)
+        february = self._create_line(
+            employee_id=employee.id, unit_amount=1.0, date=date(2026, 2, 10)
+        )
+        self.assertEqual(january.planned_day_percentage, 40.0)
+        self.assertEqual(february.planned_day_percentage, 70.0)
+
+    def test_planned_day_percentage_other_user(self):
+        plan_line = self.env["project.plan.line"].create(
+            {
+                "project_id": self.project.id,
+                "role_id": self.role.id,
+                "user_id": self.user.id,
+            }
+        )
+        plan_line.cell_ids.filtered(
+            lambda c: c.month.month == 1
+        ).capacity_percent = 40.0
+        line = self._create_line(unit_amount=1.0)
+        self.assertEqual(line.planned_day_percentage, 0.0)
+
+    def test_cannot_log_future_date(self):
+        tomorrow = fields.Date.context_today(self.env.user) + timedelta(days=1)
+        with self.assertRaises(ValidationError):
+            self._create_line(unit_amount=1.0, date=tomorrow)
+
+    def test_cannot_move_line_to_future_date(self):
+        line = self._create_line(unit_amount=1.0)
+        with self.assertRaises(ValidationError):
+            line.date = fields.Date.context_today(line) + timedelta(days=1)
+
+    def test_can_log_today(self):
+        line = self._create_line(
+            unit_amount=1.0, date=fields.Date.context_today(self.env.user)
+        )
+        self.assertTrue(line.exists())

@@ -22,5 +22,11 @@
         "views/timesheet_attachment_wizard_views.xml",
         "views/hr_timesheet_views.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "planservice_hr_timesheet_project_task/static/src/scss/"
+            "timesheet_plan_status.scss",
+        ],
+    },
     "installable": True,
 }

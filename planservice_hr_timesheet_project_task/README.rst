@@ -40,7 +40,7 @@ Usage
    assigned to you are available.
 3. The **task** is filled automatically from your assigned tasks on that
    project.
-4. Enter a short **description** and the **Day %**.
+4. Enter a short **description** and the **Actual %**.
 5. Time Spent is computed from the day percentage and hidden from the
    view.
 
@@ -69,6 +69,7 @@ Contributors
 
   - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
   - Clovis Parzewski <clovis.parzewski@escodoo.com.br>
+  - Dener William <dener.gimenes@escodoo.com.br>
 
 Maintainers
 -----------
