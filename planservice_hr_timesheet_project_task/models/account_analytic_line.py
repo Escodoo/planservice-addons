@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.osv import expression
 from odoo.tools.misc import format_date
 
 
@@ -29,54 +30,58 @@ class AccountAnalyticLine(models.Model):
         help="Capacity planned in the project plan for this collaborator, "
         "task and month.",
     )
+    is_timesheet_manager = fields.Boolean(
+        compute="_compute_is_timesheet_manager",
+    )
+    task_id = fields.Many2one(
+        domain=(
+            "[('allow_timesheets', '=', True), ('project_id', '=?', project_id)]"
+            " + ([] if is_timesheet_manager else [('user_ids', 'in', uid)])"
+        ),
+    )
 
     @api.depends("attachment_ids")
     def _compute_attachment_count(self):
         for line in self:
             line.attachment_count = len(line.attachment_ids)
 
-    @api.depends("task_id", "task_id.name", "date", "user_id", "employee_id")
+    @api.depends_context("uid")
+    def _compute_is_timesheet_manager(self):
+        self.is_timesheet_manager = self.env.user.has_group(
+            "hr_timesheet.group_timesheet_manager"
+        )
+
+    @api.depends("task_id.plan_line_id", "date", "user_id", "employee_id.user_id")
     def _compute_planned_day_percentage(self):
+        # The plan is restricted to project groups; timesheet users only get
+        # the planned percentage of their own lines.
         lines = self.filtered(lambda line: line.task_id and line.date)
         (self - lines).planned_day_percentage = 0.0
         if not lines:
             return
-        cells = self.env["project.plan.cell"].search(
-            [
-                ("project_id", "in", lines.task_id.project_id.ids),
-                ("month", "in", list({line.date.replace(day=1) for line in lines})),
-            ]
+        plan_lines = lines.task_id.sudo().plan_line_id
+        cells = (
+            self.env["project.plan.cell"]
+            .sudo()
+            .search(
+                [
+                    ("line_id", "in", plan_lines.ids),
+                    ("month", "in", list({line.date.replace(day=1) for line in lines})),
+                ]
+            )
         )
         capacity = {
-            (cell.project_id.id, cell.role_id.name, cell.user_id.id, cell.month): (
-                cell.capacity_percent
-            )
-            for cell in cells
+            (cell.line_id.id, cell.month): cell.capacity_percent for cell in cells
         }
         for line in lines:
+            plan_line = line.task_id.sudo().plan_line_id
             user = line.user_id or line.employee_id.user_id
+            if plan_line.user_id != user:
+                line.planned_day_percentage = 0.0
+                continue
             line.planned_day_percentage = capacity.get(
-                (
-                    line.task_id.project_id.id,
-                    line.task_id.name,
-                    user.id,
-                    line.date.replace(day=1),
-                ),
-                0.0,
+                (plan_line.id, line.date.replace(day=1)), 0.0
             )
-
-    task_id = fields.Many2one(
-        "project.task",
-        "Task",
-        index="btree_not_null",
-        compute="_compute_task_id",
-        store=True,
-        readonly=False,
-        domain=(
-            "[('allow_timesheets', '=', True), ('project_id', '=', project_id),"
-            " ('user_ids', 'in', uid)]"
-        ),
-    )
 
     @api.model
     def _domain_project_id(self):
@@ -89,13 +94,18 @@ class AccountAnalyticLine(models.Model):
             [("user_ids", "in", user.id)]
         )
         project_ids = assigned_task_ids.mapped("project_id").ids
-        return [("id", "in", project_ids)] + domain
+        return expression.AND([[("id", "in", project_ids)], domain])
 
-    def _get_default_task(self, project_id):
-        """Return the first task of the project assigned to the current user."""
+    @api.model
+    def _get_timesheet_user(self, employee):
+        """User whose plan applies to a timesheet of *employee*."""
+        return employee.user_id or self.env.user
+
+    def _get_default_task(self, project_id, user=None):
+        """Return the first task of the project assigned to *user*."""
         if not project_id:
             return self.env["project.task"]
-        user = self.env.user
+        user = user or self.env.user
         return self.env["project.task"].search(
             [
                 ("project_id", "=", project_id),
@@ -110,30 +120,30 @@ class AccountAnalyticLine(models.Model):
         super()._onchange_project_id()
         if not self.project_id:
             return
-        self.task_id = self._get_default_task(self.project_id.id)
+        self.task_id = self._get_default_task(
+            self.project_id.id, self._get_timesheet_user(self.employee_id)
+        )
         self._onchange_planned_percentage()
 
-    def _get_planned_percentage(self, task_id, date):
-        """Return the planned capacity percent for the task's month."""
-        if not task_id or not date:
+    def _get_planned_percentage(self, task, date, user):
+        """Return the capacity planned for *user* on *task* in the month of *date*."""
+        if not task or not date:
             return 0.0
-        task = self.env["project.task"].browse(task_id)
-        month = fields.Date.to_date(date).replace(day=1)
-        line = self.env["project.plan.line"].search(
-            [
-                ("project_id", "=", task.project_id.id),
-                ("role_id.name", "=", task.name),
-                ("user_id", "=", self.env.user.id),
-            ],
-            limit=1,
-        )
-        if not line:
+        plan_line = task.sudo().plan_line_id
+        if not plan_line or plan_line.user_id != user:
             return 0.0
-        cell = self.env["project.plan.cell"].search(
-            [("line_id", "=", line.id), ("month", "=", month)],
-            limit=1,
+        cell = (
+            self.env["project.plan.cell"]
+            .sudo()
+            .search(
+                [
+                    ("line_id", "=", plan_line.id),
+                    ("month", "=", fields.Date.to_date(date).replace(day=1)),
+                ],
+                limit=1,
+            )
         )
-        return cell.capacity_percent if cell else 0.0
+        return cell.capacity_percent
 
     @api.constrains("date", "project_id")
     def _check_timesheet_not_in_future(self):
@@ -150,28 +160,60 @@ class AccountAnalyticLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            employee = self.env["hr.employee"].browse(vals.get("employee_id"))
+            user = self._get_timesheet_user(employee)
             if vals.get("project_id") and not vals.get("task_id"):
-                vals["task_id"] = self._get_default_task(vals["project_id"]).id
-            if vals.get("task_id") and vals.get("date") and not vals.get("unit_amount"):
-                percent = self._get_planned_percentage(vals["task_id"], vals["date"])
+                vals["task_id"] = self._get_default_task(vals["project_id"], user).id
+            if (
+                vals.get("task_id")
+                and vals.get("date")
+                and "unit_amount" not in vals
+                and "day_percentage" not in vals
+            ):
+                task = self.env["project.task"].browse(vals["task_id"])
+                percent = self._get_planned_percentage(task, vals["date"], user)
                 if percent:
                     hours_per_day = self._hours_per_day_for_vals(vals)
                     vals["unit_amount"] = hours_per_day * percent / 100.0
-        return super().create(vals_list)
+        lines = super().create(vals_list)
+        lines.filtered("attachment_ids")._link_attachments()
+        return lines
 
     def write(self, vals):
         if vals.get("project_id") and not vals.get("task_id"):
-            for line in self:
-                if not line.task_id:
-                    vals["task_id"] = self._get_default_task(vals["project_id"]).id
-        return super().write(vals)
+            lines_without_task = self.filtered(lambda line: not line.task_id)
+            for line in lines_without_task:
+                task = self._get_default_task(
+                    vals["project_id"], self._get_timesheet_user(line.employee_id)
+                )
+                super(AccountAnalyticLine, line).write(dict(vals, task_id=task.id))
+            res = super(AccountAnalyticLine, self - lines_without_task).write(vals)
+        else:
+            res = super().write(vals)
+        if "attachment_ids" in vals:
+            self._link_attachments()
+        return res
+
+    def _link_attachments(self):
+        """Attach the files to the timesheet line itself.
+
+        Access to an attachment follows its res_model/res_id, so files uploaded
+        elsewhere would not stay readable from the timesheet.
+        """
+        for line in self:
+            line.attachment_ids.filtered(
+                lambda att, line=line: (att.res_model, att.res_id)
+                != (line._name, line.id)
+            ).write({"res_model": line._name, "res_id": line.id})
 
     @api.onchange("date", "task_id")
     def _onchange_planned_percentage(self):
         """Default the day percentage from the plan cell of the month."""
-        if not self.task_id or not self.date:
+        if not self.task_id or not self.date or self.unit_amount:
             return
-        percent = self._get_planned_percentage(self.task_id.id, self.date)
+        percent = self._get_planned_percentage(
+            self.task_id, self.date, self._get_timesheet_user(self.employee_id)
+        )
         if percent:
             hours_per_day = self._get_timesheet_hours_per_day()
             self.unit_amount = hours_per_day * percent / 100.0

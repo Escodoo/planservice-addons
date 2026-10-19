@@ -4,7 +4,7 @@
 {
     "name": "Timesheet Project Task",
     "summary": "Log timesheets by project with auto-filled task",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "category": "Human Resources",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",
@@ -19,7 +19,6 @@
     "data": [
         "security/ir.model.access.csv",
         "views/timesheet_location_views.xml",
-        "views/timesheet_attachment_wizard_views.xml",
         "views/hr_timesheet_views.xml",
     ],
     "assets": {

@@ -31,6 +31,17 @@
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="column_invisible">1</attribute>
             </xpath>
+            <!-- Time Spent stays hidden for collaborators; managers still review it. -->
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field
+                    name="unit_amount"
+                    widget="timesheet_uom"
+                    sum="Total"
+                    optional="show"
+                    readonly="1"
+                    groups="hr_timesheet.group_timesheet_manager"
+                />
+            </xpath>
             <xpath expr="//field[@name='date']" position="attributes">
                 <attribute name="options">{'max_date': 'today'}</attribute>
             </xpath>
@@ -43,12 +54,6 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="attachment_count" optional="show" />
-                <button
-                    name="%(action_timesheet_attachment_wizard)d"
-                    type="action"
-                    string="Attach"
-                    icon="fa-paperclip"
-                />
             </xpath>
         </field>
     </record>
@@ -68,6 +73,14 @@
             </xpath>
             <xpath expr="//field[@name='unit_amount']" position="attributes">
                 <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='unit_amount']" position="after">
+                <field
+                    name="unit_amount"
+                    widget="timesheet_uom"
+                    readonly="1"
+                    groups="hr_timesheet.group_timesheet_manager"
+                />
             </xpath>
             <xpath expr="//field[@name='date']" position="attributes">
                 <attribute name="options">{'max_date': 'today'}</attribute>
