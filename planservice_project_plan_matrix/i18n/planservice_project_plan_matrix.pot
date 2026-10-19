@@ -6,14 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 20:05+0000\n"
-"PO-Revision-Date: 2026-10-19 20:05+0000\n"
+"POT-Creation-Date: 2026-10-19 20:42+0000\n"
+"PO-Revision-Date: 2026-10-19 20:42+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
+msgid "A new project must start in the first status: %(first)s."
+msgstr ""
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.constraint,message:planservice_project_plan_matrix.constraint_project_plan_cell_line_month_uniq
@@ -397,8 +403,8 @@ msgstr ""
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
 msgid ""
-"The plan is locked. Set the project status back to one that allows re-"
-"planning, such as Pending, to change it."
+"The plan is locked: the project status no longer allows re-planning, and "
+"project statuses only move forward."
 msgstr ""
 
 #. module: planservice_project_plan_matrix
@@ -413,6 +419,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/planservice_project_plan_matrix/models/project_plan_stage_month.py:0
 msgid "The stage start month must be before its end month."
+msgstr ""
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
+msgid ""
+"The status of %(project)s only moves forward one step at a time. Next "
+"status: %(next)s."
 msgstr ""
 
 #. module: planservice_project_plan_matrix
@@ -450,4 +464,10 @@ msgstr ""
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__privacy_visibility
 msgid "Visibility"
+msgstr ""
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
+msgid "none, it is the last one"
 msgstr ""
