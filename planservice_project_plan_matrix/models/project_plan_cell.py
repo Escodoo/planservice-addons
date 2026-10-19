@@ -43,6 +43,7 @@ class ProjectPlanCell(models.Model):
         related="line_id.user_id",
         store=True,
     )
+    can_replan = fields.Boolean(related="project_id.can_replan")
     month = fields.Date(
         required=True,
         index=True,
@@ -92,3 +93,18 @@ class ProjectPlanCell(models.Model):
                 cell.monthly_hours * cell.capacity_percent / 100.0,
                 precision_digits=2,
             )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        self.env["project.plan.line"].browse(
+            {vals["line_id"] for vals in vals_list if vals.get("line_id")}
+        ).project_id._check_can_replan()
+        return super().create(vals_list)
+
+    def write(self, vals):
+        self.project_id._check_can_replan()
+        return super().write(vals)
+
+    def unlink(self):
+        self.project_id._check_can_replan()
+        return super().unlink()

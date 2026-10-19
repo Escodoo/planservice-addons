@@ -4,5 +4,6 @@ from . import project_plan_stage_month
 from . import project_plan_line
 from . import project_plan_cell
 from . import project_project
+from . import project_project_stage
 from . import project_task
 from . import report_project_task_user

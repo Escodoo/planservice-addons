@@ -5,7 +5,8 @@ from calendar import monthrange
 
 from dateutil.relativedelta import relativedelta
 
-from odoo import Command, api, fields, models
+from odoo import Command, _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class ProjectProject(models.Model):
@@ -13,7 +14,7 @@ class ProjectProject(models.Model):
 
     label_tasks = fields.Char(
         string="Use Tasks as",
-        default=lambda self: self.env._("Cargo"),
+        default=lambda self: self.env._("Role"),
         translate=True,
     )
     privacy_visibility = fields.Selection(default="followers")
@@ -31,6 +32,12 @@ class ProjectProject(models.Model):
         string="Stage Months",
         copy=True,
     )
+    can_replan = fields.Boolean(
+        compute="_compute_can_replan",
+        compute_sudo=True,
+        help="The plan can only change while the project is in a stage that "
+        "allows re-planning.",
+    )
     plan_first_month = fields.Date(
         compute="_compute_plan_months",
         store=True,
@@ -39,6 +46,22 @@ class ProjectProject(models.Model):
         compute="_compute_plan_months",
         store=True,
     )
+
+    @api.depends("stage_id.allow_replan")
+    def _compute_can_replan(self):
+        for project in self:
+            project.can_replan = project.stage_id.allow_replan
+
+    def _check_can_replan(self):
+        locked = self.filtered(lambda project: not project.can_replan)
+        if locked:
+            raise UserError(
+                _(
+                    "The plan of %(projects)s can only be changed while the "
+                    "project is in a planning stage.",
+                    projects=", ".join(locked.mapped("display_name")),
+                )
+            )
 
     @api.depends("date_start", "date")
     def _compute_plan_months(self):
@@ -70,7 +93,7 @@ class ProjectProject(models.Model):
         if self.date:
             last_day = monthrange(self.date.year, self.date.month)[1]
             self.date = self.date.replace(day=last_day)
-        if not self.date_start or not self.date:
+        if not self.date_start or not self.date or not self.can_replan:
             return
         self._update_plan_cells()
 
@@ -99,12 +122,13 @@ class ProjectProject(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if {"date_start", "date"} & set(vals):
-            self._update_plan_cells()
+            self.filtered("can_replan")._update_plan_cells()
         return res
 
     def action_load_months(self):
         """Load months based on project dates."""
         self.ensure_one()
+        self._check_can_replan()
         if not self.date_start or not self.date:
             return
         self._update_plan_cells()
@@ -113,6 +137,7 @@ class ProjectProject(models.Model):
     def action_load_stages(self):
         """Apply stage-month associations to the plan cells."""
         self.ensure_one()
+        self._check_can_replan()
         for mapping in self.stage_month_ids:
             if not mapping.stage_id or not mapping.date_from or not mapping.date_to:
                 continue
@@ -129,6 +154,7 @@ class ProjectProject(models.Model):
     def action_generate_plan(self):
         """Generate/update project tasks from the plan matrix."""
         self.ensure_one()
+        self._check_can_replan()
 
         role_stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
         if self not in role_stage.project_ids:

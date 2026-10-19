@@ -37,7 +37,14 @@
             </xpath>
             <xpath expr="//notebook/page[@name='description']" position="before">
                 <page name="plan" string="Plan" groups="project.group_project_manager">
-                    <div class="o_row mb-3">
+                    <div
+                        class="alert alert-info mb-3"
+                        role="status"
+                        invisible="can_replan"
+                    >
+                        The plan is locked. Move the project to a planning stage to change it.
+                    </div>
+                    <div class="o_row mb-3" invisible="not can_replan">
                         <button
                             name="action_load_months"
                             type="object"
@@ -65,7 +72,7 @@
                             <field name="plan_last_month" invisible="1" />
                         </group>
                     </group>
-                    <field name="plan_line_ids" nolabel="1">
+                    <field name="plan_line_ids" nolabel="1" readonly="not can_replan">
                         <list editable="bottom" create="true" delete="true">
                             <field name="sequence" widget="handle" />
                             <field name="role_id" required="1" />
@@ -87,7 +94,7 @@
                     string="Stages"
                     groups="project.group_project_manager"
                 >
-                    <div class="o_row mb-3">
+                    <div class="o_row mb-3" invisible="not can_replan">
                         <button
                             name="action_load_stages"
                             type="object"
@@ -100,7 +107,7 @@
                         Associate a stage to a range of months. Click "Load Stages"
                         to apply these associations to the plan cells.
                     </p>
-                    <field name="stage_month_ids" nolabel="1">
+                    <field name="stage_month_ids" nolabel="1" readonly="not can_replan">
                         <list editable="bottom" create="true" delete="true">
                             <field name="stage_id" required="1" />
                             <field

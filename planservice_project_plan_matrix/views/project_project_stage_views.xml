@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="project_project_stage_view_tree_replan" model="ir.ui.view">
+        <field name="name">project.project.stage.list.replan</field>
+        <field name="model">project.project.stage</field>
+        <field name="inherit_id" ref="project.project_project_stage_view_tree" />
+        <field name="arch" type="xml">
+            <field name="fold" position="before">
+                <field name="allow_replan" optional="show" />
+            </field>
+        </field>
+    </record>
+    <record id="project_project_stage_view_form_replan" model="ir.ui.view">
+        <field name="name">project.project.stage.form.replan</field>
+        <field name="model">project.project.stage</field>
+        <field name="inherit_id" ref="project.project_project_stage_view_form" />
+        <field name="arch" type="xml">
+            <field name="fold" position="before">
+                <field name="allow_replan" />
+            </field>
+        </field>
+    </record>
+</odoo>

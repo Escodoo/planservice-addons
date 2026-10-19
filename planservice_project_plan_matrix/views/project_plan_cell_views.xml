@@ -9,8 +9,10 @@
             <list create="false" delete="false" editable="top">
                 <field name="line_id" column_invisible="1" />
                 <field name="name" readonly="1" />
+                <field name="can_replan" column_invisible="1" />
                 <field
                     name="capacity_percent"
+                    readonly="not can_replan"
                     decoration-muted="capacity_percent == 0"
                     decoration-bf="capacity_percent > 0"
                 />

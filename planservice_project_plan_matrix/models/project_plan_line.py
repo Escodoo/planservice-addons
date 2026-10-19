@@ -93,6 +93,9 @@ class ProjectPlanLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        self.env["project.project"].browse(
+            {vals["project_id"] for vals in vals_list if vals.get("project_id")}
+        )._check_can_replan()
         lines = super().create(vals_list)
         cell_vals_list = []
         for line in lines:
@@ -108,3 +111,14 @@ class ProjectPlanLine(models.Model):
         if cell_vals_list:
             self.env["project.plan.cell"].create(cell_vals_list)
         return lines
+
+    def write(self, vals):
+        projects = self.project_id
+        if vals.get("project_id"):
+            projects |= projects.browse(vals["project_id"])
+        projects._check_can_replan()
+        return super().write(vals)
+
+    def unlink(self):
+        self.project_id._check_can_replan()
+        return super().unlink()

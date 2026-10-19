@@ -4,7 +4,7 @@
 from datetime import date
 
 from odoo import Command
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
 
@@ -408,7 +408,7 @@ class TestProjectPlanMatrix(TransactionCase):
 
     def test_label_tasks_default(self):
         project = self.env["project.project"].create({"name": "Label Project"})
-        self.assertEqual(project.label_tasks, "Cargo")
+        self.assertEqual(project.label_tasks, "Role")
 
     def test_privacy_visibility_default(self):
         project = self.env["project.project"].create({"name": "Private Project"})
@@ -426,3 +426,66 @@ class TestProjectPlanMatrix(TransactionCase):
             .create({"name": "No Milestones"})
         )
         self.assertFalse(project.allow_milestones)
+
+    def _lock_project(self):
+        locked_stage = self.env["project.project.stage"].create(
+            {"name": "Executing", "sequence": 50}
+        )
+        self.project.stage_id = locked_stage
+
+    def test_new_project_starts_in_planning(self):
+        project = self.env["project.project"].create({"name": "Fresh"})
+        self.assertEqual(
+            project.stage_id,
+            self.env.ref("planservice_project_plan_matrix.project_stage_planning"),
+        )
+        self.assertTrue(project.can_replan)
+
+    def test_project_stages_enabled(self):
+        self.assertIn(
+            self.env.ref("project.group_project_stages"),
+            self.env.ref("base.group_user").implied_ids,
+        )
+
+    def test_locked_project_rejects_plan_actions(self):
+        line = self._create_line()
+        self._lock_project()
+        self.assertFalse(self.project.can_replan)
+        for action in (
+            self.project.action_generate_plan,
+            self.project.action_load_months,
+            self.project.action_load_stages,
+        ):
+            with self.assertRaises(UserError):
+                action()
+        with self.assertRaises(UserError):
+            line.cell_ids[:1].capacity_percent = 50.0
+        with self.assertRaises(UserError):
+            line.unlink()
+        with self.assertRaises(UserError):
+            self._create_line(role_id=self.role2.id)
+        with self.assertRaises(UserError):
+            self.env["project.plan.stage.month"].create(
+                {
+                    "project_id": self.project.id,
+                    "stage_id": self.stage.id,
+                    "date_from": date(2026, 1, 1),
+                    "date_to": date(2026, 1, 31),
+                }
+            )
+
+    def test_locked_project_keeps_cells_on_date_change(self):
+        line = self._create_line()
+        self._lock_project()
+        self.project.date = date(2026, 4, 30)
+        self.assertEqual(len(line.cell_ids), 3)
+
+    def test_unlocked_project_allows_replanning_again(self):
+        line = self._create_line()
+        self._lock_project()
+        self.project.stage_id = self.env.ref(
+            "planservice_project_plan_matrix.project_stage_planning"
+        )
+        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
+        self.project.action_generate_plan()
+        self.assertEqual(self._task_of(line).allocated_hours, 80.0)

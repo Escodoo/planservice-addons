@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo noupdate="1">
+    <!-- Lowest sequence so new projects start in planning. -->
+    <record id="project_stage_planning" model="project.project.stage">
+        <field name="name">Planning</field>
+        <field name="sequence">1</field>
+        <field name="allow_replan" eval="True" />
+    </record>
+</odoo>

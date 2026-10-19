@@ -4,10 +4,10 @@
 from odoo import SUPERUSER_ID, api
 
 from odoo.addons.planservice_project_plan_matrix.hooks import (
-    disable_project_milestones,
+    configure_project_settings,
 )
 
 
 def migrate(cr, version):
-    """Turn off milestones on databases where the module is already installed."""
-    disable_project_milestones(api.Environment(cr, SUPERUSER_ID, {}))
+    """Apply the module project settings on databases already installed."""
+    configure_project_settings(api.Environment(cr, SUPERUSER_ID, {}))
