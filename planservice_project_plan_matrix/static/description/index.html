@@ -402,8 +402,8 @@ for planning resources by month.</p>
 period.</li>
 <li>Navigate to the <strong>Plan</strong> tab.</li>
 <li>Add plan lines:<ul>
-<li>Select a <strong>Role/Cargo</strong> (configure roles under <strong>Project &gt;
-Configuration &gt; Plan Roles</strong>)</li>
+<li>Select a <strong>Role</strong> (configure roles under <strong>Project &gt; Configuration
+&gt; Plan Roles</strong>)</li>
 <li>Assign a <strong>user</strong> to the role</li>
 </ul>
 </li>
@@ -417,12 +417,13 @@ setting</li>
 </li>
 <li>Click <strong>Generate Plan</strong> to create/update project tasks:<ul>
 <li>A task is created for each plan line with non-zero capacity</li>
-<li>Task name matches the role name</li>
+<li>The task is linked to its plan line and named after the role</li>
 <li>Allocated hours and planned dates are set from the plan</li>
 <li>Task hour plan lines are populated with monthly distribution</li>
 </ul>
 </li>
-<li>If a task already exists with timesheets, it will not be modified.</li>
+<li>Tasks that already have timesheets are re-planned too; logged hours
+are never changed.</li>
 </ol>
 </div>
 <div class="section" id="bug-tracker">

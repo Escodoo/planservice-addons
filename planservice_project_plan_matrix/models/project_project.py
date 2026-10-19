@@ -130,20 +130,14 @@ class ProjectProject(models.Model):
         """Generate/update project tasks from the plan matrix."""
         self.ensure_one()
 
-        # Ensure "Cargos" stage exists
-        cargos_stage = self.env["project.task.type"].search(
-            [("name", "ilike", "cargos")],
-            limit=1,
-        )
-        if not cargos_stage:
-            cargos_stage = self.env["project.task.type"].create({"name": "Cargos"})
+        role_stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
+        if self not in role_stage.project_ids:
+            role_stage.project_ids = [Command.link(self.id)]
 
         project_total_hours = 0.0
         for line in self.plan_line_ids:
-            cells = line.cell_ids.filtered(
+            cells = line._get_cells_in_period().filtered(
                 lambda c: c.capacity_percent > 0
-                and (not self.plan_first_month or c.month >= self.plan_first_month)
-                and (not self.plan_last_month or c.month <= self.plan_last_month)
             )
             if not cells:
                 continue
@@ -155,10 +149,7 @@ class ProjectProject(models.Model):
             last_day = monthrange(last_month.year, last_month.month)[1]
 
             existing_task = self.env["project.task"].search(
-                [
-                    ("project_id", "=", self.id),
-                    ("name", "=", line.role_id.name),
-                ],
+                [("plan_line_id", "=", line.id)],
                 limit=1,
             )
 
@@ -169,10 +160,9 @@ class ProjectProject(models.Model):
             )
 
             task_vals = {
-                "name": line.role_id.name,
                 "project_id": self.id,
-                "stage_id": cargos_stage.id,
-                "user_ids": [(4, line.user_id.id)],
+                "plan_line_id": line.id,
+                "user_ids": [Command.link(line.user_id.id)],
                 "allocated_hours": total_hours,
                 "planned_date_start": self.env[
                     "project.task"
@@ -187,6 +177,7 @@ class ProjectProject(models.Model):
                 )
                 task = existing_task
             else:
+                task_vals.update(name=line.role_id.name, stage_id=role_stage.id)
                 task = (
                     self.env["project.task"]
                     .with_context(skip_hour_plan_generate=True)

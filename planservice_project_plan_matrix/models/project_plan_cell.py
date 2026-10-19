@@ -1,8 +1,6 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from calendar import monthrange
-
 from odoo import api, fields, models
 from odoo.tools.float_utils import float_round
 from odoo.tools.misc import format_date
@@ -72,13 +70,6 @@ class ProjectPlanCell(models.Model):
         digits=(16, 2),
     )
 
-    @api.model
-    def _month_bounds(self, day):
-        """Return (first_day, last_day) of the calendar month of *day*."""
-        first = fields.Date.to_date(day).replace(day=1)
-        last_day = monthrange(first.year, first.month)[1]
-        return first, first.replace(day=last_day)
-
     @api.depends("month")
     def _compute_name(self):
         for cell in self:
@@ -92,7 +83,7 @@ class ProjectPlanCell(models.Model):
     def _compute_monthly_hours(self):
         for cell in self:
             company = cell.company_id or self.env.company
-            cell.monthly_hours = company.hour_plan_monthly_hours or 160.0
+            cell.monthly_hours = company.hour_plan_monthly_hours
 
     @api.depends("capacity_percent", "monthly_hours")
     def _compute_hours(self):
@@ -101,9 +92,3 @@ class ProjectPlanCell(models.Model):
                 cell.monthly_hours * cell.capacity_percent / 100.0,
                 precision_digits=2,
             )
-
-    def action_apply_stage_to_range(self, stage_id, date_from, date_to):
-        """Apply a stage to a range of months."""
-        for cell in self:
-            if date_from <= cell.month <= date_to:
-                cell.stage_id = stage_id

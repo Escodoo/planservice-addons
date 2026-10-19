@@ -8,6 +8,11 @@ from odoo.exceptions import ValidationError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
 
+from odoo.addons.planservice_project_plan_matrix.hooks import (
+    link_plan_tasks,
+    link_role_stage,
+)
+
 
 @tagged("post_install", "-at_install")
 class TestProjectPlanMatrix(TransactionCase):
@@ -34,6 +39,9 @@ class TestProjectPlanMatrix(TransactionCase):
         }
         values.update(vals)
         return self.env["project.plan.line"].create(values)
+
+    def _task_of(self, line):
+        return self.env["project.task"].search([("plan_line_id", "=", line.id)])
 
     def test_generate_month_range(self):
         months = self.project._generate_month_range(
@@ -179,15 +187,95 @@ class TestProjectPlanMatrix(TransactionCase):
         )
         self.assertFalse(task)
 
-    def test_action_generate_plan_creates_cargos_stage(self):
-        self.env["project.task.type"].search([("name", "ilike", "cargos")]).write(
-            {"name": "Old Stage"}
-        )
+    def test_action_generate_plan_role_stage(self):
         line = self._create_line()
         line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
         self.project.action_generate_plan()
-        task = self.project.task_ids.filtered(lambda t: t.name == "Project Manager")
-        self.assertEqual(task.stage_id.name, "Cargos")
+        role_stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
+        self.assertEqual(self._task_of(line).stage_id, role_stage)
+        self.assertIn(self.project, role_stage.project_ids)
+
+    def test_action_generate_plan_same_role_two_users(self):
+        other_user = self.env["res.users"].create(
+            {"name": "Other Planner", "login": "other_planner"}
+        )
+        line = self._create_line()
+        other_line = self._create_line(user_id=other_user.id)
+        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
+        other_line.cell_ids.filtered(
+            lambda c: c.month.month == 1
+        ).capacity_percent = 100.0
+        self.project.action_generate_plan()
+        task = self._task_of(line)
+        other_task = self._task_of(other_line)
+        self.assertNotEqual(task, other_task)
+        self.assertEqual(task.user_ids, self.user)
+        self.assertEqual(other_task.user_ids, other_user)
+        self.assertEqual(task.allocated_hours, 80.0)
+        self.assertEqual(other_task.allocated_hours, 160.0)
+
+    def test_action_generate_plan_renamed_task(self):
+        line = self._create_line()
+        jan_cell = line.cell_ids.filtered(lambda c: c.month.month == 1)
+        jan_cell.capacity_percent = 50.0
+        self.project.action_generate_plan()
+        task = self._task_of(line)
+        task.name = "Renamed"
+        jan_cell.capacity_percent = 100.0
+        self.project.action_generate_plan()
+        self.assertEqual(self._task_of(line), task)
+        self.assertEqual(task.name, "Renamed")
+        self.assertEqual(task.allocated_hours, 160.0)
+
+    def test_line_total_hours_outside_period(self):
+        line = self._create_line()
+        for cell in line.cell_ids:
+            cell.capacity_percent = 50.0
+        self.project.date_start = date(2026, 2, 1)
+        self.assertEqual(len(line.cell_ids), 3)
+        self.assertEqual(float_compare(line.total_hours, 160.0, precision_digits=2), 0)
+
+    def test_stage_month_invalid_range(self):
+        with self.assertRaises(ValidationError):
+            self.env["project.plan.stage.month"].create(
+                {
+                    "project_id": self.project.id,
+                    "stage_id": self.stage.id,
+                    "date_from": date(2026, 3, 1),
+                    "date_to": date(2026, 1, 31),
+                }
+            )
+
+    def test_migration_link_plan_tasks(self):
+        line = self._create_line()
+        task = self.env["project.task"].create(
+            {
+                "name": "Project Manager",
+                "project_id": self.project.id,
+                "user_ids": [Command.link(self.user.id)],
+            }
+        )
+        link_plan_tasks(self.env)
+        self.assertEqual(task.plan_line_id, line)
+        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
+        self.project.action_generate_plan()
+        self.assertEqual(self._task_of(line), task)
+
+    def test_migration_link_role_stage(self):
+        # Simulate a database from before the module stage existed.
+        self.env.ref("planservice_project_plan_matrix.task_type_role").unlink()
+        self.env["ir.model.data"].search(
+            [
+                ("module", "=", "planservice_project_plan_matrix"),
+                ("name", "=", "task_type_role"),
+            ]
+        ).unlink()
+        old_stage = self.env["project.task.type"].create({"name": "Cargos"})
+        link_role_stage(self.env)
+        self.env.registry.clear_cache()
+        stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
+        self.assertEqual(stage.name.lower(), "cargos")
+        self.assertLessEqual(stage.id, old_stage.id)
 
     def test_project_without_dates(self):
         project = self.env["project.project"].create({"name": "No dates"})
@@ -274,22 +362,6 @@ class TestProjectPlanMatrix(TransactionCase):
         jan_cell = line.cell_ids.filtered(lambda c: c.month.month == 1)
         jan_cell.capacity_percent = 25.0
         self.assertEqual(float_compare(jan_cell.hours, 40.0, precision_digits=2), 0)
-
-    def test_cell_month_bounds(self):
-        first, last = self.env["project.plan.cell"]._month_bounds(date(2026, 2, 15))
-        self.assertEqual(first, date(2026, 2, 1))
-        self.assertEqual(last, date(2026, 2, 28))
-
-    def test_cell_apply_stage_to_range(self):
-        line = self._create_line()
-        cells = line.cell_ids
-        cells.action_apply_stage_to_range(
-            self.stage.id, date(2026, 1, 1), date(2026, 2, 28)
-        )
-        jan = line.cell_ids.filtered(lambda c: c.month.month == 1)
-        mar = line.cell_ids.filtered(lambda c: c.month.month == 3)
-        self.assertEqual(jan.stage_id, self.stage)
-        self.assertFalse(mar.stage_id)
 
     def test_label_tasks_default(self):
         project = self.env["project.project"].create({"name": "Label Project"})

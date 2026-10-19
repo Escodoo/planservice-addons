@@ -1,7 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class ProjectPlanStageMonth(models.Model):
@@ -28,3 +29,11 @@ class ProjectPlanStageMonth(models.Model):
     )
     date_from = fields.Date(string="From", required=True)
     date_to = fields.Date(string="To", required=True)
+
+    @api.constrains("date_from", "date_to")
+    def _check_dates(self):
+        for mapping in self:
+            if mapping.date_from > mapping.date_to:
+                raise ValidationError(
+                    _("The stage start month must be before its end month.")
+                )

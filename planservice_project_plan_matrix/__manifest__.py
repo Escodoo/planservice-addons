@@ -4,7 +4,7 @@
 {
     "name": "Project Plan Matrix",
     "summary": "Plan project resources by month with a matrix view",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.0.2",
     "category": "Project",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",
@@ -20,6 +20,7 @@
     "data": [
         "security/ir.model.access.csv",
         "security/project_plan_security.xml",
+        "data/project_task_type_data.xml",
         "views/project_plan_stage_views.xml",
         "views/project_plan_role_views.xml",
         "views/project_plan_cell_views.xml",

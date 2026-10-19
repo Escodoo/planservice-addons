@@ -10,3 +10,12 @@ class ProjectTask(models.Model):
     allocated_hours = fields.Float(string="Planned Time")
     effective_hours = fields.Float(string="Actual Time")
     user_ids = fields.Many2many(string="Collaborator")
+    plan_line_id = fields.Many2one(
+        comodel_name="project.plan.line",
+        string="Plan Line",
+        ondelete="set null",
+        index="btree_not_null",
+        copy=False,
+        readonly=True,
+        help="Project plan line that generated this task.",
+    )

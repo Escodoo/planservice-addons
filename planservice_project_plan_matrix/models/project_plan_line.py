@@ -24,7 +24,7 @@ class ProjectPlanLine(models.Model):
     )
     role_id = fields.Many2one(
         comodel_name="project.plan.role",
-        string="Role/Cargo",
+        string="Role",
         required=True,
         ondelete="restrict",
     )
@@ -47,10 +47,29 @@ class ProjectPlanLine(models.Model):
         digits=(16, 2),
     )
 
-    @api.depends("cell_ids.hours")
+    def _get_cells_in_period(self):
+        """Cells of the months inside the project period.
+
+        Cells outside the period are kept, so they come back when the period
+        is extended, but they are not planned.
+        """
+        self.ensure_one()
+        first_month = self.project_id.plan_first_month
+        last_month = self.project_id.plan_last_month
+        return self.cell_ids.filtered(
+            lambda c: (not first_month or c.month >= first_month)
+            and (not last_month or c.month <= last_month)
+        )
+
+    @api.depends(
+        "cell_ids.hours",
+        "cell_ids.month",
+        "project_id.plan_first_month",
+        "project_id.plan_last_month",
+    )
     def _compute_total_hours(self):
         for line in self:
-            line.total_hours = sum(line.cell_ids.mapped("hours"))
+            line.total_hours = sum(line._get_cells_in_period().mapped("hours"))
 
     @api.constrains("role_id", "user_id")
     def _check_unique_role_user(self):
@@ -75,19 +94,17 @@ class ProjectPlanLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         lines = super().create(vals_list)
+        cell_vals_list = []
         for line in lines:
-            if line.project_id.date_start and line.project_id.date:
-                months = line.project_id._generate_month_range(
-                    line.project_id.date_start, line.project_id.date
-                )
-                existing_months = line.cell_ids.mapped("month")
-                for month in months:
-                    if month not in existing_months:
-                        self.env["project.plan.cell"].create(
-                            {
-                                "line_id": line.id,
-                                "month": month,
-                                "capacity_percent": 0.0,
-                            }
-                        )
+            months = line.project_id._generate_month_range(
+                line.project_id.date_start, line.project_id.date
+            )
+            existing_months = line.cell_ids.mapped("month")
+            cell_vals_list += [
+                {"line_id": line.id, "month": month, "capacity_percent": 0.0}
+                for month in months
+                if month not in existing_months
+            ]
+        if cell_vals_list:
+            self.env["project.plan.cell"].create(cell_vals_list)
         return lines
