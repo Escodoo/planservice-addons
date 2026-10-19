@@ -3,6 +3,8 @@
 
 from datetime import date
 
+from lxml import etree
+
 from odoo import Command
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
@@ -591,3 +593,17 @@ class TestProjectPlanMatrix(TransactionCase):
                 "project_status.project_status_pending", raise_if_not_found=False
             )
         )
+
+    def test_task_list_time_columns(self):
+        view = self.env.ref("project.view_task_tree2")
+        arch = self.env["project.task"].get_views([(view.id, "list")])["views"]["list"][
+            "arch"
+        ]
+        root = etree.fromstring(arch)
+        allocated = root.xpath("//field[@name='allocated_hours']")[0]
+        effective = root.xpath("//field[@name='effective_hours'][@optional]")[0]
+        progress = root.xpath("//field[@name='progress'][@optional]")[0]
+        self.assertEqual(allocated.get("optional"), "show")
+        self.assertEqual(effective.get("optional"), "show")
+        self.assertIn(effective.get("invisible"), ("0", "False", None))
+        self.assertEqual(progress.get("optional"), "hide")
