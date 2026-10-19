@@ -319,6 +319,14 @@ class TestTimesheetProjectTask(TransactionCase):
         line._onchange_planned_percentage()
         self.assertEqual(line.unit_amount, 3.0)
 
+    def test_onchange_planned_percentage_no_date(self):
+        self._set_capacity(self.plan_line, 1, 50.0)
+        line = self.env["account.analytic.line"].new(
+            {"project_id": self.project.id, "task_id": self.task.id, "date": False}
+        )
+        line._onchange_planned_percentage()
+        self.assertFalse(line.unit_amount)
+
     def test_onchange_planned_percentage_keeps_hours(self):
         self._set_capacity(self.plan_line, 1, 25.0)
         line = self.env["account.analytic.line"].new(
