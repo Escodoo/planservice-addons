@@ -32,11 +32,14 @@ class ProjectProject(models.Model):
         string="Stage Months",
         copy=True,
     )
+    project_status = fields.Many2one(
+        default=lambda self: self._default_project_status()
+    )
     can_replan = fields.Boolean(
         compute="_compute_can_replan",
         compute_sudo=True,
-        help="The plan can only change while the project is in a stage that "
-        "allows re-planning.",
+        help="The plan can only change while the project has no status or a "
+        "status that allows re-planning.",
     )
     plan_first_month = fields.Date(
         compute="_compute_plan_months",
@@ -47,10 +50,18 @@ class ProjectProject(models.Model):
         store=True,
     )
 
-    @api.depends("stage_id.allow_replan")
+    @api.model
+    def _default_project_status(self):
+        return self.env.ref(
+            "project_status.project_status_pending", raise_if_not_found=False
+        )
+
+    @api.depends("project_status.allow_replan")
     def _compute_can_replan(self):
+        # Projects created before the status existed have none: keep them open.
         for project in self:
-            project.can_replan = project.stage_id.allow_replan
+            status = project.project_status
+            project.can_replan = not status or status.allow_replan
 
     def _check_can_replan(self):
         locked = self.filtered(lambda project: not project.can_replan)
@@ -58,7 +69,7 @@ class ProjectProject(models.Model):
             raise UserError(
                 _(
                     "The plan of %(projects)s can only be changed while the "
-                    "project is in a planning stage.",
+                    "project status allows re-planning.",
                     projects=", ".join(locked.mapped("display_name")),
                 )
             )

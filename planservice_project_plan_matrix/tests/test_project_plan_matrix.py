@@ -11,6 +11,7 @@ from odoo.tools.float_utils import float_compare
 from odoo.addons.planservice_project_plan_matrix.hooks import (
     link_plan_tasks,
     link_role_stage,
+    translate_project_statuses,
 )
 
 
@@ -428,24 +429,35 @@ class TestProjectPlanMatrix(TransactionCase):
         self.assertFalse(project.allow_milestones)
 
     def _lock_project(self):
-        locked_stage = self.env["project.project.stage"].create(
-            {"name": "Executing", "sequence": 50}
+        self.project.project_status = self.env.ref(
+            "project_status.project_status_in_progress"
         )
-        self.project.stage_id = locked_stage
 
-    def test_new_project_starts_in_planning(self):
+    def test_new_project_starts_pending(self):
         project = self.env["project.project"].create({"name": "Fresh"})
         self.assertEqual(
-            project.stage_id,
-            self.env.ref("planservice_project_plan_matrix.project_stage_planning"),
+            project.project_status,
+            self.env.ref("project_status.project_status_pending"),
         )
         self.assertTrue(project.can_replan)
 
-    def test_project_stages_enabled(self):
-        self.assertIn(
-            self.env.ref("project.group_project_stages"),
-            self.env.ref("base.group_user").implied_ids,
+    def test_project_without_status_can_replan(self):
+        self.project.project_status = False
+        self.assertTrue(self.project.can_replan)
+
+    def test_translate_project_statuses(self):
+        self.env["res.lang"]._activate_lang("pt_BR")
+        translate_project_statuses(self.env)
+        pending = self.env.ref("project_status.project_status_pending")
+        pending.flush_recordset()
+        self.env.cr.execute(
+            "SELECT name FROM project_status WHERE id = %s", [pending.id]
         )
+        name = self.env.cr.fetchone()[0]
+        self.assertEqual(name["pt_BR"], "Pendente")
+        # Without English active, Odoo also stores the value as the source.
+        if self.env["res.lang"]._lang_get("en_US"):
+            self.assertEqual(name["en_US"], "Pending")
 
     def test_locked_project_rejects_plan_actions(self):
         line = self._create_line()
@@ -483,8 +495,8 @@ class TestProjectPlanMatrix(TransactionCase):
     def test_unlocked_project_allows_replanning_again(self):
         line = self._create_line()
         self._lock_project()
-        self.project.stage_id = self.env.ref(
-            "planservice_project_plan_matrix.project_stage_planning"
+        self.project.project_status = self.env.ref(
+            "project_status.project_status_pending"
         )
         line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
         self.project.action_generate_plan()

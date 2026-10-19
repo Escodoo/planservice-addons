@@ -42,7 +42,7 @@
                         role="status"
                         invisible="can_replan"
                     >
-                        The plan is locked. Move the project to a planning stage to change it.
+                        The plan is locked. Set the project status back to one that allows re-planning, such as Pending, to change it.
                     </div>
                     <div class="o_row mb-3" invisible="not can_replan">
                         <button

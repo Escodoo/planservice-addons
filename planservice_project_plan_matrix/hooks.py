@@ -3,15 +3,30 @@
 
 
 def configure_project_settings(env):
-    """Turn Milestones off and Project Stages on, as the settings screen does.
+    """Turn Milestones off, as the settings screen does.
 
-    Milestones are not used by the plan, and the project stage decides when
-    the plan can be changed. Going through the settings keeps the implied
-    groups consistent and updates the flag on every project.
+    Going through the settings keeps the implied groups consistent and
+    updates the flag on every project, instead of emptying the group.
     """
-    env["res.config.settings"].create(
-        {"group_project_milestone": False, "group_project_stages": True}
-    ).execute()
+    env["res.config.settings"].create({"group_project_milestone": False}).execute()
+
+
+# project_status ships no pt_BR translation.
+PROJECT_STATUS_PT_BR = {
+    "project_status.project_status_pending": "Pendente",
+    "project_status.project_status_in_progress": "Em andamento",
+    "project_status.project_status_complete": "Concluído",
+}
+
+
+def translate_project_statuses(env):
+    """Give the default project statuses their Brazilian Portuguese names."""
+    if not env["res.lang"]._lang_get("pt_BR"):
+        return
+    for xmlid, name in PROJECT_STATUS_PT_BR.items():
+        status = env.ref(xmlid, raise_if_not_found=False)
+        if status:
+            status.with_context(lang="pt_BR").name = name
 
 
 def link_role_stage(env):
@@ -68,3 +83,4 @@ def link_plan_tasks(env):
 
 def post_init_hook(env):
     configure_project_settings(env)
+    translate_project_statuses(env)

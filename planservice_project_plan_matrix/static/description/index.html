@@ -380,15 +380,17 @@ for planning resources by month.</p>
 <li>Capacity percentage per cell (0% = neutral, &gt;0% = highlighted)</li>
 <li>“Generate Plan” button to create/update project tasks from the plan</li>
 <li>Integration with existing Task Hour Plan module</li>
-<li>The plan can only be changed while the project is in a stage that
-allows re-planning (the module adds the <strong>Planning</strong> stage, where new
-projects start). In other stages the buttons are hidden and the matrix
-is read-only.</li>
+<li>The plan can only be changed while the project status allows
+re-planning (<strong>Pending</strong> by default, the status new projects get;
+projects without a status stay open). In other statuses the buttons
+are hidden and the matrix is read-only.</li>
 <li>Generate Plan always rewrites the task hour plans from the matrix,
 including hand-made changes; logged timesheets are never changed.</li>
 </ul>
-<p><strong>Project settings changed on install:</strong> the module turns <strong>Milestones</strong>
-off and <strong>Project Stages</strong> on, through the regular project settings.</p>
+<p><strong>Changes on install:</strong> the module turns <strong>Milestones</strong> off through the
+regular project settings, and gives the default project statuses their
+Brazilian Portuguese names, which the Project Status module does not
+ship.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -405,8 +407,8 @@ off and <strong>Project Stages</strong> on, through the regular project settings
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-1">Usage</a></h1>
 <ol class="arabic simple">
-<li>Go to <strong>Projects &gt; Projects</strong> and open or create a project. It must
-be in a stage that allows re-planning, such as <strong>Planning</strong>.</li>
+<li>Go to <strong>Projects &gt; Projects</strong> and open or create a project. Its
+status must allow re-planning, such as <strong>Pending</strong>.</li>
 <li>Set the <strong>Planned Date</strong> (start and end dates) to define the planning
 period.</li>
 <li>Navigate to the <strong>Plan</strong> tab.</li>
@@ -433,9 +435,9 @@ setting</li>
 </li>
 <li>Tasks that already have timesheets are re-planned too; logged hours
 are never changed.</li>
-<li>Moving the project to a stage without <strong>Allow Re-planning</strong> locks the
-plan. Configure the flag under <strong>Project &gt; Configuration &gt; Project
-Stages</strong>.</li>
+<li>Moving the project to a status without <strong>Allow Re-planning</strong> (for
+example <strong>In Progress</strong>) locks the plan. Configure the flag under
+<strong>Project &gt; Configuration &gt; Project Statuses</strong>.</li>
 </ol>
 </div>
 <div class="section" id="bug-tracker">

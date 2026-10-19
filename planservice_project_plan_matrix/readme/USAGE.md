@@ -1,5 +1,5 @@
-1. Go to **Projects > Projects** and open or create a project. It must be in a
-   stage that allows re-planning, such as **Planning**.
+1. Go to **Projects > Projects** and open or create a project. Its status must
+   allow re-planning, such as **Pending**.
 2. Set the **Planned Date** (start and end dates) to define the planning period.
 3. Navigate to the **Plan** tab.
 4. Add plan lines:
@@ -16,5 +16,6 @@
    - Allocated hours and planned dates are set from the plan
    - Task hour plan lines are populated with monthly distribution
 8. Tasks that already have timesheets are re-planned too; logged hours are never changed.
-9. Moving the project to a stage without **Allow Re-planning** locks the plan.
-   Configure the flag under **Project > Configuration > Project Stages**.
+9. Moving the project to a status without **Allow Re-planning** (for example
+   **In Progress**) locks the plan. Configure the flag under
+   **Project > Configuration > Project Statuses**.

@@ -4,11 +4,11 @@
 from odoo import fields, models
 
 
-class ProjectProjectStage(models.Model):
-    _inherit = "project.project.stage"
+class ProjectStatus(models.Model):
+    _inherit = "project.status"
 
     allow_replan = fields.Boolean(
         string="Allow Re-planning",
-        help="Projects in this stage can edit the plan matrix and run "
+        help="Projects with this status can edit the plan matrix and run "
         "Generate Plan.",
     )

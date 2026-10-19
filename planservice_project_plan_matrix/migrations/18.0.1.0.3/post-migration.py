@@ -4,10 +4,10 @@
 from odoo import SUPERUSER_ID, api
 
 from odoo.addons.planservice_project_plan_matrix.hooks import (
-    configure_project_settings,
+    translate_project_statuses,
 )
 
 
 def migrate(cr, version):
-    """Enable project stages, which now decide when the plan can change."""
-    configure_project_settings(api.Environment(cr, SUPERUSER_ID, {}))
+    """Translate the project statuses that now lock the plan."""
+    translate_project_statuses(api.Environment(cr, SUPERUSER_ID, {}))
