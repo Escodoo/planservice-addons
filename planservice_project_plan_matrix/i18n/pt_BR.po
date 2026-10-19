@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: \n"
+"POT-Creation-Date: 2026-10-19 17:20+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -24,8 +24,7 @@ msgstr "Uma linha do plano não pode ter duas células para o mesmo mês."
 #. module: planservice_project_plan_matrix
 #. odoo-python
 #: code:addons/planservice_project_plan_matrix/models/project_plan_line.py:0
-msgid ""
-"A plan line with the same role and user already exists in this project."
+msgid "A plan line with the same role and user already exists in this project."
 msgstr ""
 "Já existe uma linha do plano com o mesmo cargo e usuário neste projeto."
 
@@ -75,11 +74,15 @@ msgstr "Cargo"
 msgid ""
 "Click \"Load Months\" to generate month columns based on project dates.\n"
 "                        Then add plan lines with roles and assigned users.\n"
-"                        Fill capacity percentages and click \"Generate Plan\" to create/update tasks."
+"                        Fill capacity percentages and click \"Generate "
+"Plan\" to create/update tasks."
 msgstr ""
-"Clique em \"Carregar Meses\" para gerar as colunas de meses com base nas datas do projeto.\n"
-"                        Depois adicione as linhas do plano com os cargos e usuários atribuídos.\n"
-"                        Preencha os percentuais de capacidade e clique em \"Gerar Plano\" para criar/atualizar as tarefas."
+"Clique em \"Carregar Meses\" para gerar as colunas de meses com base nas "
+"datas do projeto.\n"
+"                        Depois adicione as linhas do plano com os cargos e "
+"usuários atribuídos.\n"
+"                        Preencha os percentuais de capacidade e clique em "
+"\"Gerar Plano\" para criar/atualizar as tarefas."
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__user_ids
@@ -225,36 +228,63 @@ msgstr ""
 msgid ""
 "People to whom this project and its tasks will be visible.\n"
 "\n"
-"- Invited internal users: when following a project, internal users will get access to all of its tasks without distinction. Otherwise, they will only get access to the specific tasks they are following.\n"
-" A user with the project > administrator access right level can still access this project and its tasks, even if they are not explicitly part of the followers.\n"
+"- Invited internal users: when following a project, internal users will get "
+"access to all of its tasks without distinction. Otherwise, they will only "
+"get access to the specific tasks they are following.\n"
+" A user with the project > administrator access right level can still access "
+"this project and its tasks, even if they are not explicitly part of the "
+"followers.\n"
 "\n"
-"- All internal users: all internal users can access the project and all of its tasks without distinction.\n"
+"- All internal users: all internal users can access the project and all of "
+"its tasks without distinction.\n"
 "\n"
-"- Invited portal users and all internal users: all internal users can access the project and all of its tasks without distinction.\n"
-"When following a project, portal users will only get access to the specific tasks they are following.\n"
+"- Invited portal users and all internal users: all internal users can access "
+"the project and all of its tasks without distinction.\n"
+"When following a project, portal users will only get access to the specific "
+"tasks they are following.\n"
 "\n"
-"When a project is shared in read-only, the portal user is redirected to their portal. They can view the tasks they are following, but not edit them.\n"
-"When a project is shared in edit, the portal user is redirected to the kanban and list views of the tasks. They can modify a selected number of fields on the tasks.\n"
+"When a project is shared in read-only, the portal user is redirected to "
+"their portal. They can view the tasks they are following, but not edit "
+"them.\n"
+"When a project is shared in edit, the portal user is redirected to the "
+"kanban and list views of the tasks. They can modify a selected number of "
+"fields on the tasks.\n"
 "\n"
-"In any case, an internal user with no project access rights can still access a task, provided that they are given the corresponding URL (and that they are part of the followers if the project is private)."
+"In any case, an internal user with no project access rights can still access "
+"a task, provided that they are given the corresponding URL (and that they "
+"are part of the followers if the project is private)."
 msgstr ""
 "Pessoas que conseguirão visualizar esse projeto e suas tarefas.\n"
 "\n"
-"- Usuários internos convidados: ao seguir um projeto, os usuários internos terão acesso a todas as suas tarefas sem distinção. Caso contrário, eles só terão acesso às tarefas específicas que estão seguindo.\n"
+"- Usuários internos convidados: ao seguir um projeto, os usuários internos "
+"terão acesso a todas as suas tarefas sem distinção. Caso contrário, eles só "
+"terão acesso às tarefas específicas que estão seguindo.\n"
 "\n"
-"Um usuário com o nível de direito de acesso de administrador > projeto ainda pode acessar esse projeto e suas tarefas, mesmo que não faça parte explicitamente dos seguidores.\n"
+"Um usuário com o nível de direito de acesso de administrador > projeto ainda "
+"pode acessar esse projeto e suas tarefas, mesmo que não faça parte "
+"explicitamente dos seguidores.\n"
 "\n"
-"- Todos os usuários internos: todos os usuários internos podem acessar o projeto e todas as suas tarefas sem distinção.\n"
+"- Todos os usuários internos: todos os usuários internos podem acessar o "
+"projeto e todas as suas tarefas sem distinção.\n"
 "\n"
-"- Usuários do portal convidados e todos os usuários internos: todos os usuários internos podem acessar o projeto e todas as suas tarefas sem distinção.\n"
+"- Usuários do portal convidados e todos os usuários internos: todos os "
+"usuários internos podem acessar o projeto e todas as suas tarefas sem "
+"distinção.\n"
 "\n"
-"Ao seguir um projeto, os usuários do portal só terão acesso às tarefas específicas que estão seguindo.\n"
+"Ao seguir um projeto, os usuários do portal só terão acesso às tarefas "
+"específicas que estão seguindo.\n"
 "\n"
-"Quando um projeto é compartilhado em somente leitura, o usuário do portal é redirecionado para o seu portal. Eles podem visualizar as tarefas que estão seguindo, mas não editá-las.\n"
+"Quando um projeto é compartilhado em somente leitura, o usuário do portal é "
+"redirecionado para o seu portal. Eles podem visualizar as tarefas que estão "
+"seguindo, mas não editá-las.\n"
 "\n"
-"Quando um projeto é compartilhado em edição, o usuário do portal é redirecionado para o kanban e para as exibições de lista das tarefas. Ele pode modificar um número selecionado de campos nas tarefas.\n"
+"Quando um projeto é compartilhado em edição, o usuário do portal é "
+"redirecionado para o kanban e para as exibições de lista das tarefas. Ele "
+"pode modificar um número selecionado de campos nas tarefas.\n"
 "\n"
-"Em qualquer caso, um usuário interno sem direitos de acesso ao projeto ainda pode acessar uma tarefa, desde que receba o URL correspondente (e que faça parte dos seguidores se o projeto for privado)."
+"Em qualquer caso, um usuário interno sem direitos de acesso ao projeto ainda "
+"pode acessar uma tarefa, desde que receba o URL correspondente (e que faça "
+"parte dos seguidores se o projeto for privado)."
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
@@ -276,6 +306,11 @@ msgstr "Primeiro Mês do Plano"
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__plan_last_month
 msgid "Plan Last Month"
 msgstr "Último Mês do Plano"
+
+#. module: planservice_project_plan_matrix
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__plan_line_id
+msgid "Plan Line"
+msgstr "Linha do Plano"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__plan_line_ids
@@ -340,10 +375,20 @@ msgid "Project Plan Stage Month"
 msgstr "Mês da Etapa do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
+#: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_task__plan_line_id
+msgid "Project plan line that generated this task."
+msgstr "Linha do plano do projeto que gerou esta tarefa."
+
+#. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__role_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__role_id
-msgid "Role/Cargo"
+msgid "Role"
 msgstr "Cargo"
+
+#. module: planservice_project_plan_matrix
+#: model:project.task.type,name:planservice_project_plan_matrix.task_type_role
+msgid "Roles"
+msgstr "Cargos"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__sequence
@@ -351,18 +396,6 @@ msgstr "Cargo"
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__sequence
 msgid "Sequence"
 msgstr "Sequência"
-
-#. module: planservice_project_plan_matrix
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_role__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_stage_month__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_task__smart_search
-#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_report_project_task_user__smart_search
-msgid "Smart Search"
-msgstr "Pesquisa inteligente"
 
 #. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__stage_id
@@ -389,6 +422,12 @@ msgstr "Tarefa"
 #: model:ir.model,name:planservice_project_plan_matrix.model_report_project_task_user
 msgid "Tasks Analysis"
 msgstr "Análise de tarefas"
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_plan_stage_month.py:0
+msgid "The stage start month must be before its end month."
+msgstr "O mês inicial da etapa deve ser anterior ao mês final."
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
@@ -428,3 +467,4 @@ msgstr "Ver Células"
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__privacy_visibility
 msgid "Visibility"
 msgstr "Visibilidade"
+
