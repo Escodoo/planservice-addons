@@ -6,6 +6,9 @@ from odoo.exceptions import ValidationError
 from odoo.osv import expression
 from odoo.tools.misc import format_date
 
+# Actual % within this many points of Planned % counts as on plan.
+PLAN_STATUS_TOLERANCE = 0.01
+
 
 class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
@@ -30,6 +33,15 @@ class AccountAnalyticLine(models.Model):
         help="Capacity planned in the project plan for this collaborator, "
         "task and month.",
     )
+    plan_status = fields.Selection(
+        selection=[
+            ("on_plan", "On Plan"),
+            ("below", "Below Plan"),
+            ("above", "Above Plan"),
+        ],
+        compute="_compute_plan_status",
+        help="Actual % compared with Planned %; empty when nothing is planned.",
+    )
     is_timesheet_manager = fields.Boolean(
         compute="_compute_is_timesheet_manager",
     )
@@ -51,37 +63,60 @@ class AccountAnalyticLine(models.Model):
             "hr_timesheet.group_timesheet_manager"
         )
 
-    @api.depends("task_id.plan_line_id", "date", "user_id", "employee_id.user_id")
-    def _compute_planned_day_percentage(self):
-        # The plan is restricted to project groups; timesheet users only get
-        # the planned percentage of their own lines.
-        lines = self.filtered(lambda line: line.task_id and line.date)
-        (self - lines).planned_day_percentage = 0.0
-        if not lines:
-            return
-        plan_lines = lines.task_id.sudo().plan_line_id
+    @api.model
+    def _get_plan_capacities(self, tasks, dates):
+        """Map (plan line id, month) to the planned capacity.
+
+        The plan is restricted to project groups, so it is read with sudo and
+        only the percentage leaves this method.
+        """
+        plan_lines = tasks.sudo().plan_line_id
+        if not plan_lines:
+            return {}
         cells = (
             self.env["project.plan.cell"]
             .sudo()
             .search(
                 [
                     ("line_id", "in", plan_lines.ids),
-                    ("month", "in", list({line.date.replace(day=1) for line in lines})),
+                    ("month", "in", list({day.replace(day=1) for day in dates})),
                 ]
             )
         )
-        capacity = {
-            (cell.line_id.id, cell.month): cell.capacity_percent for cell in cells
-        }
+        return {(cell.line_id.id, cell.month): cell.capacity_percent for cell in cells}
+
+    @api.model
+    def _planned_percentage_from(self, capacities, task, date, user):
+        """Capacity of *user* on *task* in the month of *date*, else 0."""
+        plan_line = task.sudo().plan_line_id
+        if not plan_line or plan_line.user_id != user:
+            return 0.0
+        return capacities.get((plan_line.id, date.replace(day=1)), 0.0)
+
+    @api.depends("task_id.plan_line_id", "date", "user_id", "employee_id.user_id")
+    def _compute_planned_day_percentage(self):
+        lines = self.filtered(lambda line: line.task_id and line.date)
+        (self - lines).planned_day_percentage = 0.0
+        capacities = self._get_plan_capacities(lines.task_id, lines.mapped("date"))
         for line in lines:
-            plan_line = line.task_id.sudo().plan_line_id
-            user = line.user_id or line.employee_id.user_id
-            if plan_line.user_id != user:
-                line.planned_day_percentage = 0.0
-                continue
-            line.planned_day_percentage = capacity.get(
-                (plan_line.id, line.date.replace(day=1)), 0.0
+            line.planned_day_percentage = self._planned_percentage_from(
+                capacities,
+                line.task_id,
+                line.date,
+                line.user_id or line.employee_id.user_id,
             )
+
+    @api.depends("day_percentage", "planned_day_percentage")
+    def _compute_plan_status(self):
+        for line in self:
+            if not line.planned_day_percentage:
+                line.plan_status = False
+                continue
+            gap = line.day_percentage - line.planned_day_percentage
+            if abs(gap) <= PLAN_STATUS_TOLERANCE:
+                line.plan_status = "on_plan"
+            else:
+                line.plan_status = "below" if gap < 0 else "above"
 
     @api.model
     def _domain_project_id(self):
@@ -129,21 +164,9 @@ class AccountAnalyticLine(models.Model):
         """Return the capacity planned for *user* on *task* in the month of *date*."""
         if not task or not date:
             return 0.0
-        plan_line = task.sudo().plan_line_id
-        if not plan_line or plan_line.user_id != user:
-            return 0.0
-        cell = (
-            self.env["project.plan.cell"]
-            .sudo()
-            .search(
-                [
-                    ("line_id", "=", plan_line.id),
-                    ("month", "=", fields.Date.to_date(date).replace(day=1)),
-                ],
-                limit=1,
-            )
-        )
-        return cell.capacity_percent
+        date = fields.Date.to_date(date)
+        capacities = self._get_plan_capacities(task, [date])
+        return self._planned_percentage_from(capacities, task, date, user)
 
     @api.constrains("date", "project_id")
     def _check_timesheet_not_in_future(self):

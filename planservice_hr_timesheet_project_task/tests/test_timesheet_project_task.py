@@ -371,6 +371,23 @@ class TestTimesheetProjectTask(TransactionCase):
         self.assertEqual(january.planned_day_percentage, 40.0)
         self.assertEqual(february.planned_day_percentage, 70.0)
 
+    def test_plan_status(self):
+        self._set_capacity(self.plan_line, 1, 50.0)
+        employee = self._get_user_employee()
+        line = self._create_line(employee_id=employee.id, day_percentage=50.0)
+        self.assertEqual(line.plan_status, "on_plan")
+        line.day_percentage = 50.01
+        self.assertEqual(line.plan_status, "on_plan")
+        line.day_percentage = 30.0
+        self.assertEqual(line.plan_status, "below")
+        line.day_percentage = 60.0
+        self.assertEqual(line.plan_status, "above")
+
+    def test_plan_status_nothing_planned(self):
+        line = self._create_line(unit_amount=1.0)
+        self.assertFalse(line.planned_day_percentage)
+        self.assertFalse(line.plan_status)
+
     def test_planned_day_percentage_other_user(self):
         self._set_capacity(self.plan_line, 1, 40.0)
         line = self._create_line(unit_amount=1.0)

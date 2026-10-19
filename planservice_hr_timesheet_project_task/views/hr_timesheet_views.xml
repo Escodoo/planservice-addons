@@ -12,13 +12,9 @@
                 <attribute name="class">o_timesheet_plan_status</attribute>
                 <attribute
                     name="decoration-success"
-                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
-                <attribute
-                    name="decoration-warning"
-                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
-                <attribute
-                    name="decoration-danger"
-                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
+                >plan_status == 'on_plan'</attribute>
+                <attribute name="decoration-warning">plan_status == 'below'</attribute>
+                <attribute name="decoration-danger">plan_status == 'above'</attribute>
             </xpath>
             <xpath expr="//field[@name='project_id']" position="attributes">
                 <attribute
@@ -50,6 +46,7 @@
                 <field name="location_id" optional="show" />
                 <xpath expr="//field[@name='day_percentage']" position="move" />
                 <field name="planned_day_percentage" optional="show" readonly="1" />
+                <field name="plan_status" column_invisible="1" />
                 <xpath expr="//field[@name='name']" position="move" />
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
@@ -118,13 +115,9 @@
                 <attribute name="class">o_timesheet_plan_status</attribute>
                 <attribute
                     name="decoration-success"
-                >planned_day_percentage and day_percentage &gt;= planned_day_percentage - 0.01 and day_percentage &lt;= planned_day_percentage + 0.01</attribute>
-                <attribute
-                    name="decoration-warning"
-                >planned_day_percentage and day_percentage &lt; planned_day_percentage - 0.01</attribute>
-                <attribute
-                    name="decoration-danger"
-                >planned_day_percentage and day_percentage &gt; planned_day_percentage + 0.01</attribute>
+                >plan_status == 'on_plan'</attribute>
+                <attribute name="decoration-warning">plan_status == 'below'</attribute>
+                <attribute name="decoration-danger">plan_status == 'above'</attribute>
             </xpath>
             <xpath
                 expr="//field[@name='timesheet_ids']/list/field[@name='date']"
@@ -149,6 +142,7 @@
                     position="move"
                 />
                 <field name="planned_day_percentage" readonly="1" />
+                <field name="plan_status" column_invisible="1" />
                 <xpath
                     expr="//field[@name='timesheet_ids']/list/field[@name='name']"
                     position="move"
