@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 17:20+0000\n"
-"PO-Revision-Date: 2026-10-19 17:20+0000\n"
+"POT-Creation-Date: 2026-10-19 19:33+0000\n"
+"PO-Revision-Date: 2026-10-19 19:33+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,18 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__above
+msgid "Above Plan"
+msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__active
 msgid "Active"
+msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,help:planservice_hr_timesheet_project_task.field_account_analytic_line__plan_status
+msgid "Actual % compared with Planned %; empty when nothing is planned."
 msgstr ""
 
 #. module: planservice_hr_timesheet_project_task
@@ -33,6 +43,11 @@ msgstr ""
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__attachment_ids
 msgid "Attachments"
+msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__below
+msgid "Below Plan"
 msgstr ""
 
 #. module: planservice_hr_timesheet_project_task
@@ -84,6 +99,16 @@ msgstr ""
 #. module: planservice_hr_timesheet_project_task
 #: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__name
 msgid "Name"
+msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__on_plan
+msgid "On Plan"
+msgstr ""
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__plan_status
+msgid "Plan Status"
 msgstr ""
 
 #. module: planservice_hr_timesheet_project_task
