@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_project_plan_cell_tree" model="ir.ui.view">
+        <field name="name">project.plan.cell.list</field>
+        <field name="model">project.plan.cell</field>
+        <field name="arch" type="xml">
+            <list create="false" delete="false" editable="top">
+                <field name="line_id" column_invisible="1" />
+                <field name="name" readonly="1" />
+                <field name="stage_id" readonly="1" options="{'no_create': True}" />
+                <field name="month" column_invisible="1" />
+                <field
+                    name="capacity_percent"
+                    decoration-muted="capacity_percent == 0"
+                    decoration-bf="capacity_percent > 0"
+                />
+                <field name="hours" column_invisible="1" readonly="1" sum="Total" />
+                <field name="monthly_hours" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="view_project_plan_cell_pivot" model="ir.ui.view">
+        <field name="name">project.plan.cell.pivot</field>
+        <field name="model">project.plan.cell</field>
+        <field name="arch" type="xml">
+            <pivot string="Plan Matrix" disable_linking="1">
+                <field name="line_id" type="row" />
+                <field name="month" interval="month" type="col" />
+                <field name="stage_id" type="row" />
+                <field name="capacity_percent" type="measure" />
+                <field name="hours" type="measure" optional="hide" />
+            </pivot>
+        </field>
+    </record>
+    <record id="action_project_plan_cell" model="ir.actions.act_window">
+        <field name="name">Plan Cells</field>
+        <field name="res_model">project.plan.cell</field>
+        <field name="view_mode">pivot,list</field>
+        <field name="view_id" ref="view_project_plan_cell_tree" />
+        <field name="domain">[('line_id', '=', context.get('default_line_id'))]</field>
+        <field
+            name="context"
+        >{'default_line_id': context.get('default_line_id'), 'search_default_line_id': context.get('default_line_id')}</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
