@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-19 17:20+0000\n"
+"POT-Creation-Date: 2026-10-19 19:21+0000\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,6 +44,11 @@ msgid "Actual Time"
 msgstr "Tempo realizado"
 
 #. module: planservice_project_plan_matrix
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project_stage__allow_replan
+msgid "Allow Re-planning"
+msgstr "Permite Replanejar"
+
+#. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__user_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__user_id
 msgid "Assigned To"
@@ -59,15 +64,15 @@ msgstr ""
 "                        para aplicar essas associações às células do plano."
 
 #. module: planservice_project_plan_matrix
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__can_replan
+#: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_project__can_replan
+msgid "Can Replan"
+msgstr "Pode Replanejar"
+
+#. module: planservice_project_plan_matrix
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__capacity_percent
 msgid "Capacity (%)"
 msgstr "Capacidade (%)"
-
-#. module: planservice_project_plan_matrix
-#. odoo-python
-#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
-msgid "Cargo"
-msgstr "Cargo"
 
 #. module: planservice_project_plan_matrix
 #: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
@@ -342,6 +347,11 @@ msgid "Planned Time"
 msgstr "Tempo previsto"
 
 #. module: planservice_project_plan_matrix
+#: model:project.project.stage,name:planservice_project_plan_matrix.project_stage_planning
+msgid "Planning"
+msgstr "Em planejamento"
+
+#. module: planservice_project_plan_matrix
 #: model:ir.model,name:planservice_project_plan_matrix.model_project_project
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__project_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__project_id
@@ -375,11 +385,24 @@ msgid "Project Plan Stage Month"
 msgstr "Mês da Etapa do Plano do Projeto"
 
 #. module: planservice_project_plan_matrix
+#: model:ir.model,name:planservice_project_plan_matrix.model_project_project_stage
+msgid "Project Stage"
+msgstr "Etapa do Projeto"
+
+#. module: planservice_project_plan_matrix
 #: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_task__plan_line_id
 msgid "Project plan line that generated this task."
 msgstr "Linha do plano do projeto que gerou esta tarefa."
 
 #. module: planservice_project_plan_matrix
+#: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_project_stage__allow_replan
+msgid "Projects in this stage can edit the plan matrix and run Generate Plan."
+msgstr ""
+"Projetos nesta etapa podem editar a matriz do plano e executar Gerar Plano."
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_cell__role_id
 #: model:ir.model.fields,field_description:planservice_project_plan_matrix.field_project_plan_line__role_id
 msgid "Role"
@@ -422,6 +445,33 @@ msgstr "Tarefa"
 #: model:ir.model,name:planservice_project_plan_matrix.model_report_project_task_user
 msgid "Tasks Analysis"
 msgstr "Análise de tarefas"
+
+#. module: planservice_project_plan_matrix
+#: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_plan_cell__can_replan
+#: model:ir.model.fields,help:planservice_project_plan_matrix.field_project_project__can_replan
+msgid ""
+"The plan can only change while the project is in a stage that allows re-"
+"planning."
+msgstr ""
+"O plano só pode mudar enquanto o projeto estiver em uma etapa que permite "
+"replanejar."
+
+#. module: planservice_project_plan_matrix
+#: model_terms:ir.ui.view,arch_db:planservice_project_plan_matrix.view_project_form_plan_matrix
+msgid "The plan is locked. Move the project to a planning stage to change it."
+msgstr ""
+"O plano está travado. Mova o projeto para uma etapa de planejamento para "
+"alterá-lo."
+
+#. module: planservice_project_plan_matrix
+#. odoo-python
+#: code:addons/planservice_project_plan_matrix/models/project_project.py:0
+msgid ""
+"The plan of %(projects)s can only be changed while the project is in a "
+"planning stage."
+msgstr ""
+"O plano de %(projects)s só pode ser alterado enquanto o projeto estiver em "
+"uma etapa de planejamento."
 
 #. module: planservice_project_plan_matrix
 #. odoo-python
