@@ -29,6 +29,17 @@ def translate_project_statuses(env):
             status.with_context(lang="pt_BR").name = name
 
 
+def allow_replan_on_pending(env):
+    """Let Pending projects be re-planned on databases updated to this version.
+
+    The data file sets the flag on install only: it points at a record of
+    project_status, which a noupdate file leaves alone on update.
+    """
+    pending = env.ref("project_status.project_status_pending", raise_if_not_found=False)
+    if pending:
+        pending.allow_replan = True
+
+
 def link_role_stage(env):
     """Bind the "Cargos" stage created by older versions to the module stage."""
     imd = env["ir.model.data"]

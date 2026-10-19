@@ -4,10 +4,13 @@
 from odoo import SUPERUSER_ID, api
 
 from odoo.addons.planservice_project_plan_matrix.hooks import (
+    allow_replan_on_pending,
     translate_project_statuses,
 )
 
 
 def migrate(cr, version):
-    """Translate the project statuses that now lock the plan."""
-    translate_project_statuses(api.Environment(cr, SUPERUSER_ID, {}))
+    """Open Pending for re-planning and translate the project statuses."""
+    env = api.Environment(cr, SUPERUSER_ID, {})
+    allow_replan_on_pending(env)
+    translate_project_statuses(env)

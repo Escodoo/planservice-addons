@@ -9,6 +9,7 @@ from odoo.tests import TransactionCase, tagged
 from odoo.tools.float_utils import float_compare
 
 from odoo.addons.planservice_project_plan_matrix.hooks import (
+    allow_replan_on_pending,
     link_plan_tasks,
     link_role_stage,
     translate_project_statuses,
@@ -444,6 +445,12 @@ class TestProjectPlanMatrix(TransactionCase):
     def test_project_without_status_can_replan(self):
         self.project.project_status = False
         self.assertTrue(self.project.can_replan)
+
+    def test_migration_allow_replan_on_pending(self):
+        pending = self.env.ref("project_status.project_status_pending")
+        pending.allow_replan = False
+        allow_replan_on_pending(self.env)
+        self.assertTrue(pending.allow_replan)
 
     def test_translate_project_statuses(self):
         self.env["res.lang"]._activate_lang("pt_BR")
