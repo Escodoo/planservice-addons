@@ -130,7 +130,68 @@ class ProjectProject(models.Model):
                 if new_cells:
                     line.cell_ids = new_cells
 
+    @api.model
+    def _get_ordered_project_statuses(self, company):
+        return self.env["project.status"].search(
+            [("company_id", "in", [False, company.id])],
+            order="status_sequence, id",
+        )
+
+    def _get_next_project_status(self):
+        """Status a project may move to: the next one, or the first one if none.
+
+        Project statuses only move forward, one step at a time; the plan locks
+        as soon as the project leaves the statuses that allow re-planning.
+        """
+        self.ensure_one()
+        statuses = self._get_ordered_project_statuses(
+            self.company_id or self.env.company
+        )
+        current = self.project_status
+        if not current:
+            return statuses[:1]
+        return statuses.filtered(
+            lambda status: (status.status_sequence, status.id)
+            > (current.status_sequence, current.id)
+        )[:1]
+
+    def _check_project_status_step(self, status_id):
+        new_status = self.env["project.status"].browse(status_id)
+        for project in self:
+            if new_status == project.project_status:
+                continue
+            next_status = project._get_next_project_status()
+            if new_status != next_status:
+                raise UserError(
+                    _(
+                        "The status of %(project)s only moves forward one step "
+                        "at a time. Next status: %(next)s.",
+                        project=project.display_name,
+                        next=next_status.name or _("none, it is the last one"),
+                    )
+                )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("project_status"):
+                company = self.env["res.company"].browse(vals.get("company_id"))
+                first = self._get_ordered_project_statuses(company or self.env.company)[
+                    :1
+                ]
+                if vals["project_status"] != first.id:
+                    raise UserError(
+                        _(
+                            "A new project must start in the first status: "
+                            "%(first)s.",
+                            first=first.name,
+                        )
+                    )
+        return super().create(vals_list)
+
     def write(self, vals):
+        if "project_status" in vals:
+            self._check_project_status_step(vals["project_status"])
         res = super().write(vals)
         if {"date_start", "date"} & set(vals):
             self.filtered("can_replan")._update_plan_cells()

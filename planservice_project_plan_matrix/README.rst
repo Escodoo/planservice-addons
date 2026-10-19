@@ -37,6 +37,9 @@ for planning resources by month.
   re-planning (**Pending** by default, the status new projects get;
   projects without a status stay open). In other statuses the buttons
   are hidden and the matrix is read-only.
+- Project statuses only move forward, one step at a time (no status →
+  first status → next …), for every user. Once a project leaves Pending
+  its plan stays locked.
 - Generate Plan always rewrites the task hour plans from the matrix,
   including hand-made changes; logged timesheets are never changed.
 
@@ -82,7 +85,8 @@ Usage
 8. Tasks that already have timesheets are re-planned too; logged hours
    are never changed.
 9. Moving the project to a status without **Allow Re-planning** (for
-   example **In Progress**) locks the plan. Configure the flag under
+   example **In Progress**) locks the plan for good: project statuses
+   only move forward, one step at a time. Configure the flag under
    **Project > Configuration > Project Statuses**.
 
 Bug Tracker

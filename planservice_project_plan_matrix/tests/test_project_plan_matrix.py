@@ -443,8 +443,10 @@ class TestProjectPlanMatrix(TransactionCase):
         self.assertTrue(project.can_replan)
 
     def test_project_without_status_can_replan(self):
-        self.project.project_status = False
-        self.assertTrue(self.project.can_replan)
+        project = self.env["project.project"].create(
+            {"name": "No status", "project_status": False}
+        )
+        self.assertTrue(project.can_replan)
 
     def test_migration_allow_replan_on_pending(self):
         pending = self.env.ref("project_status.project_status_pending")
@@ -499,15 +501,44 @@ class TestProjectPlanMatrix(TransactionCase):
         self.project.date = date(2026, 4, 30)
         self.assertEqual(len(line.cell_ids), 3)
 
-    def test_unlocked_project_allows_replanning_again(self):
-        line = self._create_line()
-        self._lock_project()
-        self.project.project_status = self.env.ref(
-            "project_status.project_status_pending"
+    def test_project_status_only_moves_forward(self):
+        pending = self.env.ref("project_status.project_status_pending")
+        in_progress = self.env.ref("project_status.project_status_in_progress")
+        complete = self.env.ref("project_status.project_status_complete")
+        self.assertEqual(self.project._get_next_project_status(), in_progress)
+        with self.assertRaises(UserError):
+            self.project.project_status = complete
+        self.project.project_status = in_progress
+        with self.assertRaises(UserError):
+            self.project.project_status = pending
+        with self.assertRaises(UserError):
+            self.project.project_status = False
+        self.project.project_status = complete
+        self.assertFalse(self.project._get_next_project_status())
+        with self.assertRaises(UserError):
+            self.project.project_status = in_progress
+
+    def test_project_without_status_starts_at_first(self):
+        project = self.env["project.project"].create(
+            {"name": "No status", "project_status": False}
         )
-        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
-        self.project.action_generate_plan()
-        self.assertEqual(self._task_of(line).allocated_hours, 80.0)
+        with self.assertRaises(UserError):
+            project.project_status = self.env.ref(
+                "project_status.project_status_in_progress"
+            )
+        project.project_status = self.env.ref("project_status.project_status_pending")
+        self.assertTrue(project.can_replan)
+
+    def test_new_project_cannot_skip_first_status(self):
+        with self.assertRaises(UserError):
+            self.env["project.project"].create(
+                {
+                    "name": "Skipping",
+                    "project_status": self.env.ref(
+                        "project_status.project_status_in_progress"
+                    ).id,
+                }
+            )
 
     def _create_stage_month(self, project=None):
         return self.env["project.plan.stage.month"].create(

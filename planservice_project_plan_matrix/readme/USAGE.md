@@ -17,5 +17,6 @@
    - Task hour plan lines are populated with monthly distribution
 8. Tasks that already have timesheets are re-planned too; logged hours are never changed.
 9. Moving the project to a status without **Allow Re-planning** (for example
-   **In Progress**) locks the plan. Configure the flag under
+   **In Progress**) locks the plan for good: project statuses only move forward,
+   one step at a time. Configure the flag under
    **Project > Configuration > Project Statuses**.
