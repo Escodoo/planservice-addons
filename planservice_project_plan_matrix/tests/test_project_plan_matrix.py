@@ -463,8 +463,8 @@ class TestProjectPlanMatrix(TransactionCase):
         name = self.env.cr.fetchone()[0]
         self.assertEqual(name["pt_BR"], "Pendente")
         # Without English active, Odoo also stores the value as the source.
-        if self.env["res.lang"]._lang_get("en_US"):
-            self.assertEqual(name["en_US"], "Pending")
+        english = self.env["res.lang"]._lang_get("en_US")
+        self.assertEqual(name["en_US"], "Pending" if english else "Pendente")
 
     def test_locked_project_rejects_plan_actions(self):
         line = self._create_line()
@@ -508,3 +508,55 @@ class TestProjectPlanMatrix(TransactionCase):
         line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
         self.project.action_generate_plan()
         self.assertEqual(self._task_of(line).allocated_hours, 80.0)
+
+    def _create_stage_month(self, project=None):
+        return self.env["project.plan.stage.month"].create(
+            {
+                "project_id": (project or self.project).id,
+                "stage_id": self.stage.id,
+                "date_from": date(2026, 1, 1),
+                "date_to": date(2026, 1, 31),
+            }
+        )
+
+    def test_plan_records_editable_while_planning(self):
+        other_project = self.env["project.project"].create({"name": "Other"})
+        line = self._create_line()
+        line.write({"project_id": other_project.id})
+        self.assertEqual(line.project_id, other_project)
+        line.cell_ids[:1].unlink()
+        mapping = self._create_stage_month()
+        mapping.date_to = date(2026, 2, 28)
+        mapping.unlink()
+        line.unlink()
+        self.assertFalse(line.exists())
+
+    def test_locked_project_rejects_plan_record_changes(self):
+        line = self._create_line()
+        mapping = self._create_stage_month()
+        other_project = self.env["project.project"].create({"name": "Other"})
+        self._lock_project()
+        with self.assertRaises(UserError):
+            line.cell_ids[:1].unlink()
+        with self.assertRaises(UserError):
+            mapping.date_to = date(2026, 2, 28)
+        with self.assertRaises(UserError):
+            mapping.unlink()
+        with self.assertRaises(UserError):
+            self._create_line(project_id=other_project.id).write(
+                {"project_id": self.project.id}
+            )
+
+    def test_status_helpers_without_default_statuses(self):
+        self.env["res.lang"]._activate_lang("pt_BR")
+        self.env["ir.model.data"].search(
+            [("module", "=", "project_status"), ("model", "=", "project.status")]
+        ).unlink()
+        self.env.registry.clear_cache()
+        allow_replan_on_pending(self.env)
+        translate_project_statuses(self.env)
+        self.assertFalse(
+            self.env.ref(
+                "project_status.project_status_pending", raise_if_not_found=False
+            )
+        )
