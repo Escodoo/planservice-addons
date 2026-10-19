@@ -261,21 +261,64 @@ class TestProjectPlanMatrix(TransactionCase):
         self.project.action_generate_plan()
         self.assertEqual(self._task_of(line), task)
 
-    def test_migration_link_role_stage(self):
-        # Simulate a database from before the module stage existed.
-        self.env.ref("planservice_project_plan_matrix.task_type_role").unlink()
-        self.env["ir.model.data"].search(
+    def _role_stage_xmlid(self):
+        return self.env["ir.model.data"].search(
             [
                 ("module", "=", "planservice_project_plan_matrix"),
                 ("name", "=", "task_type_role"),
             ]
-        ).unlink()
+        )
+
+    def _drop_role_stage(self):
+        """Simulate a database from before the module stage existed."""
+        self.env.ref("planservice_project_plan_matrix.task_type_role").unlink()
+        self._role_stage_xmlid().unlink()
+
+    def test_migration_link_role_stage(self):
+        self._drop_role_stage()
         old_stage = self.env["project.task.type"].create({"name": "Cargos"})
         link_role_stage(self.env)
         self.env.registry.clear_cache()
         stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
         self.assertEqual(stage.name.lower(), "cargos")
         self.assertLessEqual(stage.id, old_stage.id)
+
+    def test_migration_link_role_stage_already_linked(self):
+        stage = self.env.ref("planservice_project_plan_matrix.task_type_role")
+        self.env["project.task.type"].create({"name": "Cargos"})
+        link_role_stage(self.env)
+        self.env.registry.clear_cache()
+        self.assertEqual(
+            self.env.ref("planservice_project_plan_matrix.task_type_role"), stage
+        )
+
+    def test_migration_link_role_stage_without_old_stage(self):
+        self._drop_role_stage()
+        self.env.cr.execute(
+            """
+            UPDATE project_task_type SET name = '{"en_US": "Other"}'
+            WHERE name->>'en_US' ILIKE 'cargos' OR name->>'pt_BR' ILIKE 'cargos'
+            """
+        )
+        self.env.invalidate_all()
+        link_role_stage(self.env)
+        self.assertFalse(self._role_stage_xmlid())
+
+    def test_migration_link_plan_tasks_already_linked(self):
+        line = self._create_line()
+        line.cell_ids.filtered(lambda c: c.month.month == 1).capacity_percent = 50.0
+        self.project.action_generate_plan()
+        task = self._task_of(line)
+        unlinked = self.env["project.task"].create(
+            {
+                "name": "Project Manager",
+                "project_id": self.project.id,
+                "user_ids": [Command.link(self.user.id)],
+            }
+        )
+        link_plan_tasks(self.env)
+        self.assertEqual(self._task_of(line), task)
+        self.assertFalse(unlinked.plan_line_id)
 
     def test_project_without_dates(self):
         project = self.env["project.project"].create({"name": "No dates"})
