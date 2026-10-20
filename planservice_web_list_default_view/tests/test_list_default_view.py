@@ -36,6 +36,18 @@ class TestListDefaultView(TransactionCase):
         action = self._create_action("kanban,form")
         self.assertEqual(self._modes(action), ["kanban", "form"])
 
+    def test_form_first_keeps_order(self):
+        action = self._create_action("form,list,graph")
+        self.assertEqual(self._modes(action), ["form", "list", "graph"])
+
+    def test_calendar_first_keeps_order(self):
+        action = self._create_action("calendar,list,form")
+        self.assertEqual(self._modes(action), ["calendar", "list", "form"])
+
+    def test_report_first_keeps_order(self):
+        action = self._create_action("pivot,graph,list")
+        self.assertEqual(self._modes(action), ["pivot", "graph", "list"])
+
     def test_explicit_view_ids(self):
         kanban = self.env.ref("base.res_partner_kanban_view")
         tree = self.env.ref("base.view_partner_tree")

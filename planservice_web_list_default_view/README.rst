@@ -22,12 +22,16 @@ Planservice Web List Default View
 
 |badge1| |badge2| |badge3|
 
-Open every window action in list view by default.
+Open in list view every window action that would open in kanban.
 
 Odoo shows the first view of an action's view list when a menu is
-opened. This module moves the list view to the first position for every
-action that has one, so all apps open in list view instead of kanban.
-The other views remain available in the view switcher.
+opened. This module moves the list view to the first position of every
+action that starts with kanban and has a list view, so apps open in list
+view instead of kanban. The other views remain available in the view
+switcher.
+
+Actions that start with another view, such as a form, a calendar or a
+report, keep their order.
 
 **Table of contents**
 
@@ -41,9 +45,10 @@ Install **Planservice Web List Default View**. No configuration is
 needed.
 
 The change applies to all window actions of the database, including apps
-installed later. Actions without a list view are not changed.
-Uninstalling the module restores the original default view of each
-action.
+installed later. Actions without a list view, or that do not start with
+kanban, are not changed. On mobile, Odoo keeps opening in the action's
+mobile view (kanban by default). Uninstalling the module restores the
+original default view of each action.
 
 Bug Tracker
 ===========
@@ -72,6 +77,14 @@ Contributors
 
 Maintainers
 -----------
+
+.. |maintainer-DenerWilliam| image:: https://github.com/DenerWilliam.png?size=40px
+    :target: https://github.com/DenerWilliam
+    :alt: DenerWilliam
+
+Current maintainer:
+
+|maintainer-DenerWilliam| 
 
 This module is part of the `Escodoo/planservice-addons <https://github.com/Escodoo/planservice-addons/tree/18.0/planservice_web_list_default_view>`_ project on GitHub.
 

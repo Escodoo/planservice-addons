@@ -10,6 +10,7 @@
     "website": "https://github.com/Escodoo/planservice-addons",
     "license": "AGPL-3",
     "development_status": "Beta",
+    "maintainers": ["DenerWilliam"],
     "depends": ["base", "web"],
     "installable": True,
 }
