@@ -20,8 +20,3 @@ msgstr ""
 #: model:ir.model,name:planservice_web_list_default_view.model_ir_actions_act_window
 msgid "Action Window"
 msgstr "Janela de ação"
-
-#. module: planservice_web_list_default_view
-#: model:ir.model.fields,field_description:planservice_web_list_default_view.field_ir_actions_act_window__smart_search
-msgid "Smart Search"
-msgstr "Pesquisa inteligente"
