@@ -607,3 +607,23 @@ class TestProjectPlanMatrix(TransactionCase):
         self.assertEqual(effective.get("optional"), "show")
         self.assertIn(effective.get("invisible"), ("0", "False", None))
         self.assertEqual(progress.get("optional"), "hide")
+
+    def test_task_form_planned_dates_are_readonly(self):
+        view = self.env.ref("project.view_task_form2")
+        arch = self.env["project.task"].get_views([(view.id, "form")])["views"]["form"][
+            "arch"
+        ]
+        root = etree.fromstring(arch)
+        for name in ("planned_date_start", "planned_date_end"):
+            with self.subTest(field=name):
+                field = root.xpath(f"//field[@name='{name}']")[0]
+                self.assertIn(field.get("readonly"), ("1", "True"))
+
+    def test_planned_dates_view_extends_project_timeline(self):
+        """Sibling views apply in install order, so extend the one with the field."""
+        view = self.env.ref(
+            "planservice_project_plan_matrix.view_task_form_planned_dates_readonly"
+        )
+        self.assertEqual(
+            view.inherit_id, self.env.ref("project_timeline.view_task_form2")
+        )

@@ -34,15 +34,25 @@
             >
                 <attribute name="readonly">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='planned_date_start']" position="attributes">
-                <attribute name="readonly">1</attribute>
-            </xpath>
-            <xpath expr="//field[@name='planned_date_end']" position="attributes">
-                <attribute name="readonly">1</attribute>
-            </xpath>
             <xpath expr="//div/field[@name='date_deadline']" position="attributes">
                 <attribute name="readonly">1</attribute>
             </xpath>
+        </field>
+    </record>
+    <!-- The planned dates come from project_timeline, a sibling of the hour
+         plan view: inheriting it here keeps this independent of the order in
+         which the modules were installed. -->
+    <record id="view_task_form_planned_dates_readonly" model="ir.ui.view">
+        <field name="name">project.task.form.planned.dates.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timeline.view_task_form2" />
+        <field name="arch" type="xml">
+            <field name="planned_date_start" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
+            <field name="planned_date_end" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </field>
         </field>
     </record>
     <record id="view_task_kanban_deadline_readonly" model="ir.ui.view">
