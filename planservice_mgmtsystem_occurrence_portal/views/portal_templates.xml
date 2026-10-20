@@ -227,7 +227,7 @@
                                     name="containment_text"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                    t-esc="occurrence.containment_text or ''"
+                                    t-out="occurrence.containment_text or ''"
                                 />
                             </div>
                             <div class="mb-3">
@@ -239,7 +239,7 @@
                                     name="cause_justification"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                    t-esc="occurrence.cause_justification or ''"
+                                    t-out="occurrence.cause_justification or ''"
                                 />
                             </div>
                             <div class="row">
@@ -305,7 +305,7 @@
                                     name="final_condition"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                    t-esc="occurrence.final_condition or ''"
+                                    t-out="occurrence.final_condition or ''"
                                 />
                             </div>
                         </div>
