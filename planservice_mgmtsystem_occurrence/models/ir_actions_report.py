@@ -5,7 +5,7 @@ from odoo import models
 from odoo.exceptions import UserError
 from odoo.tools.pdf import merge_pdf
 
-OCCURRENCE_REPORT_NAME = "mgmtsystem_nonconformity.report_mgmtsystem_nonconformity"
+OCCURRENCE_REPORT_NAME = "planservice_mgmtsystem_occurrence.report_occurrence_draft"
 OCCURRENCE_OFFICIAL_REPORT_NAME = (
     "planservice_mgmtsystem_occurrence.report_occurrence_official"
 )

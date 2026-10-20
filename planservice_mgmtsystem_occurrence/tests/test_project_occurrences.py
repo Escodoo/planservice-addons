@@ -49,3 +49,34 @@ class TestProjectOccurrences(OccurrenceTestCase):
         action = self.project.action_new_occurrence()
         self.assertEqual(action["view_mode"], "form")
         self.assertEqual(action["context"]["default_project_id"], self.project.id)
+
+    def _project_user(self, *groups):
+        return self.env["res.users"].create(
+            {
+                "name": "Project only",
+                "login": f"project_only_{len(groups)}",
+                "groups_id": [(6, 0, [self.env.ref("project.group_project_user").id])]
+                + [(4, self.env.ref(group).id) for group in groups],
+            }
+        )
+
+    def _form_buttons(self, user):
+        form = self.project.with_user(user).get_views([(False, "form")])
+        arch = form["views"]["form"]["arch"]
+        return {
+            name
+            for name in ("action_view_occurrences", "action_new_occurrence")
+            if name in arch
+        }
+
+    def test_project_form_opens_without_occurrence_access(self):
+        user = self._project_user()
+        self.assertFalse(self._form_buttons(user))
+        project = self.project.with_user(user)
+        self.assertEqual(project.read(["name"])[0]["name"], "Occurrence Project")
+
+    def test_viewer_sees_the_count_but_cannot_create(self):
+        user = self._project_user("mgmtsystem.group_mgmtsystem_viewer")
+        self._create_occurrence(self.project)
+        self.assertEqual(self._form_buttons(user), {"action_view_occurrences"})
+        self.assertEqual(self.project.with_user(user).occurrence_count, 1)

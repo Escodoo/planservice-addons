@@ -393,10 +393,10 @@ for release to the supplier and waiting verification.</p>
 <h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
 <p>No extra settings are required. Immediate action types and the Field
 Occurrence origin are created on install.</p>
-<p>Optional stages <em>Analysis</em> and <em>Action Plan</em> from the base module stay
-available but are folded in the kanban. The occurrence flow uses
-<strong>Draft</strong>, <strong>Waiting Supplier</strong>, <strong>In Progress</strong>, <strong>Waiting
-Verification</strong> and <strong>Closed</strong>.</p>
+<p>The occurrence flow uses four stages: <strong>Inspector (opening)</strong>,
+<strong>Supplier (waiting)</strong>, <strong>Inspector (closing)</strong> and <strong>Closed</strong>. The base
+stages <em>Analysis</em>, <em>Action Plan</em>, <em>In Progress</em> and <em>Cancelled</em> are
+archived.</p>
 </div>
 <div class="section" id="usage">
 <h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
@@ -409,7 +409,9 @@ answer.</li>
 disposition and the treatment plan, then clicks <strong>Submit Response</strong>.</li>
 <li>The inspector reviews the record and chooses <strong>Approve and Release</strong>,
 <strong>Approve with Comments</strong>, <strong>Reject</strong>, <strong>Keep Open</strong> or
-<strong>Reclassify</strong>.</li>
+<strong>Reclassify</strong>. <strong>Reject</strong> freezes the revision as a PDF snapshot and
+returns the record to the supplier as the next revision, with the
+response kept for adjustment.</li>
 </ol>
 <p>Closing still requires the inspector opinion. Treatment actions must be
 done before the occurrence is closed, except when the disposition is

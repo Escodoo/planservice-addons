@@ -5,27 +5,24 @@ import logging
 
 from odoo import SUPERUSER_ID, api
 
+from odoo.addons.planservice_mgmtsystem_occurrence.hooks import rename_stages
+
 _logger = logging.getLogger(__name__)
 
-# Stage records are noupdate, so renamed labels from data/ never reach
-# databases that already have the module installed. Write them here.
-STAGE_NAMES = {
-    "mgmtsystem_nonconformity.stage_draft": "Inspetor (abertura)",
-    "planservice_mgmtsystem_occurrence.stage_waiting_supplier": (
-        "Fornecedor (aguardando)"
-    ),
-    "planservice_mgmtsystem_occurrence.stage_waiting_verification": (
-        "Inspetor (fechamento)"
-    ),
-    "mgmtsystem_nonconformity.stage_done": "Encerrada",
-}
+# Base stages outside the occurrence flow. Stage records are noupdate, so
+# databases that already have the module installed are archived here.
+ARCHIVED_STAGES = (
+    "mgmtsystem_nonconformity.stage_analysis",
+    "mgmtsystem_nonconformity.stage_pending",
+    "mgmtsystem_nonconformity.stage_open",
+    "mgmtsystem_nonconformity.stage_cancel",
+)
 
 
 def _move_open_to_waiting_supplier(env):
     """Occurrences "open" were merged into the supplier step.
 
     The ids are logged before the move so the change can be rolled back.
-    "cancel" is not touched here: its destination is still undecided.
     """
     open_stage = env.ref("mgmtsystem_nonconformity.stage_open", False)
     waiting = env.ref("planservice_mgmtsystem_occurrence.stage_waiting_supplier", False)
@@ -44,14 +41,15 @@ def _move_open_to_waiting_supplier(env):
     occurrences.write({"stage_id": waiting.id})
 
 
+def _archive_base_stages(env):
+    for xmlid in ARCHIVED_STAGES:
+        stage = env.ref(xmlid, raise_if_not_found=False)
+        if stage:
+            stage.active = False
+
+
 def migrate(cr, version):
     env = api.Environment(cr, SUPERUSER_ID, {})
-    for xmlid, name in STAGE_NAMES.items():
-        stage = env.ref(xmlid, raise_if_not_found=False)
-        if not stage:
-            continue
-        for lang in ("en_US", "pt_BR"):
-            localized = stage.with_context(lang=lang)
-            if localized.name != name:
-                localized.name = name
+    rename_stages(env)
     _move_open_to_waiting_supplier(env)
+    _archive_base_stages(env)

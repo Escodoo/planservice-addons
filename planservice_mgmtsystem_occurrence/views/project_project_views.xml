@@ -13,6 +13,7 @@
                     type="object"
                     name="action_view_occurrences"
                     icon="fa-exclamation-triangle"
+                    groups="mgmtsystem.group_mgmtsystem_viewer"
                 >
                     <field
                         name="occurrence_count"
@@ -26,6 +27,7 @@
                     name="action_new_occurrence"
                     icon="fa-plus"
                     string="New occurrence"
+                    groups="mgmtsystem.group_mgmtsystem_user"
                 />
             </xpath>
         </field>

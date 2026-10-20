@@ -5,7 +5,7 @@ from odoo.tests import tagged
 
 from .common import OccurrenceTestCase
 
-REPORT_REF = "mgmtsystem_nonconformity.report_mgmtsystem_nonconformity"
+REPORT_REF = "planservice_mgmtsystem_occurrence.report_occurrence_draft"
 
 
 @tagged("post_install", "-at_install")

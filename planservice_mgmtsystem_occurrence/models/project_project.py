@@ -10,6 +10,7 @@ class ProjectProject(models.Model):
     occurrence_count = fields.Integer(
         string="Occurrences",
         compute="_compute_occurrence_count",
+        groups="mgmtsystem.group_mgmtsystem_viewer",
     )
 
     def _compute_occurrence_count(self):

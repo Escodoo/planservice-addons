@@ -1,11 +1,11 @@
 <odoo noupdate="1">
     <record id="stage_waiting_supplier" model="mgmtsystem.nonconformity.stage">
-        <field name="name">Fornecedor (aguardando)</field>
+        <field name="name">Supplier (waiting)</field>
         <field name="sequence">25</field>
         <field name="state">waiting_supplier</field>
     </record>
     <record id="stage_waiting_verification" model="mgmtsystem.nonconformity.stage">
-        <field name="name">Inspetor (fechamento)</field>
+        <field name="name">Inspector (closing)</field>
         <field name="sequence">175</field>
         <field name="state">waiting_verification</field>
     </record>
@@ -13,24 +13,37 @@
         id="mgmtsystem_nonconformity.stage_draft"
         model="mgmtsystem.nonconformity.stage"
     >
-        <field name="name">Inspetor (abertura)</field>
+        <field name="name">Inspector (opening)</field>
     </record>
     <record
         id="mgmtsystem_nonconformity.stage_done"
         model="mgmtsystem.nonconformity.stage"
     >
-        <field name="name">Encerrada</field>
+        <field name="name">Closed</field>
     </record>
+    <!-- Base stages outside the occurrence flow. -->
     <record
         id="mgmtsystem_nonconformity.stage_analysis"
         model="mgmtsystem.nonconformity.stage"
     >
-        <field name="fold" eval="True" />
+        <field name="active" eval="False" />
     </record>
     <record
         id="mgmtsystem_nonconformity.stage_pending"
         model="mgmtsystem.nonconformity.stage"
     >
-        <field name="fold" eval="True" />
+        <field name="active" eval="False" />
+    </record>
+    <record
+        id="mgmtsystem_nonconformity.stage_open"
+        model="mgmtsystem.nonconformity.stage"
+    >
+        <field name="active" eval="False" />
+    </record>
+    <record
+        id="mgmtsystem_nonconformity.stage_cancel"
+        model="mgmtsystem.nonconformity.stage"
+    >
+        <field name="active" eval="False" />
     </record>
 </odoo>

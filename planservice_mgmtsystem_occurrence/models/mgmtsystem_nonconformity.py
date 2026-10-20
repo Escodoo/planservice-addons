@@ -7,6 +7,7 @@ import zipfile
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from .ir_actions_report import OCCURRENCE_REPORT_NAME
 from .ir_sequence import NONCONFORMITY_SEQUENCE_CODE
 from .occurrence_selection import (
     CLASSIFICATION_SELECTION,
@@ -281,15 +282,10 @@ class MgmtsystemNonconformity(models.Model):
         """Freeze the revision being decided as a read-only PDF with metadata."""
         snapshots = self.env["mgmtsystem.nonconformity.revision"]
         for rec in self:
-            # Render through the action, not the report name: the name points to
-            # the base report, which has no paper format and leaves a wide margin.
-            draft_report = self.env.ref(
-                "planservice_mgmtsystem_occurrence.action_occurrence_report_draft"
-            )
             content, _report_type = (
                 self.env["ir.actions.report"]
                 .with_context(occurrence_official=True)
-                ._render_qweb_pdf(draft_report.id, rec.ids)
+                ._render_qweb_pdf(OCCURRENCE_REPORT_NAME, rec.ids)
             )
             filename = rec._get_report_filename(official=True, revision=rec.revision)
             attachment = self.env["ir.attachment"].create(
@@ -589,9 +585,10 @@ class MgmtsystemNonconformity(models.Model):
                 used_names.add(name)
                 archive.writestr(name, attachment.raw)
         filename = self._get_report_filename(official=True, revision=self.revision)
+        suffix = self.with_context(lang=self.env.user.lang).env._("attachments")
         return self.env["ir.attachment"].create(
             {
-                "name": f"{filename} - anexos.zip",
+                "name": f"{filename} - {suffix}.zip",
                 "raw": buffer.getvalue(),
                 "mimetype": "application/zip",
                 "res_model": self._name,
@@ -630,7 +627,7 @@ class MgmtsystemNonconformity(models.Model):
             rec._move_to_stage("waiting_supplier")
             rec.message_post(
                 body=self.env._(
-                    "Occurrence rejected and returned to the inspector as "
+                    "Occurrence rejected and returned to the supplier as "
                     "revision %s.",
                     rec.revision,
                 ),

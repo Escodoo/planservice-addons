@@ -235,7 +235,7 @@ class TestOccurrencePrinting(OccurrenceTestCase):
         zip_attachment = self.nc._create_attachments_zip()
         self.assertEqual(
             zip_attachment.name,
-            f"{self.nc.ref} - {self.nc.revision} - anexos.zip",
+            f"{self.nc.ref} - {self.nc.revision} - attachments.zip",
         )
         self.assertEqual(
             (zip_attachment.res_model, zip_attachment.res_id),
@@ -283,17 +283,28 @@ class TestOccurrencePrinting(OccurrenceTestCase):
                 sorted(archive.namelist()), ["rev00-axis.jpg", "rev01-lab.pdf"]
             )
 
-    def test_snapshot_is_rendered_with_the_draft_paper_format(self):
+    def test_draft_report_name_resolves_to_the_draft_action(self):
+        """The base print has no paper format: the draft must not resolve to it."""
         draft = self.env.ref(
             "planservice_mgmtsystem_occurrence.action_occurrence_report_draft"
         )
+        report = self.env["ir.actions.report"]._get_report(OCCURRENCE_REPORT_NAME)
+        self.assertEqual(report, draft)
+        self.assertEqual(
+            report.paperformat_id,
+            self.env.ref(
+                "planservice_mgmtsystem_occurrence.paperformat_occurrence_record"
+            ),
+        )
+
+    def test_snapshot_is_rendered_with_the_draft_print(self):
         report_model = type(self.env["ir.actions.report"])
         original = report_model._render_qweb_pdf
         with patch.object(
             report_model, "_render_qweb_pdf", autospec=True, side_effect=original
         ) as render:
             self.nc._create_revision_snapshot("rejected")
-        self.assertEqual(render.call_args.args[1], draft.id)
+        self.assertEqual(render.call_args.args[1], OCCURRENCE_REPORT_NAME)
 
     def test_base_release_link_is_empty_without_the_portal(self):
         from ..models.mgmtsystem_nonconformity import MgmtsystemNonconformity
