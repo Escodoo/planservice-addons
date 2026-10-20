@@ -24,10 +24,8 @@ def _move_open_to_waiting_supplier(env):
 
     The ids are logged before the move so the change can be rolled back.
     """
-    open_stage = env.ref("mgmtsystem_nonconformity.stage_open", False)
-    waiting = env.ref("planservice_mgmtsystem_occurrence.stage_waiting_supplier", False)
-    if not open_stage or not waiting:
-        return
+    open_stage = env.ref("mgmtsystem_nonconformity.stage_open")
+    waiting = env.ref("planservice_mgmtsystem_occurrence.stage_waiting_supplier")
     occurrences = (
         env["mgmtsystem.nonconformity"]
         .with_context(active_test=False, tracking_disable=True)
@@ -43,9 +41,7 @@ def _move_open_to_waiting_supplier(env):
 
 def _archive_base_stages(env):
     for xmlid in ARCHIVED_STAGES:
-        stage = env.ref(xmlid, raise_if_not_found=False)
-        if stage:
-            stage.active = False
+        env.ref(xmlid).active = False
 
 
 def migrate(cr, version):
