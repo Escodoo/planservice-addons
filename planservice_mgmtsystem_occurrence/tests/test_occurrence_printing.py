@@ -132,16 +132,14 @@ class TestOccurrencePrinting(OccurrenceTestCase):
         )
 
     def test_filename_puts_project_code_and_name_without_spaces(self):
-        if "code" not in self.env["project.project"]._fields:
-            self.skipTest("project.project has no code field in this database")
-        project = self.env["project.project"].create(
-            {"name": "Projeto Norte Sul", "code": "PXXX"}
-        )
+        project = self.env["project.project"].create({"name": "Projeto Norte Sul"})
         self.nc.project_id = project
-        self.assertEqual(
-            self.nc.get_occurrence_report_filename(),
-            f"(Draft) - PXXXProjetoNorteSul - {self.nc.ref}",
-        )
+        # The code comes from an optional module, so it is not a field here.
+        with patch.object(type(project), "code", "PXXX", create=True):
+            self.assertEqual(
+                self.nc.get_occurrence_report_filename(),
+                f"(Draft) - PXXXProjetoNorteSul - {self.nc.ref}",
+            )
 
     def test_filename_without_code_keeps_only_the_project_name(self):
         project = self.env["project.project"].create({"name": "Projeto Norte Sul"})
