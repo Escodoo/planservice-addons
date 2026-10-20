@@ -161,6 +161,11 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
         self.assertFalse(self.nc.verification_result)
         self.assertFalse(self.nc.evaluation_comments)
         self.assertEqual(self.nc.rejection_opinion, "Rework is incomplete.")
+        self.assertTrue(
+            self.nc.message_ids.filtered(
+                lambda msg: "returned to the supplier" in (msg.body or "")
+            )
+        )
 
     def test_supplier_response_is_prefilled_in_the_next_revision(self):
         self.nc.action_release_to_supplier()
@@ -328,7 +333,7 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
             self.env["ir.actions.report"]
             .with_context(lang="en_US")
             ._render_qweb_html(
-                "mgmtsystem_nonconformity.report_mgmtsystem_nonconformity",
+                "planservice_mgmtsystem_occurrence.report_occurrence_draft",
                 self.nc.ids,
             )
         )
@@ -546,7 +551,7 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
             self.env["ir.actions.report"]
             .with_context(lang=lang.code)
             ._render_qweb_html(
-                "mgmtsystem_nonconformity.report_mgmtsystem_nonconformity",
+                "planservice_mgmtsystem_occurrence.report_occurrence_draft",
                 self.nc.ids,
             )
         )
@@ -579,18 +584,28 @@ class TestOccurrenceWorkflow(OccurrenceTestCase):
 
     def test_stage_names_match_the_occurrence_flow(self):
         expected = {
-            "mgmtsystem_nonconformity.stage_draft": "Inspetor (abertura)",
+            "mgmtsystem_nonconformity.stage_draft": "Inspector (opening)",
             "planservice_mgmtsystem_occurrence.stage_waiting_supplier": (
-                "Fornecedor (aguardando)"
+                "Supplier (waiting)"
             ),
             "planservice_mgmtsystem_occurrence.stage_waiting_verification": (
-                "Inspetor (fechamento)"
+                "Inspector (closing)"
             ),
-            "mgmtsystem_nonconformity.stage_done": "Encerrada",
+            "mgmtsystem_nonconformity.stage_done": "Closed",
         }
         for xmlid, name in expected.items():
             with self.subTest(xmlid=xmlid):
-                self.assertEqual(self.env.ref(xmlid).name, name)
+                stage = self.env.ref(xmlid).with_context(lang="en_US")
+                self.assertEqual(stage.name, name)
+
+    def test_active_stages_have_an_occurrence_state(self):
+        Stage = self.env["mgmtsystem.nonconformity.stage"]
+        states = {key for key, _label in Stage._get_states()}
+        self.assertTrue(set(Stage.search([]).mapped("state")) <= states)
+        for name in ("analysis", "pending", "open", "cancel"):
+            with self.subTest(stage=name):
+                stage = self.env.ref(f"mgmtsystem_nonconformity.stage_{name}")
+                self.assertFalse(stage.active)
 
     def test_document_and_supplier_evidence(self):
         document = self.env["mgmtsystem.nonconformity.document"].create(

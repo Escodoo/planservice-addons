@@ -34,10 +34,10 @@
         <field name="report_type">qweb-pdf</field>
         <field
             name="report_name"
-        >mgmtsystem_nonconformity.report_mgmtsystem_nonconformity</field>
+        >planservice_mgmtsystem_occurrence.report_occurrence_draft</field>
         <field
             name="report_file"
-        >mgmtsystem_nonconformity.report_mgmtsystem_nonconformity</field>
+        >planservice_mgmtsystem_occurrence.report_occurrence_draft</field>
         <field name="print_report_name">object.get_occurrence_report_filename()</field>
         <field
             name="paperformat_id"

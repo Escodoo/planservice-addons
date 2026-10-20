@@ -24,10 +24,16 @@ class IrAttachment(models.Model):
             return
         if vals is not None and not CONTENT_FIELDS & set(vals):
             return
+        # Snapshots always belong to their occurrence.
+        occurrence_files = self.filtered(
+            lambda att: att.res_model == "mgmtsystem.nonconformity"
+        )
+        if not occurrence_files:
+            return
         snapshots = (
             self.env["mgmtsystem.nonconformity.revision"]
             .sudo()
-            .search_count([("attachment_id", "in", self.ids)], limit=1)
+            .search_count([("attachment_id", "in", occurrence_files.ids)], limit=1)
         )
         if snapshots:
             raise UserError(

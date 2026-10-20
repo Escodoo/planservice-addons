@@ -31,7 +31,7 @@
                         <td
                             style="width: 50%; text-align: center; white-space: nowrap;"
                         >
-                            <span t-esc="company.name" />
+                            <span t-out="company.name" />
                             <strong
                                 t-if="not env.context.get('occurrence_official')"
                                 style="color: #b00000;"
@@ -39,7 +39,7 @@
                         </td>
                         <td style="width: 25%; text-align: right;">
                             <span
-                            t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
+                            t-out="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"
                         />
                             &#160;
                             <span class="page" />
@@ -50,6 +50,12 @@
                 </table>
             </div>
         </xpath>
+    </template>
+
+    <!-- Own name for the draft print: the base report name belongs to the base
+         action, which has no paper format. -->
+    <template id="report_occurrence_draft">
+        <t t-call="mgmtsystem_nonconformity.report_mgmtsystem_nonconformity" />
     </template>
 
     <template id="report_occurrence_official">
@@ -596,7 +602,7 @@
                         </t>
                         <tr t-foreach="doc.action_ids" t-as="action">
                             <td>
-                                <t t-esc="action_index + 1" />
+                                <t t-out="action_index + 1" />
                             </td>
                             <td>
                                 <span t-field="action.name" />
