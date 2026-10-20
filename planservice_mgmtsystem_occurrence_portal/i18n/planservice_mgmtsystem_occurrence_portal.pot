@@ -167,6 +167,12 @@ msgid "Classification"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
+msgid "Closed"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Communication"
 msgstr ""
@@ -204,18 +210,6 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Document title"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence_portal
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
-msgid "Em aberto"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence_portal
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
-msgid "Encerrada"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
@@ -282,6 +276,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_home_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrences
 msgid "Occurrences"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
+msgid "Open"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
