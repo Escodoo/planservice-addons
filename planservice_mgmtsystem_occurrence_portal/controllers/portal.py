@@ -14,7 +14,6 @@ from odoo.tools import groupby as groupbyelem
 
 from odoo.addons.planservice_mgmtsystem_occurrence.models.occurrence_selection import (
     CLASSIFICATION_SELECTION,
-    DISPOSITION_SELECTION,
 )
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.addons.portal.controllers.portal import pager as portal_pager
@@ -51,7 +50,7 @@ class OccurrenceCustomerPortal(CustomerPortal):
             "all": {"label": _("All"), "domain": []},
             "open": {
                 "label": _("Open"),
-                "domain": [("state", "not in", ("done", "cancel"))],
+                "domain": [("state", "!=", "done")],
             },
             "closed": {
                 "label": _("Closed"),
@@ -341,12 +340,14 @@ class OccurrenceCustomerPortal(CustomerPortal):
         )
 
     def _occurrence_page_values(self, occurrence, access_token):
-        supplier_can_edit = occurrence.state in ("waiting_supplier", "open")
+        supplier_can_edit = occurrence.state == "waiting_supplier"
         values = {
             "page_name": "occurrence",
             "occurrence": occurrence,
             "supplier_can_edit": supplier_can_edit,
-            "disposition_selection": DISPOSITION_SELECTION,
+            "disposition_selection": occurrence._fields[
+                "disposition"
+            ]._description_selection(request.env),
             "error": request.params.get("error"),
         }
         return self._get_page_view_values(
@@ -369,7 +370,7 @@ class OccurrenceCustomerPortal(CustomerPortal):
         occurrence = self._get_occurrence(occurrence_id)
         if occurrence is None:
             return request.redirect("/my")
-        if occurrence.state not in ("waiting_supplier", "open"):
+        if occurrence.state != "waiting_supplier":
             return request.redirect(occurrence.access_url)
         vals = self._prepare_supplier_vals(post)
         if vals:
@@ -450,6 +451,12 @@ class OccurrenceCustomerPortal(CustomerPortal):
         )
         occurrence.sudo().write({"action_ids": [fields.Command.link(action.id)]})
 
+    def _revision_title(self, occurrence, title):
+        """Prefix a title with the occurrence revision, e.g. "rev01 - Axis photo"."""
+        if not title:
+            return False
+        return f"rev{occurrence.revision} - {title}"
+
     def _create_evidence_from_post(self, occurrence, post):
         names = request.httprequest.form.getlist("evidence_name")
         types = request.httprequest.form.getlist("evidence_type")
@@ -467,7 +474,7 @@ class OccurrenceCustomerPortal(CustomerPortal):
                     {
                         "nonconformity_id": occurrence.id,
                         "section": "supplier",
-                        "name": name,
+                        "name": self._revision_title(occurrence, name),
                         "evidence_type": evidence_type or "photo",
                         "date": today,
                     }
@@ -491,7 +498,7 @@ class OccurrenceCustomerPortal(CustomerPortal):
                     {
                         "nonconformity_id": occurrence.id,
                         "document_type": doc_type,
-                        "name": name or False,
+                        "name": self._revision_title(occurrence, name),
                     }
                 )
             )
