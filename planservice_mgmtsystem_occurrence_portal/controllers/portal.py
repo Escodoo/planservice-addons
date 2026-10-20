@@ -49,11 +49,11 @@ class OccurrenceCustomerPortal(CustomerPortal):
         filters = {
             "all": {"label": _("All"), "domain": []},
             "open": {
-                "label": _("Em aberto"),
+                "label": _("Open"),
                 "domain": [("state", "!=", "done")],
             },
             "closed": {
-                "label": _("Encerrada"),
+                "label": _("Closed"),
                 "domain": [("state", "=", "done")],
             },
         }
