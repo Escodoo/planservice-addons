@@ -85,6 +85,7 @@ msgid "<strong>Value:</strong>"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_stage__active
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__active
 msgid "Active"
 msgstr ""
@@ -192,6 +193,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__closure_decision__close
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Close"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
+msgid "Closed"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
@@ -396,12 +403,6 @@ msgid "Electrical"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
-msgid "Encerrada"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__work_division__finishing
 msgid "Enclosures, Roofing and Finishes"
 msgstr ""
@@ -451,13 +452,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.view_mgmtsystem_nonconformity_form
 msgid "Final Condition"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
-#: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_supplier
-msgid "Fornecedor (aguardando)"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
@@ -549,6 +543,19 @@ msgid "Inspector"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
+#: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_verification
+msgid "Inspector (closing)"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
+msgid "Inspector (opening)"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__note
 msgid "Inspector Comments"
 msgstr ""
@@ -583,19 +590,6 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Inspector — verification and closure"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
-msgid "Inspetor (abertura)"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
-#: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_verification
-msgid "Inspetor (fechamento)"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
@@ -833,7 +827,7 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
-msgid "Occurrence rejected and returned to the inspector as revision %s."
+msgid "Occurrence rejected and returned to the supplier as revision %s."
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
@@ -1321,6 +1315,13 @@ msgid "Supplier"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity_stage.py:0
+#: model:mgmtsystem.nonconformity.stage,name:planservice_mgmtsystem_occurrence.stage_waiting_supplier
+msgid "Supplier (waiting)"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__supplier_conclusion_date
 msgid "Supplier Conclusion Date"
 msgstr ""
@@ -1564,6 +1565,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity__area_protected__yes
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence.report_mgmtsystem_nonconformity_document
 msgid "Yes"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence/models/mgmtsystem_nonconformity.py:0
+msgid "attachments"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
