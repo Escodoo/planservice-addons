@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="view_task_form_hour_plan_readonly" model="ir.ui.view">
+        <field name="name">project.task.form.hour.plan.readonly</field>
+        <field name="model">project.task</field>
+        <field
+            name="inherit_id"
+            ref="planservice_project_task_hour_plan.view_task_form_hour_plan"
+        />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='hour_plan']/div[@invisible='not hour_plan_outdated']"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath
+                expr="//page[@name='hour_plan']/p[hasclass('text-muted')]"
+                position="attributes"
+            >
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='hour_plan']/group" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='hour_plan_ids']" position="attributes">
+                <attribute name="readonly">has_plan</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='allocated_hours'][hasclass('o_task_planned_hours')]"
+                position="attributes"
+            >
+                <attribute name="readonly">has_plan</attribute>
+            </xpath>
+            <xpath expr="//div/field[@name='date_deadline']" position="attributes">
+                <attribute name="readonly">has_plan</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!-- The planned dates come from project_timeline, a sibling of the hour
+         plan view: inheriting it here keeps this independent of the order in
+         which the modules were installed. -->
+    <record id="view_task_form_planned_dates_readonly" model="ir.ui.view">
+        <field name="name">project.task.form.planned.dates.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timeline.view_task_form2" />
+        <field name="arch" type="xml">
+            <field name="planned_date_start" position="attributes">
+                <attribute name="readonly">has_plan</attribute>
+            </field>
+            <field name="planned_date_end" position="attributes">
+                <attribute name="readonly">has_plan</attribute>
+            </field>
+        </field>
+    </record>
+    <record id="view_task_kanban_deadline_readonly" model="ir.ui.view">
+        <field name="name">project.task.kanban.deadline.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_deadline']" position="attributes">
+                <attribute name="readonly">has_plan</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_calendar_readonly" model="ir.ui.view">
+        <field name="name">project.task.calendar.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_calendar" />
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_all_calendar_readonly" model="ir.ui.view">
+        <field name="name">project.task.all.calendar.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_all_calendar" />
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_timeline_readonly" model="ir.ui.view">
+        <field name="name">project.task.timeline.readonly</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_timeline.project_task_timeline" />
+        <field name="arch" type="xml">
+            <xpath expr="//timeline" position="attributes">
+                <attribute name="edit">0</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_form_time_labels" model="ir.ui.view">
+        <field name="name">project.task.form.time.labels</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//field[@name='timesheet_ids']/list/field[@name='unit_amount']"
+                position="attributes"
+            >
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='timesheet_ids']/form//field[@name='unit_amount']"
+                position="attributes"
+            >
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+            <xpath expr="//label[@for='effective_hours']" position="attributes">
+                <attribute name="string">Actual Time</attribute>
+            </xpath>
+            <xpath
+                expr="//div[field[@name='allocated_hours'][hasclass('o_task_planned_hours')]]"
+                position="after"
+            >
+                <field
+                    name="effective_hours"
+                    widget="timesheet_uom_no_toggle"
+                    readonly="1"
+                    invisible="not allow_timesheets"
+                    groups="hr_timesheet.group_hr_timesheet_user"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_search_collaborator" model="ir.ui.view">
+        <field name="name">project.task.search.collaborator</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='user']" position="attributes">
+                <attribute name="string">Collaborator</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_task_form_hide_pages" model="ir.ui.view">
+        <field name="name">project.task.form.hide.pages</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <!-- Shown to project managers only, so they can see them (not hidden
+                 for everyone). -->
+            <xpath expr="//page[@name='sub_tasks_page']" position="attributes">
+                <attribute name="groups">project.group_project_manager</attribute>
+            </xpath>
+            <xpath expr="//page[@name='extra_info']" position="attributes">
+                <attribute name="groups">project.group_project_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!-- Planned and actual time are the columns the plan is followed by. -->
+    <record id="view_task_list_time_columns" model="ir.ui.view">
+        <field name="name">project.task.list.time.columns</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='allocated_hours']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+            <xpath
+                expr="//field[@name='effective_hours'][@optional]"
+                position="attributes"
+            >
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='progress'][@optional]" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
