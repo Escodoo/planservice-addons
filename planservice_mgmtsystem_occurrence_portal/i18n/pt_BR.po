@@ -6,8 +6,6 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-14 21:30+0000\n"
-"PO-Revision-Date: 2026-08-14 21:30+0000\n"
 "Last-Translator: Marcel Savegnago <marcel.savegnago@escodoo.com.br>\n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -22,6 +20,8 @@ msgid ""
 "<i class=\"fa fa-plus\"/>\n"
 "                                    Add document"
 msgstr ""
+"<i class=\"fa fa-plus\"/>\n"
+"                                    Adicionar documento"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
@@ -29,6 +29,8 @@ msgid ""
 "<i class=\"fa fa-plus\"/>\n"
 "                                    Add evidence"
 msgstr ""
+"<i class=\"fa fa-plus\"/>\n"
+"                                    Adicionar evidência"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
@@ -61,6 +63,33 @@ msgid ""
 "value=\"other\">Other</option>\n"
 "                                            </select>"
 msgstr ""
+"<select class=\"form-select\" name=\"document_type\">\n"
+"                                                <option value=\"\"/>\n"
+"                                                <option "
+"value=\"calculation_memo\">\n"
+"                                                    Memória de cálculo\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"revised_project\">\n"
+"                                                    Projeto revisado\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"report\">Relatório</option>\n"
+"                                                <option "
+"value=\"certificate\">\n"
+"                                                    Certificado\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"test\">Teste</option>\n"
+"                                                <option "
+"value=\"as_built\">As built</option>\n"
+"                                                <option "
+"value=\"punch_list\">\n"
+"                                                    Lista de pendências\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"other\">Outro</option>\n"
+"                                            </select>"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
@@ -85,76 +114,95 @@ msgid ""
 "value=\"other\">Other</option>\n"
 "                                            </select>"
 msgstr ""
+"<select class=\"form-select\" name=\"evidence_type\">\n"
+"                                                <option value=\"photo\">\n"
+"                                                    Fotografias\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"measurement\">\n"
+"                                                    Medições\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"sketch\">Croqui</option>\n"
+"                                                <option value=\"document\">\n"
+"                                                    Documento\n"
+"                                                </option>\n"
+"                                                <option value=\"report\">\n"
+"                                                    Relatório / Teste\n"
+"                                                </option>\n"
+"                                                <option "
+"value=\"other\">Outro</option>\n"
+"                                            </select>"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_searchbar_project
 msgid "<span class=\"small me-1 navbar-text\">Project:</span>"
-msgstr ""
+msgstr "Projeto:"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Description</strong>"
-msgstr ""
+msgstr "Descrição"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-#, fuzzy
 msgid "<strong>Inspector opinion:</strong>"
 msgstr "Parecer do inspetor:"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Location</strong>"
-msgstr ""
+msgstr "Local"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Opening Date</strong>"
-msgstr ""
+msgstr "Data de abertura"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Priority</strong>"
-msgstr ""
+msgstr "Prioridade"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-#, fuzzy
 msgid "<strong>Project / Work</strong>"
 msgstr "Projeto / Obra"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-msgid "<strong>Result:</strong>"
-msgstr ""
+msgid "<strong>Rejected in the previous revision:</strong>"
+msgstr "<strong>Recusada na revisão anterior:</strong>"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-#, fuzzy
+msgid "<strong>Result:</strong>"
+msgstr "Resultado:"
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Service / Activity</strong>"
 msgstr "Serviço / Atividade"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Supplier</strong>"
-msgstr ""
+msgstr "Fornecedor"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-#, fuzzy
 msgid "<strong>Work Division</strong>"
 msgstr "Divisão da obra"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
-#, fuzzy
 msgid "<strong>Work Stoppage</strong>"
 msgstr "Paralisação"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__access_warning
 msgid "Access warning"
-msgstr ""
+msgstr "Aviso de acesso"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
@@ -181,12 +229,6 @@ msgid "Classification"
 msgstr "Classificação"
 
 #. module: planservice_mgmtsystem_occurrence_portal
-#. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
-msgid "Closed"
-msgstr "Encerrada"
-
-#. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Communication"
 msgstr "Comunicação"
@@ -209,7 +251,7 @@ msgstr "Contenção executada e condição atual"
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model:ir.model.fields,help:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__access_url
 msgid "Customer Portal URL"
-msgstr ""
+msgstr "URL do portal do cliente"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
@@ -225,6 +267,18 @@ msgstr "Disposição"
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Document title"
 msgstr "Título do documento"
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
+msgid "Em aberto"
+msgstr "Em aberto"
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
+msgid "Encerrada"
+msgstr "Encerrada"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
@@ -294,14 +348,14 @@ msgstr "Ocorrências"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
-#: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
-msgid "Open"
-msgstr "Aberta"
+#: code:addons/planservice_mgmtsystem_occurrence_portal/models/mgmtsystem_nonconformity.py:0
+msgid "Open the occurrence in the supplier portal"
+msgstr "Abrir a ocorrência no portal do fornecedor"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__access_url
 msgid "Portal Access URL"
-msgstr ""
+msgstr "URL de acesso ao portal"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
@@ -371,7 +425,12 @@ msgstr "Buscar%(left)s ocorrências%(right)s"
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__access_token
 msgid "Security Token"
-msgstr ""
+msgstr "Token de segurança"
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__smart_search
+msgid "Smart Search"
+msgstr "Busca inteligente"
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
@@ -417,93 +476,7 @@ msgstr "Plano de tratamento"
 msgid "Verification"
 msgstr "Verificação"
 
-#~ msgid "Add document"
-#~ msgstr "Adicionar documento"
-
-#~ msgid "Add evidence"
-#~ msgstr "Adicionar evidência"
-
-#~ msgid "As Built"
-#~ msgstr "As Built"
-
-#~ msgid "Calculation Memo"
-#~ msgstr "Memorial de Cálculo"
-
-#~ msgid "Certificate"
-#~ msgstr "Certificado"
-
-#~ msgid "Description"
-#~ msgstr "Descrição"
-
-#~ msgid "Document"
-#~ msgstr "Documento"
-
-#~ msgid "Location"
-#~ msgstr "Local"
-
-#~ msgid "Measurements"
-#~ msgstr "Medições"
-
-#~ msgid "Occurrence"
-#~ msgstr "Ocorrência"
-
-#~ msgid "My Occurrences"
-#~ msgstr "Minhas Ocorrências"
-
-#~ msgid "Project:"
-#~ msgstr "Projeto:"
-
-#~ msgid "Opening Date"
-#~ msgstr "Data de abertura"
-
-#~ msgid "Other"
-#~ msgstr "Outro"
-
-#~ msgid "Photographs"
-#~ msgstr "Fotografias"
-
-#~ msgid "Planservice Occurrence Portal"
-#~ msgstr "Portal de Ocorrências Planservice"
-
-#~ msgid "Let suppliers answer occurrence records from the portal"
-#~ msgstr ""
-#~ "Permite que fornecedores respondam registros de ocorrência pelo portal"
-
-#~ msgid "Portal Occurrence Document by Partner"
-#~ msgstr "Documento de ocorrência do portal por parceiro"
-
-#~ msgid "Portal Occurrence Evidence by Partner"
-#~ msgstr "Evidência de ocorrência do portal por parceiro"
-
-#~ msgid "Portal Occurrence by Partner"
-#~ msgstr "Ocorrência do portal por parceiro"
-
-#~ msgid "Portal My Home : occurrences"
-#~ msgstr "Meu Portal : ocorrências"
-
-#~ msgid "Priority"
-#~ msgstr "Prioridade"
-
-#~ msgid "Punch List"
-#~ msgstr "Punch List"
-
-#~ msgid "Report"
-#~ msgstr "Laudo"
-
-#~ msgid "Report / Test"
-#~ msgstr "Laudo / Ensaio"
-
-#~ msgid "Result:"
-#~ msgstr "Resultado:"
-
-#~ msgid "Revised Project"
-#~ msgstr "Projeto Revisado"
-
-#~ msgid "Sketch"
-#~ msgstr "Croqui"
-
-#~ msgid "Supplier"
-#~ msgstr "Fornecedor"
-
-#~ msgid "Test"
-#~ msgstr "Ensaio"
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
+msgid "— Rev."
+msgstr "— Rev."
