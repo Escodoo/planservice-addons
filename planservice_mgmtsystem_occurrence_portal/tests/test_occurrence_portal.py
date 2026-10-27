@@ -2,14 +2,18 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import contextlib
+import re
 from types import SimpleNamespace
 from unittest.mock import patch
 
 import odoo.http
 from odoo.exceptions import AccessError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import HttpCase, tagged
 from odoo.tools.misc import DotDict
 
+from odoo.addons.planservice_mgmtsystem_occurrence.tests.common import (
+    OccurrenceTestCase,
+)
 from odoo.addons.planservice_mgmtsystem_occurrence_portal.controllers.portal import (
     OccurrenceCustomerPortal,
 )
@@ -46,7 +50,7 @@ def mock_request(env):
 
 
 @tagged("post_install", "-at_install")
-class TestOccurrencePortal(TransactionCase):
+class TestOccurrencePortal(OccurrenceTestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -119,7 +123,63 @@ class TestOccurrencePortal(TransactionCase):
             {"containment_text": "Area isolated by the supplier."}
         )
         self.assertEqual(self.nc.containment_text, "Area isolated by the supplier.")
-        self.assertEqual(self.nc.state, "open")
+        self.assertEqual(self.nc.state, "waiting_supplier")
+
+    def test_portal_update_is_refused_outside_waiting_supplier(self):
+        controller = OccurrenceCustomerPortal()
+        self.nc.action_release_to_supplier()
+        self.nc.write(
+            {
+                "stage_id": self.env.ref(
+                    "planservice_mgmtsystem_occurrence.stage_waiting_verification"
+                ).id
+            }
+        )
+        with mock_request(self.env(user=self.portal_user)):
+            controller.portal_occurrence_update(
+                self.nc.id, containment_text="Changed by supplier."
+            )
+        self.assertNotEqual(self.nc.containment_text, "Changed by supplier.")
+
+    def test_portal_user_sees_revision_and_rejection_opinion(self):
+        self.nc.action_release_to_supplier()
+        self.nc.write(
+            {
+                "containment_text": "Area isolated.",
+                "cause_justification": "Formwork not checked.",
+                "disposition": "conclude",
+            }
+        )
+        self.nc.action_submit_response()
+        self.nc.evaluation_comments = "Evidence is missing."
+        self.nc.action_reject()
+        rec = self.nc.with_user(self.portal_user)
+        self.assertEqual(rec.revision, "01")
+        self.assertEqual(rec.rejection_opinion, "Evidence is missing.")
+        self.assertEqual(rec.containment_text, "Area isolated.")
+        self.assertEqual(self.nc.state, "waiting_supplier")
+        rec.write({"containment_text": "Area isolated and signposted."})
+        self.assertEqual(self.nc.containment_text, "Area isolated and signposted.")
+
+    def test_portal_titles_carry_the_revision(self):
+        controller = OccurrenceCustomerPortal()
+        self.assertEqual(
+            controller._revision_title(self.nc, "Axis photo"), "rev00 - Axis photo"
+        )
+        self.assertFalse(controller._revision_title(self.nc, ""))
+
+    def test_disposition_options_follow_the_user_language(self):
+        self.env["res.lang"]._activate_and_install_lang("pt_BR")
+        field = self.env["mgmtsystem.nonconformity"]._fields["disposition"]
+        labels = dict(field._description_selection(self.env(context={"lang": "pt_BR"})))
+        self.assertEqual(labels["correct"], "Corrigir")
+        self.assertEqual(labels["concession"], "Solicitar concessão")
+
+    def test_release_email_links_to_the_portal_record(self):
+        self.nc.action_release_to_supplier()
+        body = self.nc.message_ids[:1].body
+        self.assertIn(f"/my/occurrences/{self.nc.id}", body)
+        self.assertIn("access_token=", body)
 
     def test_portal_user_cannot_change_classification(self):
         self.nc.action_release_to_supplier()
@@ -359,3 +419,94 @@ class TestOccurrencePortal(TransactionCase):
         with mock_request(self.env(user=self.portal_user)):
             self.assertFalse(controller._get_occurrence(self.other_nc.id))
             self.assertTrue(controller._get_occurrence(self.nc.id))
+
+
+@tagged("post_install", "-at_install")
+class TestOccurrencePortalBadges(HttpCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.partner = cls.env["res.partner"].create(
+            {"name": "Badge Supplier Co", "is_company": True}
+        )
+        cls.user = (
+            cls.env["res.users"]
+            .with_context(no_reset_password=True)
+            .create(
+                {
+                    "name": "Badge Portal User",
+                    "login": "occurrence_badge_user",
+                    "password": "badge-pass-2026",
+                    "email": "badge@example.com",
+                    "partner_id": cls.partner.id,
+                    "groups_id": [(6, 0, [cls.env.ref("base.group_portal").id])],
+                }
+            )
+        )
+        origin = cls.env.ref(
+            "planservice_mgmtsystem_occurrence.origin_field_occurrence"
+        )
+        cls.nc = cls.env["mgmtsystem.nonconformity"].create(
+            {
+                "name": "Badge occurrence",
+                "partner_id": cls.partner.id,
+                "manager_user_id": cls.env.user.id,
+                "responsible_user_id": cls.env.user.id,
+                "description": "Field deviation found on site.",
+                "origin_ids": [(6, 0, origin.ids)],
+                "classification": "nc",
+            }
+        )
+
+    def test_portal_list_renders_badge_for_each_step(self):
+        steps = [
+            (
+                "planservice_mgmtsystem_occurrence.stage_waiting_supplier",
+                "text-bg-info",
+            ),
+            (
+                "planservice_mgmtsystem_occurrence.stage_waiting_verification",
+                "text-bg-warning",
+            ),
+            ("mgmtsystem_nonconformity.stage_draft", "text-bg-secondary"),
+            ("mgmtsystem_nonconformity.stage_done", "text-bg-success"),
+        ]
+        self.authenticate("occurrence_badge_user", "badge-pass-2026")
+        for xmlid, badge in steps:
+            stage = self.env.ref(xmlid)
+            with self.subTest(stage=stage.name):
+                self.nc.write(
+                    {"stage_id": stage.id, "evaluation_comments": "Closed for test."}
+                )
+                response = self.url_open("/my/occurrences")
+                self.assertEqual(response.status_code, 200)
+                self.assertRegex(
+                    response.text,
+                    rf'{badge}"[^>]*>\s*{re.escape(stage.name)}\s*<',
+                )
+
+    def test_supplier_textareas_start_with_their_text(self):
+        self.nc.write(
+            {
+                "stage_id": self.env.ref(
+                    "planservice_mgmtsystem_occurrence.stage_waiting_supplier"
+                ).id,
+                "containment_text": "Area isolated.",
+                "cause_justification": "Formwork not checked.",
+                "final_condition": "Axis B3 back to 15mm.",
+            }
+        )
+        self.authenticate("occurrence_badge_user", "badge-pass-2026")
+        response = self.url_open(f"/my/occurrences/{self.nc.id}")
+        self.assertEqual(response.status_code, 200)
+        self.assertRegex(
+            response.text, r'name="containment_text"[^>]*>Area isolated\.</textarea>'
+        )
+        self.assertRegex(
+            response.text,
+            r'name="cause_justification"[^>]*>Formwork not checked\.</textarea>',
+        )
+        self.assertRegex(
+            response.text,
+            r'name="final_condition"[^>]*>Axis B3 back to 15mm\.</textarea>',
+        )
