@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_timesheet_location_tree" model="ir.ui.view">
+        <field name="name">timesheet.location.tree</field>
+        <field name="model">timesheet.location</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="active" column_invisible="1" />
+            </list>
+        </field>
+    </record>
+    <record id="action_timesheet_location" model="ir.actions.act_window">
+        <field name="name">Timesheet Locations</field>
+        <field name="res_model">timesheet.location</field>
+        <field name="view_mode">list</field>
+    </record>
+    <menuitem
+        id="menu_timesheet_location"
+        name="Timesheet Locations"
+        parent="hr_timesheet.timesheet_menu_root"
+        action="action_timesheet_location"
+        sequence="30"
+        groups="hr_timesheet.group_timesheet_manager"
+    />
+</odoo>

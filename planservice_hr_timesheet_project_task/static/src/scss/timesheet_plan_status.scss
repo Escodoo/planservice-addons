@@ -1,0 +1,12 @@
+// Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+// License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+
+// Timesheet rows colored like alerts, comparing Day % with Planned %.
+.o_timesheet_plan_status {
+    @each $status in success, warning, danger {
+        .o_data_row.text-#{$status} > td {
+            --table-bg-type: var(--#{$status}-bg-subtle);
+            color: var(--#{$status}-text-emphasis);
+        }
+    }
+}
