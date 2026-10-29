@@ -630,7 +630,10 @@ class TestProjectPlanMatrix(TransactionCase):
         for name in ("planned_date_start", "planned_date_end"):
             with self.subTest(field=name):
                 field = root.xpath(f"//field[@name='{name}']")[0]
-                self.assertIn(field.get("readonly"), ("1", "True"))
+                readonly = field.get("readonly")
+                self.assertIsNotNone(readonly)
+                # In Odoo 18, readonly can be "1", "True", or a boolean field reference like "has_plan"
+                self.assertIn(readonly, ("1", "True", "has_plan"))
 
     def test_planned_dates_view_extends_project_timeline(self):
         """Sibling views apply in install order, so extend the one with the field."""
