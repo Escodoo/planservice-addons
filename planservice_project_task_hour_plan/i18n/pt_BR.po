@@ -29,7 +29,7 @@ msgstr "Uma tarefa não pode ter duas linhas de plano de horas no mesmo mês."
 #. module: planservice_project_task_hour_plan
 #: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task__hour_plan_diff
 msgid "Allocated time minus the sum of monthly planned hours."
-msgstr "Tempo alocado menos a soma das horas planejadas mensais."
+msgstr "Tempo previsto menos a soma das horas planejadas mensais."
 
 #. module: planservice_project_task_hour_plan
 #: model:ir.model.fields,help:planservice_project_task_hour_plan.field_project_task_hour_plan__month
@@ -224,7 +224,7 @@ msgid ""
 "                monthly hour plan, or add months on the task to fill those\n"
 "                fields from the plan."
 msgstr ""
-"Defina as horas alocadas e as datas planejadas na tarefa para gerar um "
+"Defina o tempo previsto e as datas planejadas na tarefa para gerar um "
 "plano de horas mensal, ou adicione meses na tarefa para preencher esses "
 "campos a partir do plano."
 
@@ -235,7 +235,7 @@ msgid ""
 "                        table, or add months here to fill those fields from the\n"
 "                        plan."
 msgstr ""
-"Defina as datas planejadas e o tempo alocado para gerar esta tabela, ou "
+"Defina as datas planejadas e o tempo previsto para gerar esta tabela, ou "
 "adicione meses aqui para preencher esses campos a partir do plano."
 
 #. module: planservice_project_task_hour_plan
@@ -280,7 +280,7 @@ msgstr ""
 #. module: planservice_project_task_hour_plan
 #: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_task_form_hour_plan
 msgid "The sum of monthly hours differs from the allocated time."
-msgstr "A soma das horas mensais difere do tempo alocado."
+msgstr "A soma das horas mensais difere do tempo previsto."
 
 #. module: planservice_project_task_hour_plan
 #: model_terms:ir.ui.view,arch_db:planservice_project_task_hour_plan.view_project_task_hour_plan_search
@@ -311,7 +311,7 @@ msgid ""
 "When set, changing allocated hours or planned dates will not rebuild the "
 "monthly hour plan."
 msgstr ""
-"Quando marcado, alterar as horas alocadas ou as datas planejadas não "
+"Quando marcado, alterar o tempo previsto ou as datas planejadas não "
 "reconstrói o plano de horas mensal."
 
 #. module: planservice_project_task_hour_plan
@@ -320,5 +320,13 @@ msgid ""
 "When set, the hour plan updates allocated time and planned dates. Set "
 "automatically when the plan is filled first."
 msgstr ""
-"Quando marcado, o plano de horas atualiza o tempo alocado e as datas "
+"Quando marcado, o plano de horas atualiza o tempo previsto e as datas "
 "planejadas. Definido automaticamente quando o plano é preenchido primeiro."
+
+#. module: planservice_project_task_hour_plan
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task__smart_search
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_project_task_hour_plan__smart_search
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_res_company__smart_search
+#: model:ir.model.fields,field_description:planservice_project_task_hour_plan.field_res_config_settings__smart_search
+msgid "Smart Search"
+msgstr "Pesquisa inteligente"

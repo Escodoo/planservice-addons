@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="project_status_view_list_replan" model="ir.ui.view">
+        <field name="name">project.status.list.replan</field>
+        <field name="model">project.status</field>
+        <field name="inherit_id" ref="project_status.project_status_view_list" />
+        <field name="arch" type="xml">
+            <field name="is_closed" position="after">
+                <field name="allow_replan" />
+            </field>
+        </field>
+    </record>
+</odoo>
