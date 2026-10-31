@@ -632,7 +632,7 @@ class TestProjectPlanMatrix(TransactionCase):
                 field = root.xpath(f"//field[@name='{name}']")[0]
                 readonly = field.get("readonly")
                 self.assertIsNotNone(readonly)
-                # In Odoo 18, readonly can be "1", "True", or a boolean field reference like "has_plan"
+                # readonly: "1", "True", or field ref ("has_plan")
                 self.assertIn(readonly, ("1", "True", "has_plan"))
 
     def test_planned_dates_view_extends_project_timeline(self):
