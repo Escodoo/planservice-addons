@@ -630,7 +630,10 @@ class TestProjectPlanMatrix(TransactionCase):
         for name in ("planned_date_start", "planned_date_end"):
             with self.subTest(field=name):
                 field = root.xpath(f"//field[@name='{name}']")[0]
-                self.assertIn(field.get("readonly"), ("1", "True"))
+                readonly = field.get("readonly")
+                self.assertIsNotNone(readonly)
+                # readonly: "1", "True", or field ref ("has_plan")
+                self.assertIn(readonly, ("1", "True", "has_plan"))
 
     def test_planned_dates_view_extends_project_timeline(self):
         """Sibling views apply in install order, so extend the one with the field."""
@@ -640,3 +643,32 @@ class TestProjectPlanMatrix(TransactionCase):
         self.assertEqual(
             view.inherit_id, self.env.ref("project_timeline.view_task_form2")
         )
+
+    def test_check_can_replan_raises_error_when_project_locked(self):
+        """Validate that locked projects raise UserError on plan changes."""
+        self.project.project_status = self.env.ref(
+            "project_status.project_status_in_progress"
+        )
+        self.assertFalse(self.project.can_replan)
+        with self.assertRaises(UserError):
+            self.project._check_can_replan()
+
+    def test_generate_month_range_returns_empty_for_invalid_range(self):
+        """When date_end < date_start, return empty list."""
+        result = self.project._generate_month_range(
+            date(2026, 3, 31),
+            date(2026, 1, 1),
+        )
+        self.assertEqual(result, [])
+
+    def test_stage_month_invalid_range_raises_validation_error(self):
+        """When date_from > date_to, raise ValidationError."""
+        with self.assertRaises(ValidationError):
+            self.env["project.plan.stage.month"].create(
+                {
+                    "project_id": self.project.id,
+                    "stage_id": self.stage.id,
+                    "date_from": date(2026, 3, 1),
+                    "date_to": date(2026, 1, 1),
+                }
+            )

@@ -429,3 +429,30 @@ class TestTimesheetProjectTask(TransactionCase):
             unit_amount=1.0, date=fields.Date.context_today(self.env.user)
         )
         self.assertTrue(line.exists())
+
+    def test_planned_percentage_from_returns_zero_for_different_user(self):
+        """When plan line user differs from current user, return 0%."""
+        other_user = self.env["res.users"].create(
+            {"name": "Other User", "login": "other_user"}
+        )
+        other_line = self.env["project.plan.line"].create(
+            {
+                "project_id": self.project.id,
+                "role_id": self.role.id,
+                "user_id": other_user.id,
+            }
+        )
+        other_task = self.env["project.task"].create(
+            {
+                "name": "Other Role",
+                "project_id": self.project.id,
+                "plan_line_id": other_line.id,
+            }
+        )
+        result = self.env["account.analytic.line"]._planned_percentage_from(
+            capacities={},
+            task=other_task,
+            date=date.today(),
+            user=self.user,
+        )
+        self.assertEqual(result, 0.0)
