@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo noupdate="1">
+    <!-- Projects are planned while Pending; later statuses lock the plan. -->
+    <record id="project_status.project_status_pending" model="project.status">
+        <field name="allow_replan" eval="True" />
+    </record>
+</odoo>

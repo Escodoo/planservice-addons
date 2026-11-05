@@ -121,7 +121,7 @@ class TestHrTimesheetDayPercentage(TransactionCase):
 
     def test_cannot_move_line_to_full_day(self):
         self._create_timesheet(day_percentage=100.0)
-        other_day = self.date + timedelta(days=1)
+        other_day = self.date - timedelta(days=1)
         line = self._create_timesheet(date=other_day, day_percentage=10.0)
         with self.assertRaises(ValidationError):
             line.date = self.date

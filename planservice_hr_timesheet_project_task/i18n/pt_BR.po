@@ -1,0 +1,151 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_hr_timesheet_project_task
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-19 19:33+0000\n"
+"PO-Revision-Date: 2026-10-17 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__above
+msgid "Above Plan"
+msgstr "Acima do Planejado"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__active
+msgid "Active"
+msgstr "Ativo"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,help:planservice_hr_timesheet_project_task.field_account_analytic_line__plan_status
+msgid "Actual % compared with Planned %; empty when nothing is planned."
+msgstr "% Real comparado ao % Planejado; vazio quando nada foi planejado."
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model,name:planservice_hr_timesheet_project_task.model_account_analytic_line
+msgid "Analytic Line"
+msgstr "Linha Analítica"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__attachment_count
+msgid "Attachment Count"
+msgstr "Qtd. de Anexos"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__attachment_ids
+msgid "Attachments"
+msgstr "Anexos"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__below
+msgid "Below Plan"
+msgstr "Abaixo do Planejado"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,help:planservice_hr_timesheet_project_task.field_account_analytic_line__planned_day_percentage
+msgid ""
+"Capacity planned in the project plan for this collaborator, task and month."
+msgstr ""
+"Capacidade projetada no plano do projeto para este colaborador, tarefa e mês."
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__create_uid
+msgid "Created by"
+msgstr "Criado por"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__create_date
+msgid "Created on"
+msgstr "Criado em"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__id
+msgid "ID"
+msgstr "ID"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__is_timesheet_manager
+msgid "Is Timesheet Manager"
+msgstr "É Gestor de Planilha de Horas"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__write_uid
+msgid "Last Updated by"
+msgstr "Última atualização por"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__write_date
+msgid "Last Updated on"
+msgstr "Última atualização em"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__location_id
+msgid "Location"
+msgstr "Local"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__name
+msgid "Name"
+msgstr "Nome"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields.selection,name:planservice_hr_timesheet_project_task.selection__account_analytic_line__plan_status__on_plan
+msgid "On Plan"
+msgstr "Conforme Planejado"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__plan_status
+msgid "Plan Status"
+msgstr "Situação do Plano"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__planned_day_percentage
+msgid "Planned %"
+msgstr "% Projetada"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_timesheet_location__sequence
+msgid "Sequence"
+msgstr "Sequência"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model.fields,field_description:planservice_hr_timesheet_project_task.field_account_analytic_line__task_id
+msgid "Task"
+msgstr "Tarefa"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.model,name:planservice_hr_timesheet_project_task.model_timesheet_location
+msgid "Timesheet Location"
+msgstr "Local da Planilha de Horas"
+
+#. module: planservice_hr_timesheet_project_task
+#: model:ir.actions.act_window,name:planservice_hr_timesheet_project_task.action_timesheet_location
+#: model:ir.ui.menu,name:planservice_hr_timesheet_project_task.menu_timesheet_location
+msgid "Timesheet Locations"
+msgstr "Locais da Planilha de Horas"
+
+#. module: planservice_hr_timesheet_project_task
+#: model_terms:ir.ui.view,arch_db:planservice_hr_timesheet_project_task.hr_timesheet_line_tree_project_task
+msgid "Total"
+msgstr "Total"
+
+#. module: planservice_hr_timesheet_project_task
+#. odoo-python
+#: code:addons/planservice_hr_timesheet_project_task/models/account_analytic_line.py:0
+msgid "You cannot log hours for a future date (%(date)s)."
+msgstr "Não é possível lançar horas em uma data futura (%(date)s)."

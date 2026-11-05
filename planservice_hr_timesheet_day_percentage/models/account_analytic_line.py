@@ -11,7 +11,7 @@ class AccountAnalyticLine(models.Model):
     _inherit = "account.analytic.line"
 
     day_percentage = fields.Float(
-        string="Day %",
+        string="Actual %",
         compute="_compute_day_percentage",
         inverse="_inverse_day_percentage",
         store=True,
