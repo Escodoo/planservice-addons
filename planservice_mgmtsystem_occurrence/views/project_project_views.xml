@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Dener William - Escodoo <https://escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <record id="project_project_view_form_occurrences" model="ir.ui.view">
+        <field name="name">project.project.form.occurrences</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button
+                    class="oe_stat_button"
+                    type="object"
+                    name="action_view_occurrences"
+                    icon="fa-exclamation-triangle"
+                    groups="mgmtsystem.group_mgmtsystem_viewer"
+                >
+                    <field
+                        name="occurrence_count"
+                        widget="statinfo"
+                        string="Occurrences"
+                    />
+                </button>
+                <button
+                    class="oe_stat_button"
+                    type="object"
+                    name="action_new_occurrence"
+                    icon="fa-plus"
+                    string="New occurrence"
+                    groups="mgmtsystem.group_mgmtsystem_user"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
