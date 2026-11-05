@@ -1,9 +1,14 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import io
+import zipfile
+
 from odoo import api, fields, models
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+from .ir_actions_report import OCCURRENCE_REPORT_NAME
+from .ir_sequence import NONCONFORMITY_SEQUENCE_CODE
 from .occurrence_selection import (
     CLASSIFICATION_SELECTION,
     DISCIPLINE_SELECTION,
@@ -14,19 +19,29 @@ from .occurrence_selection import (
 STAGE_XMLID = {
     "draft": "mgmtsystem_nonconformity.stage_draft",
     "waiting_supplier": "planservice_mgmtsystem_occurrence.stage_waiting_supplier",
-    "open": "mgmtsystem_nonconformity.stage_open",
     "waiting_verification": (
         "planservice_mgmtsystem_occurrence.stage_waiting_verification"
     ),
     "done": "mgmtsystem_nonconformity.stage_done",
-    "cancel": "mgmtsystem_nonconformity.stage_cancel",
 }
+
+
+REVISION_FIELDS = {"revision", "revision_number"}
+APPROVED_RESULTS = ("approved", "approved_with_comments")
 
 
 class MgmtsystemNonconformity(models.Model):
     _inherit = "mgmtsystem.nonconformity"
 
+    ref = fields.Char(default=lambda self: self._default_ref())
     origin_ids = fields.Many2many(default=lambda self: self._default_origin_ids())
+    responsible_user_id = fields.Many2one(default=lambda self: self.env.user)
+    manager_user_id = fields.Many2one(
+        compute="_compute_manager_user_id",
+        store=True,
+        readonly=False,
+        precompute=True,
+    )
 
     project_id = fields.Many2one("project.project", "Project / Work")
     inspector_id = fields.Many2one(
@@ -35,7 +50,13 @@ class MgmtsystemNonconformity(models.Model):
         tracking=True,
     )
     opening_date = fields.Date(default=fields.Date.context_today)
-    revision = fields.Char(default="00")
+    revision_number = fields.Integer(default=0, copy=False, readonly=True)
+    revision = fields.Char(
+        compute="_compute_revision",
+        store=True,
+        readonly=True,
+        copy=False,
+    )
     work_division = fields.Selection(WORK_DIVISION_SELECTION)
     work_division_other = fields.Char()
     classification = fields.Selection(CLASSIFICATION_SELECTION, tracking=True)
@@ -106,6 +127,13 @@ class MgmtsystemNonconformity(models.Model):
         "mgmtsystem.nonconformity.document",
         "nonconformity_id",
     )
+    revision_ids = fields.One2many(
+        "mgmtsystem.nonconformity.revision",
+        "nonconformity_id",
+        string="Revision History",
+        copy=False,
+        readonly=True,
+    )
 
     supplier_representative_id = fields.Many2one(
         "res.partner",
@@ -138,6 +166,19 @@ class MgmtsystemNonconformity(models.Model):
     verification_date = fields.Date()
     reinspection_required = fields.Boolean()
     reinspection_date = fields.Date()
+    reinspection_done_date = fields.Date("Reinspection Performed On")
+    reinspection_result = fields.Selection(
+        [
+            ("satisfactory", "Satisfactory"),
+            ("unsatisfactory", "Unsatisfactory"),
+        ],
+    )
+    verification_comment_ids = fields.One2many(
+        "mgmtsystem.nonconformity.verification.comment",
+        "nonconformity_id",
+        string="Verification Comments",
+        copy=False,
+    )
     closure_decision = fields.Selection(
         [
             ("close", "Close"),
@@ -145,6 +186,46 @@ class MgmtsystemNonconformity(models.Model):
             ("reclassify", "Reclassify"),
         ]
     )
+    rejection_opinion = fields.Text(
+        readonly=True,
+        copy=False,
+        help="Inspector opinion that rejected the previous revision.",
+    )
+
+    @api.depends("revision_number")
+    def _compute_revision(self):
+        for nc in self:
+            nc.revision = f"{nc.revision_number:02d}"
+
+    @api.depends("project_id")
+    def _compute_manager_user_id(self):
+        """Follow the project manager when the project changes.
+
+        Keeps the current manager if the project has none or was removed.
+        """
+        for nc in self:
+            nc.manager_user_id = nc.project_id.sudo().user_id or nc.manager_user_id
+
+    def _default_ref(self):
+        """Provisional reference shown in a new form; the real one is drawn on save."""
+        sequence = (
+            self.env["ir.sequence"]
+            .sudo()
+            .search(
+                [
+                    ("code", "=", NONCONFORMITY_SEQUENCE_CODE),
+                    ("company_id", "in", [self.env.company.id, False]),
+                ],
+                order="company_id",
+                limit=1,
+            )
+        )
+        if not sequence:
+            return "NEW"
+        day = self.env.context.get("ir_sequence_date") or fields.Date.to_string(
+            fields.Date.context_today(self)
+        )
+        return sequence._get_next_preview(day)
 
     def _default_origin_ids(self):
         origin = self.env.ref(
@@ -153,12 +234,87 @@ class MgmtsystemNonconformity(models.Model):
         )
         return origin
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Number the reference (YYYYMM-NNN) by the user's local date, not UTC."""
+        if not self.env.context.get("ir_sequence_date"):
+            today = fields.Date.to_string(fields.Date.context_today(self))
+            self = self.with_context(ir_sequence_date=today)
+        return super().create(vals_list)
+
     def _get_occurrence_report_labels(self):
         return {
             "classification_section": self.env._("1. Classification and routing"),
             "design_query": self.env._("Design Query (RFI/TQ)"),
             "inspector": self.env._("Inspector"),
         }
+
+    def _get_project_filename_part(self):
+        """Project code followed by the project name, without spaces."""
+        project = self.project_id
+        if not project:
+            return ""
+        code = getattr(project, "code", False) or ""
+        name = (project.name or "").replace(" ", "")
+        return f"{code}{name}"
+
+    def _get_report_filename(self, official=False, revision=None):
+        """Report file name in the user's language, without the extension."""
+        self.ensure_one()
+        env = self.with_context(lang=self.env.user.lang).env
+        parts = []
+        if not official:
+            draft = env._("Draft")
+            parts.append(f"({draft})")
+        project = self._get_project_filename_part()
+        if project:
+            parts.append(project)
+        parts.append(self.ref)
+        if official:
+            parts.append(revision or self.revision_ids[:1].revision or self.revision)
+        return " - ".join(parts)
+
+    def get_occurrence_report_filename(self, official=False):
+        """Report file name used by the print actions."""
+        return self._get_report_filename(official=official)
+
+    def _create_revision_snapshot(self, result):
+        """Freeze the revision being decided as a read-only PDF with metadata."""
+        snapshots = self.env["mgmtsystem.nonconformity.revision"]
+        for rec in self:
+            content, _report_type = (
+                self.env["ir.actions.report"]
+                .with_context(occurrence_official=True)
+                ._render_qweb_pdf(OCCURRENCE_REPORT_NAME, rec.ids)
+            )
+            filename = rec._get_report_filename(official=True, revision=rec.revision)
+            attachment = self.env["ir.attachment"].create(
+                {
+                    "name": f"{filename}.pdf",
+                    "raw": content,
+                    "res_model": rec._name,
+                    "res_id": rec.id,
+                }
+            )
+            snapshots |= (
+                self.env["mgmtsystem.nonconformity.revision"]
+                .sudo()
+                .create(
+                    {
+                        "nonconformity_id": rec.id,
+                        "revision": rec.revision,
+                        "result": result,
+                        "user_id": self.env.user.id,
+                        "attachment_id": attachment.id,
+                    }
+                )
+            )
+        return snapshots
+
+    def _bump_revision(self):
+        """Start the next revision (00 -> 01 -> 02...); the reference is kept."""
+        for rec in self.with_context(occurrence_revision_bump=True):
+            rec.revision_number += 1
 
     def _get_stage_by_state(self, state):
         xmlid = STAGE_XMLID.get(state)
@@ -204,7 +360,7 @@ class MgmtsystemNonconformity(models.Model):
             raise AccessError(
                 self.env._("Portal users can only update supplier response fields.")
             )
-        if any(rec.state not in ("waiting_supplier", "open") for rec in self):
+        if any(rec.state != "waiting_supplier" for rec in self):
             raise AccessError(
                 self.env._(
                     "The supplier can only update the occurrence while it is "
@@ -243,6 +399,14 @@ class MgmtsystemNonconformity(models.Model):
             if rec.stop_work and not rec.stop_work_date:
                 raise ValidationError(self.env._("Please set the work stoppage date."))
 
+    @api.constrains("reinspection_required", "reinspection_date")
+    def _check_reinspection_date(self):
+        for rec in self:
+            if rec.reinspection_required and not rec.reinspection_date:
+                raise ValidationError(
+                    self.env._("Please set the planned reinspection date.")
+                )
+
     @api.constrains("stage_id")
     def _check_open_with_action_comments(self):
         """Occurrence workflow does not use OCA action-plan comments."""
@@ -265,7 +429,7 @@ class MgmtsystemNonconformity(models.Model):
 
     def _check_can_submit(self):
         for rec in self:
-            if rec.state not in ("waiting_supplier", "open"):
+            if rec.state != "waiting_supplier":
                 raise UserError(
                     self.env._(
                         "The supplier response can only be submitted while the "
@@ -304,6 +468,50 @@ class MgmtsystemNonconformity(models.Model):
                     self.env._("Please enter the inspector opinion before closing.")
                 )
 
+    def _check_verification_comments(self):
+        for rec in self:
+            comments = rec.verification_comment_ids
+            if not comments:
+                raise UserError(
+                    self.env._("Please add at least one verification comment.")
+                )
+            if not all(comment._is_complete() for comment in comments):
+                raise UserError(
+                    self.env._(
+                        "Every verification comment needs a description, "
+                        "a responsible and a deadline."
+                    )
+                )
+
+    def _check_can_close(self):
+        for rec in self:
+            if rec.state != "waiting_verification":
+                raise UserError(
+                    self.env._(
+                        "Only an occurrence waiting for verification can be closed."
+                    )
+                )
+            if rec.verification_result not in APPROVED_RESULTS:
+                raise UserError(
+                    self.env._("Only an approved occurrence can be closed.")
+                )
+            if rec.reinspection_required and not (
+                rec.reinspection_done_date and rec.reinspection_result
+            ):
+                raise UserError(
+                    self.env._(
+                        "The reinspection is pending: register its date and "
+                        "result before closing."
+                    )
+                )
+
+    def _supplier_portal_link_html(self):
+        """Link to the record in the supplier portal, added to the release e-mail.
+
+        The portal module overrides this; without it the e-mail has no link.
+        """
+        return ""
+
     def action_release_to_supplier(self):
         self._check_can_release()
         for rec in self:
@@ -315,7 +523,8 @@ class MgmtsystemNonconformity(models.Model):
                         "Occurrence %(ref)s was released to %(partner)s.",
                         ref=rec.ref,
                         partner=rec.partner_id.display_name,
-                    ),
+                    )
+                    + rec._supplier_portal_link_html(),
                     partner_ids=rec.partner_id.ids,
                     subtype_xmlid="mail.mt_comment",
                 )
@@ -342,12 +551,57 @@ class MgmtsystemNonconformity(models.Model):
         return True
 
     def action_approve(self):
-        return self._action_verify("approved", "close", "done")
+        return self._record_verification_result("approved")
 
     def action_approve_with_comments(self):
-        return self._action_verify("approved_with_comments", "close", "done")
+        return self._record_verification_result("approved_with_comments")
+
+    def action_close(self):
+        """Close an approved occurrence; this freezes the revision."""
+        self._check_can_close()
+        for rec in self:
+            rec.write({"closure_decision": "close"})
+            rec._move_to_stage("done")
+            rec._create_revision_snapshot(rec.verification_result)
+            rec._create_attachments_zip()
+        return True
+
+    def _create_attachments_zip(self):
+        """Pack the evidence and document attachments into one zip on the record."""
+        self.ensure_one()
+        attachments = (
+            self.evidence_ids.attachment_ids | self.document_ids.attachment_ids
+        ).filtered(lambda att: att.raw)
+        if not attachments:
+            return self.env["ir.attachment"]
+        buffer = io.BytesIO()
+        used_names = set()
+        with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
+            for attachment in attachments.sorted("id"):
+                revision = attachment.occurrence_revision or self.revision
+                name = f"rev{revision}-{attachment.name or attachment.id}"
+                if name in used_names:
+                    name = f"{attachment.id}-{name}"
+                used_names.add(name)
+                archive.writestr(name, attachment.raw)
+        filename = self._get_report_filename(official=True, revision=self.revision)
+        suffix = self.with_context(lang=self.env.user.lang).env._("attachments")
+        return self.env["ir.attachment"].create(
+            {
+                "name": f"{filename} - {suffix}.zip",
+                "raw": buffer.getvalue(),
+                "mimetype": "application/zip",
+                "res_model": self._name,
+                "res_id": self.id,
+            }
+        )
 
     def action_reject(self):
+        """Reject the response: freeze the revision and hand the record back.
+
+        The record returns to the supplier as the next revision. The supplier
+        response stays filled in so it can be adjusted, not redone.
+        """
         self._check_can_verify()
         for rec in self:
             rec.write(
@@ -357,9 +611,26 @@ class MgmtsystemNonconformity(models.Model):
                     "closure_decision": "keep_open",
                 }
             )
+            rec._create_revision_snapshot("rejected")
+            rec._bump_revision()
+            rec.write(
+                {
+                    "rejection_opinion": rec.evaluation_comments,
+                    "evaluation_comments": False,
+                    "verification_result": False,
+                    "verification_date": False,
+                    "reinspection_required": False,
+                    "reinspection_date": False,
+                    "closure_decision": False,
+                }
+            )
             rec._move_to_stage("waiting_supplier")
             rec.message_post(
-                body=self.env._("Occurrence rejected and returned to the supplier."),
+                body=self.env._(
+                    "Occurrence rejected and returned to the supplier as "
+                    "revision %s.",
+                    rec.revision,
+                ),
                 subtype_xmlid="mail.mt_comment",
             )
         return True
@@ -371,14 +642,15 @@ class MgmtsystemNonconformity(models.Model):
                 {
                     "closure_decision": "keep_open",
                     "verification_date": fields.Date.context_today(rec),
+                    "verification_result": False,
                 }
             )
-            rec._move_to_stage("open")
+            rec._move_to_stage("waiting_supplier")
         return True
 
     def action_reclassify(self, classification=None, note=None):
         self.ensure_one()
-        if self.state not in ("waiting_verification", "draft", "open"):
+        if self.state not in ("waiting_verification", "draft"):
             raise UserError(
                 self.env._(
                     "This occurrence cannot be reclassified in the current stage."
@@ -405,29 +677,43 @@ class MgmtsystemNonconformity(models.Model):
         self._move_to_stage("draft")
         return True
 
-    def _action_verify(self, result, decision, target_state):
+    def _record_verification_result(self, result):
+        """Record an approval; closing or keeping open is a separate decision."""
         self._check_can_verify()
         for rec in self:
+            if rec.verification_result:
+                raise UserError(
+                    self.env._("The verification result was already recorded.")
+                )
+            if result == "approved_with_comments":
+                rec._check_verification_comments()
             rec.write(
                 {
                     "verification_result": result,
                     "verification_date": fields.Date.context_today(rec),
-                    "closure_decision": decision,
                 }
             )
-            rec._move_to_stage(target_state)
         return True
 
     def write(self, vals):
-        self._check_portal_write(vals)
-        result = super().write(vals)
-        if self.env.context.get("occurrence_skip_auto_open"):
-            return result
-        supplier_keys = self._get_supplier_writable_fields()
-        if supplier_keys & set(vals) and "stage_id" not in vals:
-            to_open = self.filtered(lambda rec: rec.state == "waiting_supplier")
-            if to_open:
-                to_open.with_context(occurrence_skip_auto_open=True)._move_to_stage(
-                    "open"
+        if REVISION_FIELDS & set(vals) and not self.env.context.get(
+            "occurrence_revision_bump"
+        ):
+            raise UserError(
+                self.env._(
+                    "The revision is managed by the system and cannot be edited."
                 )
-        return result
+            )
+        self._check_portal_write(vals)
+        if "stage_id" in vals:
+            self._check_not_reopened(vals["stage_id"])
+        return super().write(vals)
+
+    def _check_not_reopened(self, stage_id):
+        """A closed occurrence cannot leave the "Encerrada" step."""
+        new_stage = self.env["mgmtsystem.nonconformity.stage"].browse(stage_id)
+        for rec in self:
+            if rec.state == "done" and new_stage != rec.stage_id:
+                raise UserError(
+                    self.env._("Closed occurrences cannot be moved to another stage.")
+                )

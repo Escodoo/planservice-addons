@@ -40,10 +40,10 @@ Configuration
 No extra settings are required. Immediate action types and the Field
 Occurrence origin are created on install.
 
-Optional stages *Analysis* and *Action Plan* from the base module stay
-available but are folded in the kanban. The occurrence flow uses
-**Draft**, **Waiting Supplier**, **In Progress**, **Waiting
-Verification** and **Closed**.
+The occurrence flow uses four stages: **Inspector (opening)**,
+**Supplier (waiting)**, **Inspector (closing)** and **Closed**. The base
+stages *Analysis*, *Action Plan*, *In Progress* and *Cancelled* are
+archived.
 
 Usage
 =====
@@ -57,7 +57,9 @@ Go to **Management System > Nonconformities** and create a record.
    disposition and the treatment plan, then clicks **Submit Response**.
 4. The inspector reviews the record and chooses **Approve and Release**,
    **Approve with Comments**, **Reject**, **Keep Open** or
-   **Reclassify**.
+   **Reclassify**. **Reject** freezes the revision as a PDF snapshot and
+   returns the record to the supplier as the next revision, with the
+   response kept for adjustment.
 
 Closing still requires the inspector opinion. Treatment actions must be
 done before the occurrence is closed, except when the disposition is
@@ -88,6 +90,7 @@ Contributors
 
   - Marcel Savegnago <marcel.savegnago@escodoo.com.br>
   - Clovis Parzewski <clovis.parzewski@escodoo.com.br>
+  - Dener William <dener.gimenes@escodoo.com.br>
 
 Maintainers
 -----------
