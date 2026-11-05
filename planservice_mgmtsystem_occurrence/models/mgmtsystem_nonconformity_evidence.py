@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class MgmtsystemNonconformityEvidence(models.Model):
     _name = "mgmtsystem.nonconformity.evidence"
+    _inherit = ["mgmtsystem.occurrence.attachment.mixin"]
     _description = "Nonconformity Evidence"
     _order = "date desc, id desc"
 
