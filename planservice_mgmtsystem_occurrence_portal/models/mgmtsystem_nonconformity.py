@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from markupsafe import Markup
+
 from odoo import models
 
 
@@ -33,6 +35,12 @@ class MgmtsystemNonconformity(models.Model):
         return super()._get_access_action(
             access_uid=access_uid, force_website=force_website
         )
+
+    def _supplier_portal_link_html(self):
+        self.ensure_one()
+        url = self._get_share_url()
+        label = self.env._("Open the occurrence in the supplier portal")
+        return Markup('<p><a href="%s">%s</a></p>') % (url, label)
 
     def action_release_to_supplier(self):
         result = super().action_release_to_supplier()
