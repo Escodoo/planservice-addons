@@ -1,0 +1,58 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_employers_calc_dashboard
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: planservice_employers_calc_dashboard
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc_dashboard.project_project_view_form_cost_dashboard
+msgid "<span class=\"o_stat_text\">Project cost</span>"
+msgstr "<span class=\"o_stat_text\">Custo do projeto</span>"
+
+#. module: planservice_employers_calc_dashboard
+#: model:boardkit.dashboard,name:planservice_employers_calc_dashboard.dashboard_cost
+msgid "Custo de pessoal por obra"
+msgstr ""
+
+#. module: planservice_employers_calc_dashboard
+#: model:boardkit.dashboard,description:planservice_employers_calc_dashboard.dashboard_cost
+msgid "Custo previsto x real de pessoal por obra, rateado pela % do dia."
+msgstr ""
+
+#. module: planservice_employers_calc_dashboard
+#. odoo-python
+#: code:addons/planservice_employers_calc_dashboard/models/project_project.py:0
+msgid "Only timesheet managers can open the cost dashboard."
+msgstr "Apenas gerentes de timesheet podem abrir o dashboard de custo."
+
+#. module: planservice_employers_calc_dashboard
+#: model:ir.model,name:planservice_employers_calc_dashboard.model_project_project
+msgid "Project"
+msgstr "Projeto"
+
+#. module: planservice_employers_calc_dashboard
+#. odoo-python
+#: code:addons/planservice_employers_calc_dashboard/models/project_project.py:0
+msgid "Project: %s"
+msgstr "Obra: %s"
+
+#. module: planservice_employers_calc_dashboard
+#: model:ir.model.fields,field_description:planservice_employers_calc_dashboard.field_project_project__smart_search
+msgid "Smart Search"
+msgstr "Pesquisa inteligente"
+
+#. module: planservice_employers_calc_dashboard
+#. odoo-python
+#: code:addons/planservice_employers_calc_dashboard/models/project_project.py:0
+msgid "The cost dashboard was not found. Reinstall the module."
+msgstr "O dashboard de custo não foi encontrado. Reinstale o módulo."
