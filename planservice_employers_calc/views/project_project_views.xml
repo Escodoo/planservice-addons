@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Escodoo
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="project_project_view_form_employer_cost" model="ir.ui.view">
+        <field name="name">project.project.form.employer.cost</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <!-- Depois do hr_timesheet (24): o campo allocated_hours precisa existir. -->
+        <field name="priority">30</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='allocated_hours']" position="after">
+                <field
+                    name="employer_planned_cost"
+                    groups="hr_timesheet.group_timesheet_manager"
+                />
+                <field
+                    name="employer_real_cost"
+                    groups="hr_timesheet.group_timesheet_manager"
+                />
+                <field
+                    name="employer_cost_deviation"
+                    groups="hr_timesheet.group_timesheet_manager"
+                    decoration-danger="employer_cost_deviation &lt; 0"
+                    decoration-success="employer_cost_deviation &gt;= 0"
+                />
+                <field
+                    name="employer_tasks_without_cost"
+                    groups="hr_timesheet.group_timesheet_manager"
+                    invisible="employer_tasks_without_cost == 0"
+                    decoration-warning="employer_tasks_without_cost &gt; 0"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="res_company_view_form_employer_plan_hours" model="ir.ui.view">
+        <field name="name">res.company.form.employer.plan.hours</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="employer_plan_monthly_hours" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

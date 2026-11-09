@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Escodoo
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="planservice_employer_cost_project_report_view_list" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.project.report.list</field>
+        <field name="model">planservice.employer.cost.project.report</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="project_id" />
+                <field name="employee_id" />
+                <field name="date" />
+                <field name="currency_id" column_invisible="1" />
+                <field
+                    name="unit_amount"
+                    column_invisible="1"
+                    sum="Total"
+                    widget="timesheet_uom"
+                />
+                <field name="planned_cost" sum="Total" />
+                <field name="real_cost" sum="Total" />
+                <field name="cost_deviation" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <record id="planservice_employer_cost_project_report_view_pivot" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.project.report.pivot</field>
+        <field name="model">planservice.employer.cost.project.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="project_id" type="row" />
+                <field name="employee_id" type="row" />
+                <field name="planned_cost" type="measure" />
+                <field name="real_cost" type="measure" />
+                <field name="cost_deviation" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record
+        id="planservice_employer_cost_project_report_view_search"
+        model="ir.ui.view"
+    >
+        <field name="name">planservice.employer.cost.project.report.search</field>
+        <field name="model">planservice.employer.cost.project.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id" />
+                <field name="employee_id" />
+                <group expand="0" string="Group by">
+                    <filter
+                        name="group_project"
+                        string="Job site"
+                        context="{'group_by': 'project_id'}"
+                    />
+                    <filter
+                        name="group_employee"
+                        string="Team member"
+                        context="{'group_by': 'employee_id'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

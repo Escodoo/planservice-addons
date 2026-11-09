@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Escodoo
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="hr_employee_view_form_employer_cost" model="ir.ui.view">
+        <field name="name">hr.employee.form.employer.cost</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_hourly_cost.view_employee_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='hourly_cost']" position="after">
+                <field name="employer_salary_benefits_cost" groups="hr.group_hr_user" />
+                <field name="employer_provisions_cost" groups="hr.group_hr_user" />
+                <field name="employer_monthly_total_cost" groups="hr.group_hr_user" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
