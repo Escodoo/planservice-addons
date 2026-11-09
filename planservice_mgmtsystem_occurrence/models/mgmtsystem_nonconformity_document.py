@@ -6,6 +6,7 @@ from odoo import fields, models
 
 class MgmtsystemNonconformityDocument(models.Model):
     _name = "mgmtsystem.nonconformity.document"
+    _inherit = ["mgmtsystem.occurrence.attachment.mixin"]
     _description = "Nonconformity Complementary Document"
     _order = "id"
 

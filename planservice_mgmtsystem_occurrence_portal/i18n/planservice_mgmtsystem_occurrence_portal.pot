@@ -109,6 +109,11 @@ msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
+msgid "<strong>Rejected in the previous revision:</strong>"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "<strong>Result:</strong>"
 msgstr ""
 
@@ -280,6 +285,12 @@ msgid "Open"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
+#. odoo-python
+#: code:addons/planservice_mgmtsystem_occurrence_portal/models/mgmtsystem_nonconformity.py:0
+msgid "Open the occurrence in the supplier portal"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
 #: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__access_url
 msgid "Portal Access URL"
 msgstr ""
@@ -355,6 +366,11 @@ msgid "Security Token"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
+#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__smart_search
+msgid "Smart Search"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrences
@@ -396,4 +412,9 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence_portal
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
 msgid "Verification"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence_portal
+#: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrence
+msgid "— Rev."
 msgstr ""
