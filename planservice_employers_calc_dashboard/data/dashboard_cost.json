@@ -1,0 +1,170 @@
+{
+  "version": 1,
+  "dashboards": [
+    {
+      "name": "Custo de pessoal por obra",
+      "description": "Custo previsto x real de pessoal por obra, rateado pela % do dia.",
+      "tags": ["Timesheets"],
+      "date_filter": "none",
+      "refresh_interval": "0",
+      "items": [
+        {
+          "name": "Custo previsto",
+          "item_type": "tile",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "planned_cost",
+          "icon": "fa-bullseye",
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 4,
+            "h": 2
+          },
+          "unit_type": "monetary",
+          "index": 0,
+          "date_field_id": "date"
+        },
+        {
+          "name": "Custo real",
+          "item_type": "tile",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "real_cost",
+          "icon": "fa-money",
+          "layout": {
+            "x": 4,
+            "y": 0,
+            "w": 4,
+            "h": 2
+          },
+          "unit_type": "monetary",
+          "index": 1,
+          "date_field_id": "date"
+        },
+        {
+          "name": "Desvio (previsto - real)",
+          "item_type": "tile",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "cost_deviation",
+          "icon": "fa-line-chart",
+          "layout": {
+            "x": 8,
+            "y": 0,
+            "w": 4,
+            "h": 2
+          },
+          "unit_type": "monetary",
+          "index": 2,
+          "date_field_id": "date"
+        },
+        {
+          "name": "Previsto x real por obra",
+          "item_type": "bar",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "real_cost",
+          "measures": ["planned_cost", "real_cost"],
+          "group_by_field_id": "project_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "layout": {
+            "x": 0,
+            "y": 2,
+            "w": 6,
+            "h": 5
+          },
+          "index": 3,
+          "date_field_id": "date",
+          "measure_colors": {
+            "planned_cost": "#9E9E9E",
+            "real_cost": "#2196F3"
+          }
+        },
+        {
+          "name": "Custo real por mês",
+          "item_type": "area",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "real_cost",
+          "measures": ["real_cost"],
+          "group_by_field_id": "date",
+          "group_by_granularity": "month",
+          "chart_sort": "default",
+          "layout": {
+            "x": 6,
+            "y": 2,
+            "w": 6,
+            "h": 5
+          },
+          "index": 4,
+          "date_field_id": "date"
+        },
+        {
+          "name": "Previsto x real por colaborador",
+          "item_type": "bar_horizontal",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "real_cost",
+          "measures": ["planned_cost", "real_cost"],
+          "group_by_field_id": "employee_id",
+          "chart_sort": "value_desc",
+          "record_limit": 10,
+          "layout": {
+            "x": 0,
+            "y": 7,
+            "w": 6,
+            "h": 5
+          },
+          "index": 5,
+          "date_field_id": "date",
+          "measure_colors": {
+            "planned_cost": "#9E9E9E",
+            "real_cost": "#2196F3"
+          }
+        },
+        {
+          "name": "Custo previsto x real por mês",
+          "item_type": "line",
+          "model": "planservice.employer.cost.project.report",
+          "aggregation": "sum",
+          "measure_field_id": "real_cost",
+          "measures": ["planned_cost", "real_cost"],
+          "group_by_field_id": "date",
+          "group_by_granularity": "month",
+          "chart_sort": "default",
+          "layout": {
+            "x": 6,
+            "y": 7,
+            "w": 6,
+            "h": 5
+          },
+          "index": 6,
+          "date_field_id": "date",
+          "measure_colors": {
+            "planned_cost": "#9E9E9E",
+            "real_cost": "#2196F3"
+          }
+        },
+        {
+          "name": "Previsto x real por obra (tabela)",
+          "item_type": "list",
+          "model": "planservice.employer.cost.project.report",
+          "list_type": "grouped",
+          "group_by_field_id": "project_id",
+          "measures": ["planned_cost", "real_cost", "cost_deviation"],
+          "page_size": 15,
+          "layout": {
+            "x": 0,
+            "y": 12,
+            "w": 12,
+            "h": 6
+          },
+          "index": 7,
+          "date_field_id": "date"
+        }
+      ]
+    }
+  ]
+}
