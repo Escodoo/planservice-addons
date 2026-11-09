@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_planservice_employer_cost_report_manager,planservice.employer.cost.report manager,model_planservice_employer_cost_report,hr_timesheet.group_timesheet_manager,1,0,0,0
+access_planservice_employer_cost_project_report_manager,planservice.employer.cost.project.report manager,model_planservice_employer_cost_project_report,hr_timesheet.group_timesheet_manager,1,0,0,0

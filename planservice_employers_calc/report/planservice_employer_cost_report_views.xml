@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Escodoo
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="planservice_employer_cost_report_view_list" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.report.list</field>
+        <field name="model">planservice.employer.cost.report</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="date" />
+                <field name="project_id" />
+                <field name="employee_id" />
+                <field name="unit_amount" sum="Total" widget="timesheet_uom" />
+                <field name="currency_id" column_invisible="1" />
+                <field name="day_percentage" />
+                <field name="salary_benefits_cost" sum="Total" />
+                <field name="provisions_cost" sum="Total" />
+                <field name="total_cost" sum="Total" />
+            </list>
+        </field>
+    </record>
+
+    <record id="planservice_employer_cost_report_view_pivot" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.report.pivot</field>
+        <field name="model">planservice.employer.cost.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="project_id" type="row" />
+                <field name="employee_id" type="row" />
+                <field name="date" interval="month" type="col" />
+                <field name="unit_amount" type="measure" />
+                <field name="total_cost" type="measure" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="planservice_employer_cost_report_view_graph" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.report.graph</field>
+        <field name="model">planservice.employer.cost.report</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="project_id" />
+                <field name="total_cost" type="measure" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="planservice_employer_cost_report_view_search" model="ir.ui.view">
+        <field name="name">planservice.employer.cost.report.search</field>
+        <field name="model">planservice.employer.cost.report</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id" />
+                <field name="employee_id" />
+                <field name="date" />
+                <filter
+                    name="this_month"
+                    string="This month"
+                    domain="[('date', '&gt;=', (context_today().replace(day=1)).strftime('%Y-%m-%d'))]"
+                />
+                <group expand="0" string="Group by">
+                    <filter
+                        name="group_project"
+                        string="Job site"
+                        context="{'group_by': 'project_id'}"
+                    />
+                    <filter
+                        name="group_employee"
+                        string="Team member"
+                        context="{'group_by': 'employee_id'}"
+                    />
+                    <filter
+                        name="group_month"
+                        string="Month"
+                        context="{'group_by': 'date:month'}"
+                    />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="planservice_employer_cost_report_action" model="ir.actions.act_window">
+        <field name="name">Employee cost by project</field>
+        <field name="res_model">planservice.employer.cost.report</field>
+        <field name="view_mode">pivot,list,graph</field>
+        <field name="context">{'search_default_group_project': 1}</field>
+    </record>
+
+    <menuitem
+        id="planservice_employer_cost_report_menu"
+        name="Employee cost by project"
+        parent="hr_timesheet.menu_timesheets_reports"
+        action="planservice_employer_cost_report_action"
+        groups="hr_timesheet.group_timesheet_manager"
+        sequence="50"
+    />
+</odoo>

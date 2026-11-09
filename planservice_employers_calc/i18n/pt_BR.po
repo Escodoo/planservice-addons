@@ -1,0 +1,277 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* planservice_employers_calc
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__day_percentage
+msgid "% of day"
+msgstr "% do dia"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__real_cost
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__employer_real_cost
+msgid "Actual cost"
+msgstr "Custo real"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_cost_deviation
+msgid "Planned cost minus actual cost. Positive = spent less than planned."
+msgstr "Custo previsto menos custo real. Positivo = gastou menos que o previsto."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_planservice_employer_cost_project_report__date
+msgid ""
+"Actual: date of the timesheet entry. Planned: first day of each month of the"
+" task period."
+msgstr "Real: data do lançamento. Previsto: primeiro dia de cada mês do período da tarefa."
+
+#. module: planservice_employers_calc
+#: model:ir.model,name:planservice_employers_calc.model_res_company
+msgid "Companies"
+msgstr "Empresas"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__company_id
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__cost_deviation
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__employer_cost_deviation
+msgid "Cost deviation"
+msgstr "Desvio de custo"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__currency_id
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__currency_id
+msgid "Currency"
+msgstr "Moeda"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__date
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__date
+msgid "Date"
+msgstr "Data"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__display_name
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__display_name
+msgid "Display Name"
+msgstr "Nome exibido"
+
+#. module: planservice_employers_calc
+#: model:ir.model,name:planservice_employers_calc.model_hr_employee
+msgid "Employee"
+msgstr "Funcionário"
+
+#. module: planservice_employers_calc
+#: model:ir.actions.act_window,name:planservice_employers_calc.planservice_employer_cost_report_action
+#: model:ir.model,name:planservice_employers_calc.model_planservice_employer_cost_report
+#: model:ir.ui.menu,name:planservice_employers_calc.planservice_employer_cost_report_menu
+msgid "Employee cost by project"
+msgstr "Custo do colaborador por obra"
+
+#. module: planservice_employers_calc
+#. odoo-python
+#: code:addons/planservice_employers_calc/models/project_project.py:0
+msgid "Employer costs (salary, benefits, provisions)"
+msgstr "Custo de pessoal (salário, benefícios, provisões)"
+
+#. module: planservice_employers_calc
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_project_report_view_search
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_search
+msgid "Group by"
+msgstr "Agrupar por"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__unit_amount
+msgid "Hours"
+msgstr "Horas"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_res_company__employer_plan_monthly_hours
+msgid ""
+"Hours that correspond to 100% of a month in the project plan. Used to "
+"convert the planned hours of the tasks into a fraction of the month in the "
+"planned cost. It must follow the value used by the project plan (default "
+"160)."
+msgstr "Horas que correspondem a 100% de um mês no planejamento do projeto. Usadas para converter as horas previstas das tarefas em fração do mês no custo previsto. Deve acompanhar o valor usado pelo plano do projeto (padrão 160)."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__id
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__id
+msgid "ID"
+msgstr "ID"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__project_id
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__project_id
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_project_report_view_search
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_search
+msgid "Job site"
+msgstr "Obra"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__project_key
+msgid "Job site ID"
+msgstr "ID da obra"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__unit_amount
+msgid "Logged hours"
+msgstr "Horas lançadas"
+
+#. module: planservice_employers_calc
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_search
+msgid "Month"
+msgstr "Mês"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_provisions_cost
+msgid "Monthly provisions amount (vacation, 13th salary etc.)."
+msgstr "Valor mensal de provisões (férias, 13º etc.)."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_salary_benefits_cost
+msgid "Monthly salary plus benefits amount."
+msgstr "Valor mensal de salário somado aos benefícios."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_real_cost
+msgid ""
+"Personnel cost of the logged hours (salary, benefits and provisions prorated"
+" by the % of the day)."
+msgstr "Custo de pessoal das horas lançadas (salário, benefícios e provisões rateados pela % do dia)."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_res_company__employer_plan_monthly_hours
+msgid "Plan monthly hours"
+msgstr "Horas mensais do plano"
+
+#. module: planservice_employers_calc
+#: model:ir.model,name:planservice_employers_calc.model_planservice_employer_cost_project_report
+msgid "Planned and actual cost by project, employee and date"
+msgstr "Custo previsto e real por projeto, colaborador e data"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__planned_cost
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__employer_planned_cost
+msgid "Planned cost"
+msgstr "Custo previsto"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_planned_cost
+msgid ""
+"Planned hours of the tasks / plan monthly hours x monthly cost of the "
+"assignee (split among the assignees)."
+msgstr "Horas previstas das tarefas / horas mensais do plano x custo mensal do responsável (dividido entre os responsáveis)."
+
+#. module: planservice_employers_calc
+#: model:ir.model,name:planservice_employers_calc.model_project_project
+msgid "Project"
+msgstr "Projeto"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__provisions_cost
+msgid "Provisions"
+msgstr "Provisões"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__employer_provisions_cost
+msgid "Provisions (monthly)"
+msgstr "Provisões (mensal)"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__salary_benefits_cost
+msgid "Salary + benefits"
+msgstr "Salário + benefícios"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__employer_salary_benefits_cost
+msgid "Salary + benefits (monthly)"
+msgstr "Salário + benefícios (mensal)"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_monthly_total_cost
+msgid "Salary + benefits + provisions."
+msgstr "Salário + benefícios + provisões."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_planservice_employer_cost_project_report__project_key
+msgid ""
+"Same value as Job site, as a number: allows exact filters in dashboards, "
+"which only offer 'contains' for project fields."
+msgstr "Mesmo valor de Obra, como número: permite filtros exatos em dashboards, que só oferecem 'contém' para campos de obra."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__smart_search
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__smart_search
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__smart_search
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__smart_search
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_res_company__smart_search
+msgid "Smart Search"
+msgstr "Pesquisa inteligente"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__task_id
+msgid "Task"
+msgstr "Tarefa"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_tasks_without_cost
+msgid ""
+"Tasks with planned hours without an assignee, or whose assignee has no "
+"employee, which are left out of the planned cost."
+msgstr "Tarefas com horas previstas sem responsável, ou com responsável sem colaborador, que ficam fora do custo previsto."
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__employer_tasks_without_cost
+msgid "Tasks without planned cost"
+msgstr "Tarefas sem custo previsto"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__employee_id
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__employee_id
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_project_report_view_search
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_search
+msgid "Team member"
+msgstr "Colaborador"
+
+#. module: planservice_employers_calc
+#: model:ir.model.constraint,message:planservice_employers_calc.constraint_res_company_employer_plan_monthly_hours_positive
+msgid "The plan monthly hours must be greater than zero."
+msgstr "As horas mensais do plano devem ser maiores que zero."
+
+#. module: planservice_employers_calc
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_search
+msgid "This month"
+msgstr "Este mês"
+
+#. module: planservice_employers_calc
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_project_report_view_list
+#: model_terms:ir.ui.view,arch_db:planservice_employers_calc.planservice_employer_cost_report_view_list
+msgid "Total"
+msgstr "Total"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__total_cost
+msgid "Total cost"
+msgstr "Custo total"
+
+#. module: planservice_employers_calc
+#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__employer_monthly_total_cost
+msgid "Total monthly cost"
+msgstr "Custo mensal total"
