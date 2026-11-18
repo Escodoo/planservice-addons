@@ -366,11 +366,6 @@ msgid "Security Token"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence_portal
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence_portal.field_mgmtsystem_nonconformity__smart_search
-msgid "Smart Search"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence_portal
 #. odoo-python
 #: code:addons/planservice_mgmtsystem_occurrence_portal/controllers/portal.py:0
 #: model_terms:ir.ui.view,arch_db:planservice_mgmtsystem_occurrence_portal.portal_my_occurrences
