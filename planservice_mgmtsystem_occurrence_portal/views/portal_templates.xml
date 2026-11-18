@@ -138,7 +138,7 @@
                                 </td>
                                 <td t-if="groupby != 'stage_id'">
                                     <span
-                                        t-attf-class="badge rounded-pill fw-normal #{'text-bg-success' if occ.state == 'done' else 'text-bg-dark' if occ.state == 'cancel' else 'text-bg-warning' if occ.state == 'waiting_verification' else 'text-bg-info' if occ.state == 'waiting_supplier' else 'text-bg-secondary' if occ.state == 'draft' else 'text-bg-primary'}"
+                                        t-attf-class="badge rounded-pill fw-normal #{'text-bg-success' if occ.state == 'done' else 'text-bg-warning' if occ.state == 'waiting_verification' else 'text-bg-info' if occ.state == 'waiting_supplier' else 'text-bg-secondary' if occ.state == 'draft' else 'text-bg-primary'}"
                                         t-esc="occ.stage_id.name"
                                     />
                                 </td>
@@ -166,6 +166,7 @@
                 </h3>
                 <p class="text-muted">
                     <span t-field="occurrence.stage_id" />
+                    — Rev. <span t-field="occurrence.revision" />
                     <t t-if="occurrence.classification">
                         —
                         <span t-field="occurrence.classification" />
@@ -226,9 +227,8 @@
                                     name="containment_text"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                >
-                                    <t t-esc="occurrence.containment_text or ''" />
-                                </textarea>
+                                    t-out="occurrence.containment_text or ''"
+                                />
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">
@@ -239,9 +239,8 @@
                                     name="cause_justification"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                >
-                                    <t t-esc="occurrence.cause_justification or ''" />
-                                </textarea>
+                                    t-out="occurrence.cause_justification or ''"
+                                />
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
@@ -306,9 +305,8 @@
                                     name="final_condition"
                                     rows="4"
                                     t-att-disabled="None if supplier_can_edit else 'disabled'"
-                                >
-                                    <t t-esc="occurrence.final_condition or ''" />
-                                </textarea>
+                                    t-out="occurrence.final_condition or ''"
+                                />
                             </div>
                         </div>
                     </div>
@@ -532,6 +530,11 @@
                     </t>
                 </form>
 
+                <div t-if="occurrence.rejection_opinion" class="alert alert-warning">
+                    <strong>Rejected in the previous revision:</strong>
+                    <span t-field="occurrence.rejection_opinion" />
+                </div>
+
                 <div t-if="occurrence.verification_result" class="card mb-3">
                     <div class="card-header">Verification</div>
                     <div class="card-body">
@@ -547,7 +550,7 @@
                 </div>
 
                 <div id="occurrence_communication" class="mt-4">
-                    <h4>Communication</h4>
+                    <h4 class="mb-4">Communication</h4>
                     <t t-call="portal.message_thread">
                         <t t-set="object" t-value="occurrence" />
                     </t>
