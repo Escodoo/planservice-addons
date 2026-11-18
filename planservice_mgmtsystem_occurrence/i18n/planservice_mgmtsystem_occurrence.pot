@@ -773,6 +773,11 @@ msgid "Occurrence %(ref)s was released to %(partner)s."
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
+#: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_occurrence_attachment_mixin
+msgid "Occurrence Attachment Revision Mixin"
+msgstr ""
+
+#. module: planservice_mgmtsystem_occurrence
 #: model:ir.model,name:planservice_mgmtsystem_occurrence.model_mgmtsystem_occurrence_immediate_action
 msgid "Occurrence Immediate Action"
 msgstr ""
@@ -1260,22 +1265,6 @@ msgstr ""
 #. module: planservice_mgmtsystem_occurrence
 #: model:ir.model.fields.selection,name:planservice_mgmtsystem_occurrence.selection__mgmtsystem_nonconformity_evidence__evidence_type__sketch
 msgid "Sketch"
-msgstr ""
-
-#. module: planservice_mgmtsystem_occurrence
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_ir_actions_report__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_ir_attachment__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_ir_sequence__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_document__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_evidence__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_reclassify__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_revision__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_stage__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_nonconformity_verification_comment__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_mgmtsystem_occurrence_immediate_action__smart_search
-#: model:ir.model.fields,field_description:planservice_mgmtsystem_occurrence.field_project_project__smart_search
-msgid "Smart Search"
 msgstr ""
 
 #. module: planservice_mgmtsystem_occurrence
