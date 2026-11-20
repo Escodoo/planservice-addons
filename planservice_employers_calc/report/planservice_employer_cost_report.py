@@ -40,7 +40,25 @@ class PlanserviceEmployerCostReport(models.Model):
             SQL(
                 """
             CREATE OR REPLACE VIEW %s AS (
-                WITH line AS (
+                WITH versions AS (
+                    -- intervalo de validade de cada versão do colaborador: vai
+                    -- da data inicial até o dia anterior à próxima versão. Sem
+                    -- data inicial, a versão vale desde o começo dos tempos.
+                    SELECT
+                        v.employee_id,
+                        v.salary_benefits_cost,
+                        v.provisions_cost,
+                        COALESCE(v.date_from, '-infinity'::date) AS valid_from,
+                        COALESCE(
+                            LEAD(v.date_from) OVER (
+                                PARTITION BY v.employee_id
+                                ORDER BY COALESCE(v.date_from, '-infinity'::date)
+                            ) - 1,
+                            'infinity'::date
+                        ) AS valid_to
+                    FROM planservice_employer_cost_version v
+                ),
+                line AS (
                     SELECT
                         aal.id,
                         aal.date,
@@ -60,14 +78,9 @@ class PlanserviceEmployerCostReport(models.Model):
                     FROM account_analytic_line aal
                     JOIN hr_employee emp ON emp.id = aal.employee_id
                     JOIN res_company comp ON comp.id = aal.company_id
-                    LEFT JOIN LATERAL (
-                        SELECT v.salary_benefits_cost, v.provisions_cost
-                        FROM planservice_employer_cost_version v
-                        WHERE v.employee_id = aal.employee_id
-                            AND COALESCE(v.date_from, '-infinity'::date) <= aal.date
-                        ORDER BY v.date_from DESC NULLS LAST
-                        LIMIT 1
-                    ) ver ON TRUE
+                    LEFT JOIN versions ver
+                        ON ver.employee_id = aal.employee_id
+                        AND aal.date BETWEEN ver.valid_from AND ver.valid_to
                     LEFT JOIN resource_calendar cal
                         ON cal.id = emp.resource_calendar_id
                     LEFT JOIN resource_calendar ccal
