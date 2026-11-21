@@ -4,7 +4,7 @@
 from odoo import fields, models, tools
 from odoo.tools import SQL
 
-from .planservice_employer_planned_live import business_day_sql
+from .planservice_employer_planned_live import leave_days_ctes
 
 
 class PlanserviceEmployerCostProjectReport(models.Model):
@@ -55,7 +55,8 @@ class PlanserviceEmployerCostProjectReport(models.Model):
             SQL(
                 """
             CREATE OR REPLACE VIEW %(table)s AS (
-                WITH planned_monthly AS (
+                WITH %(leave_ctes)s,
+                planned_monthly AS (
                     -- previsto mensal (1 linha por mês) com o período da tarefa
                     -- no mês; linha de base sem período usa o mês inteiro
                     SELECT
@@ -103,13 +104,19 @@ class PlanserviceEmployerCostProjectReport(models.Model):
                     SELECT
                         pc.line_id,
                         d.day::date AS day,
-                        %(is_business)s AS is_business
+                        (
+                            EXTRACT(isodow FROM d.day::date) < 6
+                            AND ld.day IS NULL
+                        ) AS is_business
                     FROM planned_monthly_calendar pc
                     CROSS JOIN LATERAL generate_series(
                         pc.date_start::timestamp,
                         pc.date_end::timestamp,
                         INTERVAL '1 day'
                     ) AS d(day)
+                    LEFT JOIN leave_days_by_calendar ld
+                        ON ld.calendar_key = COALESCE(pc.calendar_id, 0)
+                        AND ld.day = d.day::date
                 ),
                 planned_days AS (
                     SELECT
@@ -178,6 +185,6 @@ class PlanserviceEmployerCostProjectReport(models.Model):
             )
             """,
                 table=SQL.identifier(self._table),
-                is_business=business_day_sql(SQL("d.day::date"), SQL("pc.calendar_id")),
+                leave_ctes=leave_days_ctes(),
             )
         )

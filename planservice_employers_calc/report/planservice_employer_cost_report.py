@@ -4,6 +4,8 @@
 from odoo import fields, models, tools
 from odoo.tools import SQL
 
+from .planservice_employer_planned_live import leave_days_ctes
+
 
 class PlanserviceEmployerCostReport(models.Model):
     _name = "planservice.employer.cost.report"
@@ -39,8 +41,9 @@ class PlanserviceEmployerCostReport(models.Model):
         self.env.cr.execute(
             SQL(
                 """
-            CREATE OR REPLACE VIEW %s AS (
-                WITH versions AS (
+            CREATE OR REPLACE VIEW %(table)s AS (
+                WITH %(leave_ctes)s,
+                versions AS (
                     -- intervalo de validade de cada versão do colaborador: vai
                     -- da data inicial até o dia anterior à próxima versão. Sem
                     -- data inicial, a versão vale desde o começo dos tempos.
@@ -101,18 +104,11 @@ class PlanserviceEmployerCostReport(models.Model):
                             - INTERVAL '1 day')::timestamp,
                         INTERVAL '1 day'
                     ) AS d(day)
+                    LEFT JOIN leave_days_by_calendar ld
+                        ON ld.calendar_key = m.calendar_id
+                        AND ld.day = d.day::date
                     WHERE EXTRACT(isodow FROM d.day) < 6
-                        AND NOT EXISTS (
-                            SELECT 1
-                            FROM resource_calendar_leaves l
-                            WHERE l.resource_id IS NULL
-                                AND (
-                                    l.calendar_id = m.calendar_id
-                                    OR l.calendar_id IS NULL
-                                )
-                                AND l.date_from <= d.day + INTERVAL '12 hours'
-                                AND l.date_to >= d.day + INTERVAL '12 hours'
-                        )
+                        AND ld.day IS NULL
                     GROUP BY m.calendar_id, m.month_start
                 ),
                 costed AS (
@@ -150,6 +146,7 @@ class PlanserviceEmployerCostReport(models.Model):
                 FROM costed
             )
             """,
-                SQL.identifier(self._table),
+                table=SQL.identifier(self._table),
+                leave_ctes=leave_days_ctes(),
             )
         )

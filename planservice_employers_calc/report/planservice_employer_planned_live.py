@@ -8,27 +8,46 @@ from odoo.tools import SQL
 PLANNED_LIVE_TZ = "America/Sao_Paulo"
 
 
-def business_day_sql(day, calendar_id):
-    """Expressão SQL verdadeira quando ``day`` é dia útil no calendário.
+def leave_days_ctes():
+    """CTEs com os dias de afastamento por calendário, para a regra de dia útil.
 
-    Mesma regra do custo real: segunda a sexta, menos os feriados globais (sem
-    recurso) do calendário ou sem calendário. Um feriado cobre o dia se incluir
-    o meio-dia UTC.
+    ``leave_days_by_calendar(calendar_key, day)`` tem uma linha por calendário e
+    dia com afastamento. ``calendar_key`` é o id do calendário, ou 0 quando não
+    há calendário. Afastamento sem calendário vale para todos os calendários e
+    para o 0. Um afastamento cobre o dia se incluir o meio-dia UTC.
+
+    Dia útil = segunda a sexta e sem linha nessa tabela (LEFT JOIN ... IS NULL).
     """
     return SQL(
-        """(
-            EXTRACT(isodow FROM %(day)s) < 6
-            AND NOT EXISTS (
-                SELECT 1
-                FROM resource_calendar_leaves cl
-                WHERE cl.resource_id IS NULL
-                    AND (cl.calendar_id = %(calendar)s OR cl.calendar_id IS NULL)
-                    AND cl.date_from <= %(day)s + INTERVAL '12 hours'
-                    AND cl.date_to >= %(day)s + INTERVAL '12 hours'
-            )
-        )""",
-        day=day,
-        calendar=calendar_id,
+        """
+        leave_span AS (
+            SELECT l.calendar_id, l.date_from, l.date_to
+            FROM resource_calendar_leaves l
+            WHERE l.resource_id IS NULL
+        ),
+        leave_days_raw AS (
+            SELECT s.calendar_id, d.day::date AS day
+            FROM leave_span s
+            CROSS JOIN LATERAL generate_series(
+                date_trunc('day', s.date_from) - INTERVAL '1 day',
+                date_trunc('day', s.date_to) + INTERVAL '1 day',
+                INTERVAL '1 day'
+            ) AS d(day)
+            WHERE d.day + INTERVAL '12 hours' BETWEEN s.date_from AND s.date_to
+        ),
+        leave_days_by_calendar AS (
+            SELECT r.calendar_id AS calendar_key, r.day
+            FROM leave_days_raw r
+            WHERE r.calendar_id IS NOT NULL
+            UNION
+            SELECT k.calendar_key, r.day
+            FROM leave_days_raw r
+            CROSS JOIN (
+                SELECT id AS calendar_key FROM resource_calendar
+                UNION SELECT 0
+            ) k
+            WHERE r.calendar_id IS NULL
+        )"""
     )
 
 
@@ -111,7 +130,8 @@ class PlanserviceEmployerPlannedLive(models.Model):
             SQL(
                 """
             CREATE OR REPLACE VIEW %(table)s AS (
-                WITH assignees AS (
+                WITH %(leave_ctes)s,
+                assignees AS (
                     SELECT task_id, COUNT(*) AS cnt
                     FROM project_task_user_rel
                     GROUP BY task_id
@@ -166,11 +186,17 @@ class PlanserviceEmployerPlannedLive(models.Model):
                         c.employee_id,
                         date_trunc('month', d.day)::date AS month_start,
                         d.day::date AS day,
-                        %(is_business)s AS is_business
+                        (
+                            EXTRACT(isodow FROM d.day::date) < 6
+                            AND ld.day IS NULL
+                        ) AS is_business
                     FROM planned_task_cost c
                     CROSS JOIN LATERAL generate_series(
                         c.start_d::timestamp, c.end_d::timestamp, INTERVAL '1 day'
                     ) AS d(day)
+                    LEFT JOIN leave_days_by_calendar ld
+                        ON ld.calendar_key = COALESCE(c.calendar_id, 0)
+                        AND ld.day = d.day::date
                 ),
                 task_months AS (
                     -- pedaço da tarefa em cada mês: período e contagem de dias
@@ -229,6 +255,6 @@ class PlanserviceEmployerPlannedLive(models.Model):
                 start=start_expr,
                 end=end_expr,
                 tz=PLANNED_LIVE_TZ,
-                is_business=business_day_sql(SQL("d.day::date"), SQL("c.calendar_id")),
+                leave_ctes=leave_days_ctes(),
             )
         )
