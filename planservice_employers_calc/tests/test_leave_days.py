@@ -125,3 +125,54 @@ class TestLeaveDays(TransactionCase):
             sorted(d for d, v in by_day.items() if v > 0),
             uteis,
         )
+
+    def _uteis_do_mes(self, afastamentos=()):
+        """Dias de segunda a sexta de novembro/2026, menos os afastamentos dados."""
+        return sum(
+            1
+            for dia in range(1, 31)
+            if date(2026, 11, dia).weekday() < 5
+            and date(2026, 11, dia) not in afastamentos
+        )
+
+    def test_previsto_e_real_usam_o_mesmo_dia_util(self):
+        """Um dia de 8 h de real vale o mesmo que o previsto desse dia.
+
+        Mesmo mês e mesmo calendário dos dois lados: o real divide o custo
+        mensal pelos dias úteis do mês, e o previsto de uma tarefa de 160 h
+        cai igualmente nesses dias.
+        """
+        cases = (
+            (self.cal_a, "ana.util@test.com", date(2026, 11, 17), {date(2026, 11, 18)}),
+            (self.cal_b, "bia.util@test.com", date(2026, 11, 18), set()),
+        )
+        for calendar, login, dia, afastamentos in cases:
+            employee = self._employee("Util " + login.split("@")[0], calendar)
+            user = self._link_user(employee, login)
+            project = self.env["project.project"].create({"name": "Obra " + login})
+            self._dated_task(project, user, date(2026, 11, 1), date(2026, 11, 30))
+            self.env["account.analytic.line"].create(
+                {
+                    "name": "Horas",
+                    "project_id": project.id,
+                    "employee_id": employee.id,
+                    "unit_amount": 8.0,
+                    "date": dia,
+                }
+            )
+            self.env.flush_all()
+            previsto_do_dia = self._planned_by_day(project, employee)[dia]
+            real_do_dia = sum(
+                self.env["planservice.employer.cost.project.report"]
+                .search(
+                    [
+                        ("project_id", "=", project.id),
+                        ("employee_id", "=", employee.id),
+                        ("date", "=", dia),
+                    ]
+                )
+                .mapped("real_cost")
+            )
+            dias_uteis = self._uteis_do_mes(afastamentos)
+            self.assertAlmostEqual(previsto_do_dia, 10000.0 / dias_uteis, places=2)
+            self.assertAlmostEqual(real_do_dia, 10000.0 / dias_uteis, places=2)
