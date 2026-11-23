@@ -32,7 +32,6 @@
                 <field name="month" interval="month" type="col" />
                 <field name="stage_id" type="row" />
                 <field name="capacity_percent" type="measure" />
-                <field name="hours" type="measure" optional="hide" />
             </pivot>
         </field>
     </record>

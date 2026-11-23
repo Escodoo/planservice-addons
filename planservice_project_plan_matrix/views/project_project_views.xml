@@ -77,7 +77,13 @@
                             <field name="sequence" widget="handle" />
                             <field name="role_id" required="1" />
                             <field name="user_id" required="1" />
-                            <field name="total_hours" readonly="1" sum="Total" />
+                            <!-- o plano é em % de capacidade: total em horas oculto -->
+                            <field
+                                name="total_hours"
+                                readonly="1"
+                                sum="Total"
+                                column_invisible="1"
+                            />
                             <button
                                 name="%(action_project_plan_cell)d"
                                 type="action"

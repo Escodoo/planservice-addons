@@ -21,20 +21,14 @@
                         The planned dates no longer match this hour plan. Reset to
                         rebuild the months, then redistribute the hours.
                     </div>
-                    <div
-                        class="alert alert-warning"
-                        role="alert"
-                        invisible="hour_plan_diff == 0"
-                    >
-                        The sum of monthly hours differs from the allocated time.
-                    </div>
+                    <!-- Horas não aparecem na aba de plano: só o % de capacidade por mês -->
                     <p class="text-muted">
                         Set planned dates and allocated time to generate this
                         table, or add months here to fill those fields from the
                         plan.
                     </p>
                     <group>
-                        <group>
+                        <group invisible="1">
                             <field name="hour_plan_manual" invisible="1" />
                             <field name="hour_plan_drives_task" invisible="1" />
                             <field name="hour_plan_outdated" invisible="1" />
@@ -83,17 +77,8 @@
                             <field name="date_from" optional="hide" readonly="1" />
                             <field name="date_to" optional="hide" readonly="1" />
                             <field name="capacity_percent" />
-                            <field
-                                name="hours"
-                                widget="timesheet_uom_no_toggle"
-                                sum="Total"
-                            />
-                            <field
-                                name="monthly_hours"
-                                widget="timesheet_uom_no_toggle"
-                                optional="hide"
-                                readonly="1"
-                            />
+                            <field name="hours" column_invisible="1" />
+                            <field name="monthly_hours" column_invisible="1" />
                         </list>
                     </field>
                 </page>

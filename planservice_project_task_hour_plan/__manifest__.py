@@ -18,6 +18,7 @@
         "views/res_config_settings_views.xml",
         "views/project_task_hour_plan_views.xml",
         "views/project_task_views.xml",
+        "views/project_pivot_views.xml",
     ],
     "installable": True,
 }

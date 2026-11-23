@@ -410,10 +410,11 @@ class TestTimesheetProjectTask(TransactionCase):
             for node in etree.fromstring(arch).xpath("//field[@name='unit_amount']")
         )
 
-    def test_unit_amount_visible_for_managers(self):
+    def test_unit_amount_hidden_for_everyone(self):
+        """Nem o gestor de timesheet vê a quantidade de horas."""
         for view_type in ("list", "form"):
             self.assertFalse(self._visible_unit_amount(self.timesheet_user, view_type))
-            self.assertTrue(self._visible_unit_amount(self.manager_user, view_type))
+            self.assertFalse(self._visible_unit_amount(self.manager_user, view_type))
 
     def test_cannot_log_future_date(self):
         tomorrow = fields.Date.context_today(self.env.user) + timedelta(days=1)

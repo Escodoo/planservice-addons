@@ -646,18 +646,17 @@ class TestProjectPlanMatrix(TransactionCase):
             )
         )
 
-    def test_task_list_time_columns(self):
+    def test_task_list_hides_hours_columns(self):
+        """Tempo planejado e realizado não aparecem na lista de tarefas."""
         view = self.env.ref("project.view_task_tree2")
         arch = self.env["project.task"].get_views([(view.id, "list")])["views"]["list"][
             "arch"
         ]
         root = etree.fromstring(arch)
-        allocated = root.xpath("//field[@name='allocated_hours']")[0]
-        effective = root.xpath("//field[@name='effective_hours'][@optional]")[0]
+        for name in ("allocated_hours", "effective_hours"):
+            for node in root.xpath("//field[@name=$name]", name=name):
+                self.assertEqual(node.get("column_invisible"), "True", name)
         progress = root.xpath("//field[@name='progress'][@optional]")[0]
-        self.assertEqual(allocated.get("optional"), "show")
-        self.assertEqual(effective.get("optional"), "show")
-        self.assertIn(effective.get("invisible"), ("0", "False", None))
         self.assertEqual(progress.get("optional"), "hide")
 
     def test_task_form_planned_dates_are_readonly(self):

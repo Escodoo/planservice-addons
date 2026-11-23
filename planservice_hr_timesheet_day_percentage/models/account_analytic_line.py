@@ -1,6 +1,8 @@
 # Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+from lxml import etree
+
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
@@ -69,6 +71,21 @@ class AccountAnalyticLine(models.Model):
     @api.onchange("day_percentage")
     def _onchange_day_percentage(self):
         self._inverse_day_percentage()
+
+    @api.model
+    def _get_view_postprocessed(self, view, arch, **options):
+        """Tira a quantidade de horas de qualquer view de lançamento.
+
+        Várias views do analytic, do hr_timesheet, do portal e do compartilhamento
+        mostram ``unit_amount``. Remover o nó depois do pós-processamento cobre todas,
+        inclusive a aba de timesheet da tarefa. O campo continua no modelo e nos
+        cálculos.
+        """
+        arch, models = super()._get_view_postprocessed(view, arch, **options)
+        root = etree.fromstring(arch)
+        for node in root.xpath("//field[@name='unit_amount']"):
+            node.getparent().remove(node)
+        return etree.tostring(root, encoding="unicode"), models
 
     @api.onchange("unit_amount", "employee_id")
     def _onchange_unit_amount_day_percentage(self):
