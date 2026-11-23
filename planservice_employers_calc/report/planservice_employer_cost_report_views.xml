@@ -10,7 +10,7 @@
                 <field name="date" />
                 <field name="project_id" />
                 <field name="employee_id" />
-                <field name="unit_amount" sum="Total" widget="timesheet_uom" />
+                <field name="unit_amount" column_invisible="1" />
                 <field name="currency_id" column_invisible="1" />
                 <field name="day_percentage" />
                 <field name="salary_benefits_cost" sum="Total" />
@@ -28,7 +28,6 @@
                 <field name="project_id" type="row" />
                 <field name="employee_id" type="row" />
                 <field name="date" interval="month" type="col" />
-                <field name="unit_amount" type="measure" />
                 <field name="total_cost" type="measure" />
             </pivot>
         </field>

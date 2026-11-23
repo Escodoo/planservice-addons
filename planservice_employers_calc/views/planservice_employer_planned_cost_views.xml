@@ -14,8 +14,8 @@
                 <field name="date" />
                 <field name="date_start" optional="hide" />
                 <field name="date_end" optional="hide" />
-                <field name="allocated_hours" sum="Total" widget="float_time" />
-                <field name="plan_monthly_hours" optional="hide" />
+                <field name="allocated_hours" column_invisible="1" />
+                <field name="plan_monthly_hours" column_invisible="1" />
                 <field name="currency_id" column_invisible="1" />
                 <field name="monthly_cost" />
                 <field name="planned_cost" sum="Total" />

@@ -6,3 +6,5 @@ from . import test_employer_cost
 from . import test_cost_baseline
 
 from . import test_leave_days
+
+from . import test_hide_hours
