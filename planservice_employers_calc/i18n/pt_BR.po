@@ -23,7 +23,7 @@ msgstr "% do dia"
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__real_cost
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_project_project__employer_real_cost
 msgid "Actual cost"
-msgstr "Custo real"
+msgstr "Custo Realizado"
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_planservice_employer_cost_project_report__date
@@ -31,7 +31,7 @@ msgid ""
 "Actual: date of the timesheet entry. Planned: each day of the task period; "
 "only business days carry cost, the others show zero."
 msgstr ""
-"Real: data do lançamento de horas. Previsto: cada dia do período da tarefa; "
+"Realizado: data do lançamento de horas. Previsto: cada dia do período da tarefa; "
 "só os dias úteis têm custo, os demais aparecem com zero."
 
 #. module: planservice_employers_calc
@@ -327,7 +327,7 @@ msgstr "Custo previsto"
 #. module: planservice_employers_calc
 #: model:ir.model,name:planservice_employers_calc.model_planservice_employer_cost_project_report
 msgid "Planned and actual cost by project, employee and date"
-msgstr "Custo previsto e real por projeto, colaborador e data"
+msgstr "Custo previsto e realizado por projeto, colaborador e data"
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_project_report__planned_cost
@@ -357,7 +357,7 @@ msgstr "Custo previsto travado em"
 #: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_cost_deviation
 msgid "Planned cost minus actual cost. Positive = spent less than planned."
 msgstr ""
-"Custo previsto menos custo real. Positivo = gastou menos que o previsto."
+"Custo previsto menos custo realizado. Positivo = gastou menos que o previsto."
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_planned_cost__allocated_hours

@@ -34,9 +34,9 @@
   gráfico).
 - Menu Timesheets > Relatórios > **Linha de base do custo previsto** (lista e
   pivot, somente leitura).
-- Ficha do projeto, abaixo de Tempo previsto: **Custo previsto**, **Custo real**
-  e **Desvio de custo** (previsto − real: positivo = gastou menos que o previsto), visíveis ao gerente de
-  timesheet.
+- Ficha do projeto, abaixo de Tempo previsto: **Custo previsto**, **Custo
+  Realizado** e **Desvio de custo** (previsto − realizado: positivo = gastou menos
+  que o previsto), visíveis ao gerente de timesheet.
 - Painel de rentabilidade do projeto: linha "Custo de pessoal (salário,
   benefícios, provisões)". O Odoo só exibe a seção Rentabilidade a usuários com o
   grupo **Contabilidade analítica** (`analytic.group_analytic_accounting`). O custo

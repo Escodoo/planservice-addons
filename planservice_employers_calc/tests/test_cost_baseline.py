@@ -549,3 +549,22 @@ class TestCostBaseline(TransactionCase):
             # como antes: o mês inteiro, 21 dias úteis em novembro/2026
             self.assertEqual(len(rows), 21)
             self.assertAlmostEqual(sum(rows.mapped("planned_cost")), 10000.0)
+
+    def test_migration_renames_actual_cost(self):
+        """Na 18.0.1.3.0, "Custo real" vira "Custo Realizado" no pt_BR."""
+        self.env["res.lang"]._activate_lang("pt_BR")
+        field = self.env["ir.model.fields"]._get(
+            "planservice.employer.cost.project.report", "real_cost"
+        )
+        field.with_context(lang="pt_BR").field_description = "Custo real"
+        migration = _load_migration("18.0.1.3.0")
+        migration.migrate(self.env.cr, None)
+        self.env.invalidate_all()
+        self.assertEqual(
+            field.with_context(lang="pt_BR").field_description, "Custo real"
+        )
+        migration.migrate(self.env.cr, "18.0.1.2.0")
+        self.env.invalidate_all()
+        self.assertEqual(
+            field.with_context(lang="pt_BR").field_description, "Custo Realizado"
+        )
