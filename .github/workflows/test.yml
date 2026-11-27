@@ -59,6 +59,11 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Install non-OCA dependencies
+        # boardkit_dashboard is not published in the OCA wheelhouse
+        run: >-
+          pip install
+          "odoo-addon-boardkit_dashboard @ git+https://github.com/Escodoo/odoo-boardkit@18.0#subdirectory=boardkit_dashboard"
       - name: Install addons and dependencies
         run: oca_install_addons
       - name: Check licenses
