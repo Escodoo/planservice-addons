@@ -37,8 +37,7 @@ class TestLeaveDays(TransactionCase):
             {
                 "name": name,
                 "resource_calendar_id": calendar.id,
-                "employer_salary_benefits_cost": 8000.0,
-                "employer_provisions_cost": 2000.0,
+                "employer_salary_benefits_cost": 10000.0,
             }
         )
 

@@ -22,7 +22,6 @@ class PlanserviceEmployerCostReport(models.Model):
     unit_amount = fields.Float(string="Hours", readonly=True)
     day_percentage = fields.Float(string="% of day", readonly=True)
     salary_benefits_cost = fields.Monetary(string="Salary + benefits", readonly=True)
-    provisions_cost = fields.Monetary(string="Provisions", readonly=True)
     total_cost = fields.Monetary(string="Total cost", readonly=True)
 
     def init(self):
@@ -50,7 +49,6 @@ class PlanserviceEmployerCostReport(models.Model):
                     SELECT
                         v.employee_id,
                         v.salary_benefits_cost,
-                        v.provisions_cost,
                         COALESCE(v.date_from, '-infinity'::date) AS valid_from,
                         COALESCE(
                             LEAD(v.date_from) OVER (
@@ -76,8 +74,7 @@ class PlanserviceEmployerCostReport(models.Model):
                         COALESCE(emp.resource_calendar_id, comp.resource_calendar_id)
                             AS calendar_id,
                         date_trunc('month', aal.date)::date AS month_start,
-                        COALESCE(ver.salary_benefits_cost, 0) AS salary_benefits,
-                        COALESCE(ver.provisions_cost, 0) AS provisions
+                        COALESCE(ver.salary_benefits_cost, 0) AS salary_benefits
                     FROM account_analytic_line aal
                     JOIN hr_employee emp ON emp.id = aal.employee_id
                     JOIN res_company comp ON comp.id = aal.company_id
@@ -140,9 +137,7 @@ class PlanserviceEmployerCostReport(models.Model):
                     ) AS day_percentage,
                     costed.salary_benefits * costed.month_fraction
                         AS salary_benefits_cost,
-                    costed.provisions * costed.month_fraction AS provisions_cost,
-                    (costed.salary_benefits + costed.provisions)
-                        * costed.month_fraction AS total_cost
+                    costed.salary_benefits * costed.month_fraction AS total_cost
                 FROM costed
             )
             """,

@@ -1,7 +1,8 @@
 **Cadastro (RH e gerente de timesheet)**
 
 - Ficha do colaborador, aba **Definições**: preencha **Salário + benefícios
-  (mensal)** e **Provisões (mensal)**. O **Custo mensal total** é a soma dos dois.
+  (mensal)**, que é o custo mensal do colaborador. O custo por hora nativo e o
+  custo mensal total ficam ocultos.
 - Uma alteração vale a partir do **dia seguinte** (fuso do usuário). Várias
   alterações no mesmo dia geram uma única versão, com o último valor. Não há
   vigência retroativa. A aba **Histórico de custo** da ficha mostra as versões,
@@ -38,7 +39,7 @@
   Realizado** e **Desvio de custo** (previsto − realizado: positivo = gastou menos
   que o previsto), visíveis ao gerente de timesheet.
 - Painel de rentabilidade do projeto: linha "Custo de pessoal (salário,
-  benefícios, provisões)". O Odoo só exibe a seção Rentabilidade a usuários com o
+  benefícios)". O Odoo só exibe a seção Rentabilidade a usuários com o
   grupo **Contabilidade analítica** (`analytic.group_analytic_accounting`). O custo
   nativo de timesheet não é alterado; para colaboradores com custo por hora
   preenchido, o salário pode aparecer em duplicidade.

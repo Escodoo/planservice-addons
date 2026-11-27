@@ -9,8 +9,19 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@name='hourly_cost']" position="after">
                 <field name="employer_salary_benefits_cost" groups="hr.group_hr_user" />
-                <field name="employer_provisions_cost" groups="hr.group_hr_user" />
-                <field name="employer_monthly_total_cost" groups="hr.group_hr_user" />
+                <!-- Igual a salário + benefícios: oculto para não repetir o valor -->
+                <field
+                    name="employer_monthly_total_cost"
+                    groups="hr.group_hr_user"
+                    invisible="1"
+                />
+            </xpath>
+            <!-- O custo vem do salário + benefícios; o custo por hora não é usado -->
+            <xpath expr="//label[@for='hourly_cost']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='hourly_cost']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page
@@ -24,7 +35,6 @@
                             <field name="date_from_label" />
                             <field name="currency_id" column_invisible="1" />
                             <field name="salary_benefits_cost" />
-                            <field name="provisions_cost" />
                             <field name="total_cost" />
                         </list>
                     </field>

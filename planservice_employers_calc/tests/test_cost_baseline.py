@@ -10,6 +10,7 @@ from odoo.exceptions import AccessError, UserError
 from odoo.tests import TransactionCase, freeze_time, tagged
 from odoo.tools import mute_logger
 from odoo.tools.misc import file_path
+from odoo.tools.sql import column_exists
 
 
 def _load_migration(version="18.0.1.1.0"):
@@ -45,14 +46,13 @@ class TestCostBaseline(TransactionCase):
                 "groups_id": [(4, cls.env.ref("base.group_user").id)],
             }
         )
-        # custo mensal 10000 (8000 + 2000), desde sempre
+        # custo mensal 10000, desde sempre
         cls.dora = cls.env["hr.employee"].create(
             {
                 "name": "Dora",
                 "user_id": cls.user.id,
                 "resource_calendar_id": cls.calendar.id,
-                "employer_salary_benefits_cost": 8000.0,
-                "employer_provisions_cost": 2000.0,
+                "employer_salary_benefits_cost": 10000.0,
             }
         )
         cls.today = cls.env["hr.employee"]._employer_cost_today()
@@ -125,7 +125,7 @@ class TestCostBaseline(TransactionCase):
         # banco criado só com pt_BR deixa o en_US inativo
         self.env["res.lang"]._activate_lang("en_US")
         self.env.user.tz = "America/Sao_Paulo"
-        self.dora.employer_salary_benefits_cost = 18000.0
+        self.dora.employer_salary_benefits_cost = 20000.0
         versions = self._versions(self.dora)
         self.assertEqual(versions.mapped("date_from"), [date(2026, 4, 15), False])
         self.assertEqual(
@@ -138,28 +138,27 @@ class TestCostBaseline(TransactionCase):
     def test_change_at_night_uses_local_day(self):
         # 22h de 14/04 em São Paulo (01h de 15/04 em UTC)
         self.env.user.tz = "America/Sao_Paulo"
-        self.dora.employer_provisions_cost = 3000.0
+        self.dora.employer_salary_benefits_cost = 11000.0
         self.assertEqual(self._versions(self.dora)[0].date_from, date(2026, 4, 15))
 
     @freeze_time("2026-04-15 01:00:00")
     def test_user_without_tz_uses_sao_paulo(self):
         self.env.user.tz = False
-        self.dora.with_context(tz=False).employer_provisions_cost = 3000.0
+        self.dora.with_context(tz=False).employer_salary_benefits_cost = 11000.0
         self.assertEqual(self._versions(self.dora)[0].date_from, date(2026, 4, 15))
 
     def test_save_without_change_creates_no_version(self):
         self.dora.write(
             {
-                "employer_salary_benefits_cost": 8000.0,
-                "employer_provisions_cost": 2000.0,
+                "employer_salary_benefits_cost": 10000.0,
                 "job_title": "Engenheira",
             }
         )
         self.assertEqual(len(self._versions(self.dora)), 1)
 
     def test_same_day_correction_single_version(self):
+        self.dora.employer_salary_benefits_cost = 20000.0
         self.dora.employer_salary_benefits_cost = 18000.0
-        self.dora.employer_salary_benefits_cost = 16000.0
         versions = self._versions(self.dora)
         self.assertEqual(len(versions), 2)
         self.assertEqual(versions[0].date_from, self.today + timedelta(days=1))
@@ -198,7 +197,7 @@ class TestCostBaseline(TransactionCase):
         with self.assertRaises(AccessError):
             self.Version.with_user(other).search_count([])
         # RH altera pela ficha: a versão é gravada mesmo sem acesso de escrita
-        self.dora.with_user(hr_user).employer_provisions_cost = 2500.0
+        self.dora.with_user(hr_user).employer_salary_benefits_cost = 10500.0
         self.assertEqual(len(self._versions(self.dora)), 2)
 
     # Custo real pela versão vigente
@@ -210,8 +209,7 @@ class TestCostBaseline(TransactionCase):
             {
                 "employee_id": self.dora.id,
                 "date_from": date(2025, 12, 15),
-                "salary_benefits_cost": 18000.0,
-                "provisions_cost": 2000.0,
+                "salary_benefits_cost": 20000.0,
             }
         )
         self._line(project, self.dora, date(2025, 12, 12))
@@ -237,8 +235,7 @@ class TestCostBaseline(TransactionCase):
             {
                 "employee_id": self.dora.id,
                 "date_from": date(2025, 12, 15),
-                "salary_benefits_cost": 18000.0,
-                "provisions_cost": 2000.0,
+                "salary_benefits_cost": 20000.0,
             }
         )
         day = date(2025, 12, 1)
@@ -291,8 +288,7 @@ class TestCostBaseline(TransactionCase):
             {
                 "employee_id": self.dora.id,
                 "date_from": self.today - timedelta(days=1),
-                "salary_benefits_cost": 18000.0,
-                "provisions_cost": 2000.0,
+                "salary_benefits_cost": 20000.0,
             }
         )
         locked.invalidate_recordset()
@@ -567,4 +563,49 @@ class TestCostBaseline(TransactionCase):
         self.env.invalidate_all()
         self.assertEqual(
             field.with_context(lang="pt_BR").field_description, "Custo Realizado"
+        )
+
+    # Migração 18.0.1.4.0
+
+    def test_migration_discards_provisions(self):
+        """As provisões saem do custo: versões e linha de base ficam só com
+        salário + benefícios, e as colunas de provisões são apagadas."""
+        migration = _load_migration("18.0.1.4.0")
+        project = self._project()
+        self._task(project, 160.0)
+        self._lock(project)
+        self.env.flush_all()
+        # estado da 18.0.1.3.0: 8000 de salário + 2000 de provisões = 10000
+        self.env.cr.execute(
+            "ALTER TABLE hr_employee ADD COLUMN employer_provisions_cost numeric"
+        )
+        self.env.cr.execute(
+            "ALTER TABLE planservice_employer_cost_version "
+            "ADD COLUMN provisions_cost numeric"
+        )
+        self.env.cr.execute(
+            "UPDATE planservice_employer_cost_version "
+            "SET salary_benefits_cost = 8000, provisions_cost = 2000 "
+            "WHERE employee_id = %s",
+            (self.dora.id,),
+        )
+        self.env.invalidate_all()
+        migration.migrate(self.env.cr, None)
+        self.assertTrue(
+            column_exists(self.env.cr, "hr_employee", "employer_provisions_cost")
+        )
+        for _run in range(2):
+            migration.migrate(self.env.cr, "18.0.1.3.0")
+            self.env.invalidate_all()
+            self.assertAlmostEqual(self._versions(self.dora).total_cost, 8000.0)
+            baseline = self.Baseline.search([("project_id", "=", project.id)])
+            self.assertAlmostEqual(sum(baseline.mapped("monthly_cost")), 8000.0)
+            self.assertAlmostEqual(sum(baseline.mapped("planned_cost")), 8000.0)
+        self.assertFalse(
+            column_exists(self.env.cr, "hr_employee", "employer_provisions_cost")
+        )
+        self.assertFalse(
+            column_exists(
+                self.env.cr, "planservice_employer_cost_version", "provisions_cost"
+            )
         )

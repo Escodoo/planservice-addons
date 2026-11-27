@@ -131,7 +131,7 @@ msgstr ""
 #. module: planservice_employers_calc
 #. odoo-python
 #: code:addons/planservice_employers_calc/models/project_project.py:0
-msgid "Employer costs (salary, benefits, provisions)"
+msgid "Employer costs (salary, benefits)"
 msgstr ""
 
 #. module: planservice_employers_calc
@@ -256,13 +256,6 @@ msgid "Monthly cost"
 msgstr ""
 
 #. module: planservice_employers_calc
-#: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_provisions_cost
-msgid ""
-"Monthly provisions amount (vacation, 13th salary etc.). A change applies "
-"from the next day on."
-msgstr ""
-
-#. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_salary_benefits_cost
 msgid ""
 "Monthly salary plus benefits amount. A change applies from the next day on."
@@ -283,8 +276,8 @@ msgstr ""
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_real_cost
 msgid ""
-"Personnel cost of the logged hours (salary, benefits and provisions prorated"
-" by the % of the day)."
+"Personnel cost of the logged hours (salary and benefits prorated by the % "
+"of the day)."
 msgstr ""
 
 #. module: planservice_employers_calc
@@ -362,17 +355,6 @@ msgid "Project"
 msgstr ""
 
 #. module: planservice_employers_calc
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__provisions_cost
-msgid "Provisions"
-msgstr ""
-
-#. module: planservice_employers_calc
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__employer_provisions_cost
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_version__provisions_cost
-msgid "Provisions (monthly)"
-msgstr ""
-
-#. module: planservice_employers_calc
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__salary_benefits_cost
 msgid "Salary + benefits"
 msgstr ""
@@ -385,7 +367,7 @@ msgstr ""
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_monthly_total_cost
-msgid "Salary + benefits + provisions."
+msgid "Monthly cost of the team member (salary + benefits)."
 msgstr ""
 
 #. module: planservice_employers_calc

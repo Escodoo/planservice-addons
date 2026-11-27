@@ -5,27 +5,24 @@ from odoo import SUPERUSER_ID, api
 
 
 def _create_initial_versions(env):
-    """Custo atual da ficha vira a versão inicial (desde sempre)."""
+    """Custo atual da ficha vira a versão inicial (desde sempre).
+
+    Só salário + benefícios: as provisões deixaram de existir na 18.0.1.4.0.
+    """
     env.cr.execute(
         """
         INSERT INTO planservice_employer_cost_version (
-            employee_id, date_from, salary_benefits_cost, provisions_cost,
-            total_cost, company_id,
+            employee_id, date_from, salary_benefits_cost, total_cost, company_id,
             create_uid, create_date, write_uid, write_date
         )
         SELECT
             e.id, NULL,
-            COALESCE(e.employer_salary_benefits_cost, 0),
-            COALESCE(e.employer_provisions_cost, 0),
-            COALESCE(e.employer_salary_benefits_cost, 0)
-                + COALESCE(e.employer_provisions_cost, 0),
+            e.employer_salary_benefits_cost,
+            e.employer_salary_benefits_cost,
             e.company_id,
             %(uid)s, now() AT TIME ZONE 'UTC', %(uid)s, now() AT TIME ZONE 'UTC'
         FROM hr_employee e
-        WHERE (
-                COALESCE(e.employer_salary_benefits_cost, 0) <> 0
-                OR COALESCE(e.employer_provisions_cost, 0) <> 0
-            )
+        WHERE COALESCE(e.employer_salary_benefits_cost, 0) <> 0
             AND NOT EXISTS (
                 SELECT 1 FROM planservice_employer_cost_version v
                 WHERE v.employee_id = e.id

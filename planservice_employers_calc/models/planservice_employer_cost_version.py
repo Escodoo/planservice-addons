@@ -41,11 +41,6 @@ class PlanserviceEmployerCostVersion(models.Model):
         currency_field="currency_id",
         readonly=True,
     )
-    provisions_cost = fields.Monetary(
-        string="Provisions (monthly)",
-        currency_field="currency_id",
-        readonly=True,
-    )
     total_cost = fields.Monetary(
         string="Total monthly cost",
         currency_field="currency_id",
@@ -83,7 +78,7 @@ class PlanserviceEmployerCostVersion(models.Model):
                 else self.env._("Since always")
             )
 
-    @api.depends("salary_benefits_cost", "provisions_cost")
+    @api.depends("salary_benefits_cost")
     def _compute_total_cost(self):
         for version in self:
-            version.total_cost = version.salary_benefits_cost + version.provisions_cost
+            version.total_cost = version.salary_benefits_cost

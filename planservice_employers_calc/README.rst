@@ -29,16 +29,16 @@ o custo mensal do colaborador pela fração do mês dedicada à obra::
 
    custo da linha = custo mensal × (% do dia lançada) / dias úteis do mês
 
-O RH preenche na ficha do colaborador dois valores **mensais**: salário
-+ benefícios e provisões. Quem lança 100% de todos os dias úteis de um
-mês tem o custo mensal inteiro apropriado, com 18, 20 ou 23 dias úteis.
-Os dias úteis são de segunda a sexta, menos os feriados globais do
-calendário do colaborador.
+O RH preenche na ficha do colaborador o valor **mensal** de salário +
+benefícios. Quem lança 100% de todos os dias úteis de um mês tem o custo
+mensal inteiro apropriado, com 18, 20 ou 23 dias úteis. Os dias úteis
+são de segunda a sexta, menos os feriados globais do calendário do
+colaborador.
 
-Cada alteração de salário + benefícios ou de provisões gera uma **versão
-de custo** que vale a partir do **dia seguinte** à alteração. Cada
-lançamento usa a versão vigente na sua data, então um aumento não muda o
-custo de lançamentos anteriores.
+Cada alteração de salário + benefícios gera uma **versão de custo** que
+vale a partir do **dia seguinte** à alteração. Cada lançamento usa a
+versão vigente na sua data, então um aumento não muda o custo de
+lançamentos anteriores.
 
 No projeto, o módulo mostra o custo previsto (horas previstas das
 tarefas ÷ horas mensais do plano × custo mensal do responsável), o custo
@@ -64,8 +64,8 @@ Usage
 **Cadastro (RH e gerente de timesheet)**
 
 - Ficha do colaborador, aba **Definições**: preencha **Salário +
-  benefícios (mensal)** e **Provisões (mensal)**. O **Custo mensal
-  total** é a soma dos dois.
+  benefícios (mensal)**, que é o custo mensal do colaborador. O custo
+  por hora nativo e o custo mensal total ficam ocultos.
 - Uma alteração vale a partir do **dia seguinte** (fuso do usuário).
   Várias alterações no mesmo dia geram uma única versão, com o último
   valor. Não há vigência retroativa. A aba **Histórico de custo** da
@@ -105,8 +105,8 @@ Usage
   positivo = gastou menos que o previsto), visíveis ao gerente de
   timesheet.
 - Painel de rentabilidade do projeto: linha "Custo de pessoal (salário,
-  benefícios, provisões)". O Odoo só exibe a seção Rentabilidade a
-  usuários com o grupo **Contabilidade analítica**
+  benefícios)". O Odoo só exibe a seção Rentabilidade a usuários com o
+  grupo **Contabilidade analítica**
   (``analytic.group_analytic_accounting``). O custo nativo de timesheet
   não é alterado; para colaboradores com custo por hora preenchido, o
   salário pode aparecer em duplicidade.
@@ -124,14 +124,13 @@ implantado. Desenho pensado para a saída:
   **antes**.
 - Não altera ``account.analytic.line`` nem grava custos nas linhas de
   timesheet.
-- Os dados persistidos são as colunas em ``hr_employee``
-  (``employer_salary_benefits_cost`` e ``employer_provisions_cost``), o
-  histórico de versões de custo (``planservice_employer_cost_version``),
-  a linha de base do previsto (``planservice_employer_planned_cost`` e
-  ``employer_baseline_date`` em ``project_project``) e o parâmetro
-  ``employer_plan_monthly_hours`` em ``res_company``. Migrar esses
-  valores para o financeiro **antes** de desinstalar (a desinstalação
-  remove tabelas e colunas).
+- Os dados persistidos são a coluna ``employer_salary_benefits_cost`` em
+  ``hr_employee``, o histórico de versões de custo
+  (``planservice_employer_cost_version``), a linha de base do previsto
+  (``planservice_employer_planned_cost`` e ``employer_baseline_date`` em
+  ``project_project``) e o parâmetro ``employer_plan_monthly_hours`` em
+  ``res_company``. Migrar esses valores para o financeiro **antes** de
+  desinstalar (a desinstalação remove tabelas e colunas).
 - Os relatórios são views SQL (``planservice_employer_cost_report`` e
   ``planservice_employer_cost_project_report``), removidas junto com o
   módulo.

@@ -46,20 +46,19 @@ class TestEmployerCost(TransactionCase):
         )
         cls.holiday = date(2026, 11, 20)
 
-        def _employee(name, salary_benefits, provisions):
+        def _employee(name, salary_benefits):
             return cls.env["hr.employee"].create(
                 {
                     "name": name,
                     "resource_calendar_id": cls.calendar.id,
                     "employer_salary_benefits_cost": salary_benefits,
-                    "employer_provisions_cost": provisions,
                 }
             )
 
         # custo mensal: Ana 10000, Carlos 6000, Bia 5000 (sem lançamentos)
-        cls.ana = _employee("Ana", 8000.0, 2000.0)
-        cls.carlos = _employee("Carlos", 6000.0, 0.0)
-        cls.bia = _employee("Bia", 4000.0, 1000.0)
+        cls.ana = _employee("Ana", 10000.0)
+        cls.carlos = _employee("Carlos", 6000.0)
+        cls.bia = _employee("Bia", 5000.0)
         cls.project_a = cls.env["project.project"].create(
             {"name": "Edifício Aurora", "privacy_visibility": "employees"}
         )
@@ -107,8 +106,7 @@ class TestEmployerCost(TransactionCase):
         )
         self.assertEqual(len(line), 1)
         self.assertAlmostEqual(line.day_percentage, 50.0)
-        self.assertAlmostEqual(line.salary_benefits_cost, 200.0)
-        self.assertAlmostEqual(line.provisions_cost, 50.0)
+        self.assertAlmostEqual(line.salary_benefits_cost, 250.0)
         self.assertAlmostEqual(line.total_cost, 250.0)
 
     def test_report_totals_per_project(self):
@@ -117,11 +115,9 @@ class TestEmployerCost(TransactionCase):
         self.assertEqual(len(report_a), 3)
         self.assertEqual(len(report_b), 2)
         self.assertAlmostEqual(sum(report_a.mapped("total_cost")), 1050.0)
-        self.assertAlmostEqual(sum(report_a.mapped("salary_benefits_cost")), 900.0)
-        self.assertAlmostEqual(sum(report_a.mapped("provisions_cost")), 150.0)
+        self.assertAlmostEqual(sum(report_a.mapped("salary_benefits_cost")), 1050.0)
         self.assertAlmostEqual(sum(report_b.mapped("total_cost")), 275.0)
-        self.assertAlmostEqual(sum(report_b.mapped("salary_benefits_cost")), 250.0)
-        self.assertAlmostEqual(sum(report_b.mapped("provisions_cost")), 25.0)
+        self.assertAlmostEqual(sum(report_b.mapped("salary_benefits_cost")), 275.0)
 
     def test_employee_without_hours_not_in_report(self):
         report = self.env["planservice.employer.cost.report"].search(
@@ -152,8 +148,7 @@ class TestEmployerCost(TransactionCase):
             {
                 "name": "Davi",
                 "resource_calendar_id": calendar.id,
-                "employer_salary_benefits_cost": 8000.0,
-                "employer_provisions_cost": 2000.0,
+                "employer_salary_benefits_cost": 10000.0,
             }
         )
         project = self.env["project.project"].create({"name": "Mês fechado"})
@@ -318,8 +313,7 @@ class TestEmployerCost(TransactionCase):
             {
                 "name": "Gustavo",
                 "resource_calendar_id": calendar.id,
-                "employer_salary_benefits_cost": 6000.0,
-                "employer_provisions_cost": 2000.0,
+                "employer_salary_benefits_cost": 8000.0,
             }
         )
         project = self.env["project.project"].create({"name": "Meses diferentes"})

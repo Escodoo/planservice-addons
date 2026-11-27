@@ -377,15 +377,15 @@ o custo mensal do colaborador pela fração do mês dedicada à obra:</p>
 </pre>
 <blockquote>
 custo da linha = custo mensal × (% do dia lançada) / dias úteis do mês</blockquote>
-<p>O RH preenche na ficha do colaborador dois valores <strong>mensais</strong>: salário
-+ benefícios e provisões. Quem lança 100% de todos os dias úteis de um
-mês tem o custo mensal inteiro apropriado, com 18, 20 ou 23 dias úteis.
-Os dias úteis são de segunda a sexta, menos os feriados globais do
-calendário do colaborador.</p>
-<p>Cada alteração de salário + benefícios ou de provisões gera uma <strong>versão
-de custo</strong> que vale a partir do <strong>dia seguinte</strong> à alteração. Cada
-lançamento usa a versão vigente na sua data, então um aumento não muda o
-custo de lançamentos anteriores.</p>
+<p>O RH preenche na ficha do colaborador o valor <strong>mensal</strong> de salário +
+benefícios. Quem lança 100% de todos os dias úteis de um mês tem o custo
+mensal inteiro apropriado, com 18, 20 ou 23 dias úteis. Os dias úteis
+são de segunda a sexta, menos os feriados globais do calendário do
+colaborador.</p>
+<p>Cada alteração de salário + benefícios gera uma <strong>versão de custo</strong> que
+vale a partir do <strong>dia seguinte</strong> à alteração. Cada lançamento usa a
+versão vigente na sua data, então um aumento não muda o custo de
+lançamentos anteriores.</p>
 <p>No projeto, o módulo mostra o custo previsto (horas previstas das
 tarefas ÷ horas mensais do plano × custo mensal do responsável), o custo
 real e o desvio. Quando o projeto sai do status que permite replanejar
@@ -418,8 +418,8 @@ Only for development or testing purpose, do not use in production.
 <p><strong>Cadastro (RH e gerente de timesheet)</strong></p>
 <ul class="simple">
 <li>Ficha do colaborador, aba <strong>Definições</strong>: preencha <strong>Salário +
-benefícios (mensal)</strong> e <strong>Provisões (mensal)</strong>. O <strong>Custo mensal
-total</strong> é a soma dos dois.</li>
+benefícios (mensal)</strong>, que é o custo mensal do colaborador. O custo
+por hora nativo e o custo mensal total ficam ocultos.</li>
 <li>Uma alteração vale a partir do <strong>dia seguinte</strong> (fuso do usuário).
 Várias alterações no mesmo dia geram uma única versão, com o último
 valor. Não há vigência retroativa. A aba <strong>Histórico de custo</strong> da
@@ -459,8 +459,8 @@ aparecem só no realizado e no desvio. Não há replanejamento.</li>
 positivo = gastou menos que o previsto), visíveis ao gerente de
 timesheet.</li>
 <li>Painel de rentabilidade do projeto: linha “Custo de pessoal (salário,
-benefícios, provisões)”. O Odoo só exibe a seção Rentabilidade a
-usuários com o grupo <strong>Contabilidade analítica</strong>
+benefícios)”. O Odoo só exibe a seção Rentabilidade a usuários com o
+grupo <strong>Contabilidade analítica</strong>
 (<tt class="docutils literal">analytic.group_analytic_accounting</tt>). O custo nativo de timesheet
 não é alterado; para colaboradores com custo por hora preenchido, o
 salário pode aparecer em duplicidade.</li>
@@ -478,14 +478,13 @@ O único módulo que depende dele é
 <strong>antes</strong>.</li>
 <li>Não altera <tt class="docutils literal">account.analytic.line</tt> nem grava custos nas linhas de
 timesheet.</li>
-<li>Os dados persistidos são as colunas em <tt class="docutils literal">hr_employee</tt>
-(<tt class="docutils literal">employer_salary_benefits_cost</tt> e <tt class="docutils literal">employer_provisions_cost</tt>), o
-histórico de versões de custo (<tt class="docutils literal">planservice_employer_cost_version</tt>),
-a linha de base do previsto (<tt class="docutils literal">planservice_employer_planned_cost</tt> e
-<tt class="docutils literal">employer_baseline_date</tt> em <tt class="docutils literal">project_project</tt>) e o parâmetro
-<tt class="docutils literal">employer_plan_monthly_hours</tt> em <tt class="docutils literal">res_company</tt>. Migrar esses
-valores para o financeiro <strong>antes</strong> de desinstalar (a desinstalação
-remove tabelas e colunas).</li>
+<li>Os dados persistidos são a coluna <tt class="docutils literal">employer_salary_benefits_cost</tt> em
+<tt class="docutils literal">hr_employee</tt>, o histórico de versões de custo
+(<tt class="docutils literal">planservice_employer_cost_version</tt>), a linha de base do previsto
+(<tt class="docutils literal">planservice_employer_planned_cost</tt> e <tt class="docutils literal">employer_baseline_date</tt> em
+<tt class="docutils literal">project_project</tt>) e o parâmetro <tt class="docutils literal">employer_plan_monthly_hours</tt> em
+<tt class="docutils literal">res_company</tt>. Migrar esses valores para o financeiro <strong>antes</strong> de
+desinstalar (a desinstalação remove tabelas e colunas).</li>
 <li>Os relatórios são views SQL (<tt class="docutils literal">planservice_employer_cost_report</tt> e
 <tt class="docutils literal">planservice_employer_cost_project_report</tt>), removidas junto com o
 módulo.</li>

@@ -137,8 +137,8 @@ msgstr "Versão do custo mensal do colaborador"
 #. module: planservice_employers_calc
 #. odoo-python
 #: code:addons/planservice_employers_calc/models/project_project.py:0
-msgid "Employer costs (salary, benefits, provisions)"
-msgstr "Custo de pessoal (salário, benefícios, provisões)"
+msgid "Employer costs (salary, benefits)"
+msgstr "Custo de pessoal (salário, benefícios)"
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_planservice_employer_planned_cost__task_id
@@ -271,15 +271,6 @@ msgid "Monthly cost"
 msgstr "Custo mensal"
 
 #. module: planservice_employers_calc
-#: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_provisions_cost
-msgid ""
-"Monthly provisions amount (vacation, 13th salary etc.). A change applies "
-"from the next day on."
-msgstr ""
-"Valor mensal das provisões (férias, 13º salário etc.). Uma alteração vale a "
-"partir do dia seguinte."
-
-#. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_salary_benefits_cost
 msgid ""
 "Monthly salary plus benefits amount. A change applies from the next day on."
@@ -302,11 +293,11 @@ msgstr "Início do período"
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_project_project__employer_real_cost
 msgid ""
-"Personnel cost of the logged hours (salary, benefits and provisions prorated "
-"by the % of the day)."
+"Personnel cost of the logged hours (salary and benefits prorated by the % "
+"of the day)."
 msgstr ""
-"Custo de pessoal das horas lançadas (salário, benefícios e provisões "
-"rateados pela % do dia)."
+"Custo de pessoal das horas lançadas (salário e benefícios rateados pela % "
+"do dia)."
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_planned_cost__plan_monthly_hours
@@ -388,17 +379,6 @@ msgid "Project"
 msgstr "Projeto"
 
 #. module: planservice_employers_calc
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__provisions_cost
-msgid "Provisions"
-msgstr "Provisões"
-
-#. module: planservice_employers_calc
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_hr_employee__employer_provisions_cost
-#: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_version__provisions_cost
-msgid "Provisions (monthly)"
-msgstr "Provisões (mensal)"
-
-#. module: planservice_employers_calc
 #: model:ir.model.fields,field_description:planservice_employers_calc.field_planservice_employer_cost_report__salary_benefits_cost
 msgid "Salary + benefits"
 msgstr "Salário + benefícios"
@@ -411,8 +391,8 @@ msgstr "Salário + benefícios (mensal)"
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_hr_employee__employer_monthly_total_cost
-msgid "Salary + benefits + provisions."
-msgstr "Salário + benefícios + provisões."
+msgid "Monthly cost of the team member (salary + benefits)."
+msgstr "Custo mensal do colaborador (salário + benefícios)."
 
 #. module: planservice_employers_calc
 #: model:ir.model.fields,help:planservice_employers_calc.field_planservice_employer_cost_project_report__project_key

@@ -3,12 +3,12 @@ mensal do colaborador pela fração do mês dedicada à obra::
 
     custo da linha = custo mensal × (% do dia lançada) / dias úteis do mês
 
-O RH preenche na ficha do colaborador dois valores **mensais**: salário +
-benefícios e provisões. Quem lança 100% de todos os dias úteis de um mês tem o
+O RH preenche na ficha do colaborador o valor **mensal** de salário +
+benefícios. Quem lança 100% de todos os dias úteis de um mês tem o
 custo mensal inteiro apropriado, com 18, 20 ou 23 dias úteis. Os dias úteis são
 de segunda a sexta, menos os feriados globais do calendário do colaborador.
 
-Cada alteração de salário + benefícios ou de provisões gera uma **versão de
+Cada alteração de salário + benefícios gera uma **versão de
 custo** que vale a partir do **dia seguinte** à alteração. Cada lançamento usa a
 versão vigente na sua data, então um aumento não muda o custo de lançamentos
 anteriores.

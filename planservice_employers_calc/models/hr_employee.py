@@ -5,7 +5,7 @@ from datetime import timedelta
 
 from odoo import api, fields, models
 
-EMPLOYER_COST_FIELDS = ("employer_salary_benefits_cost", "employer_provisions_cost")
+EMPLOYER_COST_FIELDS = ("employer_salary_benefits_cost",)
 EMPLOYER_COST_DEFAULT_TZ = "America/Sao_Paulo"
 
 
@@ -19,19 +19,12 @@ class HrEmployee(models.Model):
         help="Monthly salary plus benefits amount. A change applies from the "
         "next day on.",
     )
-    employer_provisions_cost = fields.Monetary(
-        string="Provisions (monthly)",
-        currency_field="currency_id",
-        groups="hr.group_hr_user",
-        help="Monthly provisions amount (vacation, 13th salary etc.). A change "
-        "applies from the next day on.",
-    )
     employer_monthly_total_cost = fields.Monetary(
         string="Total monthly cost",
         currency_field="currency_id",
         groups="hr.group_hr_user",
         compute="_compute_employer_monthly_total_cost",
-        help="Salary + benefits + provisions.",
+        help="Monthly cost of the team member (salary + benefits).",
     )
     employer_cost_version_ids = fields.One2many(
         "planservice.employer.cost.version",
@@ -41,12 +34,11 @@ class HrEmployee(models.Model):
         readonly=True,
     )
 
-    @api.depends("employer_salary_benefits_cost", "employer_provisions_cost")
+    @api.depends("employer_salary_benefits_cost")
     def _compute_employer_monthly_total_cost(self):
         for employee in self:
             employee.employer_monthly_total_cost = (
                 employee.employer_salary_benefits_cost
-                + employee.employer_provisions_cost
             )
 
     def _employer_cost_today(self):
@@ -62,10 +54,7 @@ class HrEmployee(models.Model):
         """
         versions = self.env["planservice.employer.cost.version"].sudo()
         for employee in self.sudo():
-            values = {
-                "salary_benefits_cost": employee.employer_salary_benefits_cost,
-                "provisions_cost": employee.employer_provisions_cost,
-            }
+            values = {"salary_benefits_cost": employee.employer_salary_benefits_cost}
             if not versions.search_count([("employee_id", "=", employee.id)]):
                 versions.create(dict(values, employee_id=employee.id, date_from=False))
                 continue
@@ -85,7 +74,7 @@ class HrEmployee(models.Model):
     def create(self, vals_list):
         employees = super().create(vals_list)
         employees.sudo().filtered(
-            lambda e: e.employer_salary_benefits_cost or e.employer_provisions_cost
+            "employer_salary_benefits_cost"
         )._sync_employer_cost_version()
         return employees
 

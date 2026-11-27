@@ -40,3 +40,16 @@ class TestHideHoursCostReport(TransactionCase):
         root = self._root("planservice.employer.planned.cost", "list")
         self.assertFalse(_visible_fields(root, "allocated_hours"))
         self.assertTrue(_visible_fields(root, "planned_cost"))
+
+    def test_ficha_do_colaborador_so_com_salario_e_beneficios(self):
+        """Aba Definições: sem custo por hora, provisões nem custo mensal total."""
+        root = self._root("hr.employee", "form")
+        self.assertTrue(_visible_fields(root, "employer_salary_benefits_cost"))
+        self.assertFalse(_visible_fields(root, "hourly_cost"))
+        self.assertFalse(_visible_fields(root, "employer_monthly_total_cost"))
+        labels = root.xpath("//label[@for='hourly_cost']")
+        self.assertTrue(all(label.get("invisible") in HIDDEN for label in labels))
+        self.assertNotIn("employer_provisions_cost", self.env["hr.employee"]._fields)
+        self.assertNotIn(
+            "provisions_cost", self.env["planservice.employer.cost.report"]._fields
+        )

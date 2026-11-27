@@ -5,7 +5,7 @@
     "name": "Planservice Employer Cost Calculation",
     "summary": "Demonstrativo do custo do colaborador por obra (projeto) "
     "com base nos lançamentos de horas",
-    "version": "18.0.1.3.0",
+    "version": "18.0.1.4.0",
     "category": "Tools",
     "author": "Escodoo",
     "website": "https://github.com/Escodoo/planservice-addons",

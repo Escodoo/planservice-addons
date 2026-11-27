@@ -14,7 +14,6 @@
                 <field name="currency_id" column_invisible="1" />
                 <field name="day_percentage" />
                 <field name="salary_benefits_cost" sum="Total" />
-                <field name="provisions_cost" sum="Total" />
                 <field name="total_cost" sum="Total" />
             </list>
         </field>

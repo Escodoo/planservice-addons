@@ -6,8 +6,8 @@ implantado. Desenho pensado para a saída:
   depende dele é `planservice_employers_calc_dashboard`, que deve ser
   desinstalado **antes**.
 - Não altera `account.analytic.line` nem grava custos nas linhas de timesheet.
-- Os dados persistidos são as colunas em `hr_employee`
-  (`employer_salary_benefits_cost` e `employer_provisions_cost`), o histórico de
+- Os dados persistidos são a coluna `employer_salary_benefits_cost` em
+  `hr_employee`, o histórico de
   versões de custo (`planservice_employer_cost_version`), a linha de base do
   previsto (`planservice_employer_planned_cost` e `employer_baseline_date` em
   `project_project`) e o parâmetro `employer_plan_monthly_hours` em

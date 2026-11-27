@@ -16,8 +16,8 @@ class ProjectProject(models.Model):
         currency_field="currency_id",
         compute="_compute_employer_costs",
         groups="hr_timesheet.group_timesheet_manager",
-        help="Personnel cost of the logged hours (salary, benefits and "
-        "provisions prorated by the % of the day).",
+        help="Personnel cost of the logged hours (salary and benefits "
+        "prorated by the % of the day).",
     )
     employer_planned_cost = fields.Monetary(
         string="Planned cost",
@@ -61,9 +61,7 @@ class ProjectProject(models.Model):
 
     def _get_profitability_labels(self):
         labels = super()._get_profitability_labels()
-        labels[EMPLOYER_SECTION_ID] = self.env._(
-            "Employer costs (salary, benefits, provisions)"
-        )
+        labels[EMPLOYER_SECTION_ID] = self.env._("Employer costs (salary, benefits)")
         return labels
 
     def _get_profitability_sequence_per_invoice_type(self):
