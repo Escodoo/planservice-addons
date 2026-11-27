@@ -18,12 +18,9 @@
                 <field name="project_id" />
                 <field name="task_id" />
                 <field name="capacity_percent" optional="show" />
-                <field name="hours" widget="timesheet_uom_no_toggle" sum="Total" />
-                <field
-                    name="monthly_hours"
-                    widget="timesheet_uom_no_toggle"
-                    optional="hide"
-                />
+                <!-- Horas não aparecem: a capacidade % é a informação mostrada -->
+                <field name="hours" column_invisible="1" />
+                <field name="monthly_hours" column_invisible="1" />
                 <field name="company_id" groups="base.group_multi_company" />
             </list>
         </field>
@@ -70,7 +67,7 @@
             <pivot>
                 <field name="date_from" interval="month" type="row" />
                 <field name="project_id" type="col" />
-                <field name="hours" type="measure" widget="timesheet_uom" />
+                <field name="capacity_percent" type="measure" />
             </pivot>
         </field>
     </record>
@@ -80,7 +77,7 @@
         <field name="arch" type="xml">
             <graph type="bar">
                 <field name="date_from" interval="month" />
-                <field name="hours" type="measure" widget="timesheet_uom" />
+                <field name="capacity_percent" type="measure" />
             </graph>
         </field>
     </record>
@@ -100,12 +97,14 @@
             </p>
         </field>
     </record>
+    <!-- O plano é em horas: o menu fica só no modo desenvolvedor. O "-" tira o
+         grupo antigo nas bases já instaladas (groups em menuitem só acrescenta). -->
     <menuitem
         id="menu_project_task_hour_plan"
         name="Task Hour Plans"
         parent="project.menu_project_report"
         action="action_project_task_hour_plan"
         sequence="20"
-        groups="project.group_project_user"
+        groups="-project.group_project_user,base.group_no_one"
     />
 </odoo>

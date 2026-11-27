@@ -14,6 +14,10 @@
                     readonly="readonly_timesheet"
                 />
             </xpath>
+            <!-- Quantidade de horas não aparece: o lançamento é em % do dia -->
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="column_invisible">1</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -24,6 +28,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='unit_amount']" position="before">
                 <field name="day_percentage" readonly="readonly_timesheet" />
+            </xpath>
+            <!-- Quantidade de horas não aparece: o lançamento é em % do dia -->
+            <xpath expr="//field[@name='unit_amount']" position="attributes">
+                <attribute name="invisible">1</attribute>
             </xpath>
         </field>
     </record>

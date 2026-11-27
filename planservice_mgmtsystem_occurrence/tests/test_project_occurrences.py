@@ -71,6 +71,8 @@ class TestProjectOccurrences(OccurrenceTestCase):
 
     def test_project_form_opens_without_occurrence_access(self):
         user = self._project_user()
+        # Projetos da planservice são privados (followers): quem lê precisa seguir
+        self.project.message_subscribe(partner_ids=user.partner_id.ids)
         self.assertFalse(self._form_buttons(user))
         project = self.project.with_user(user)
         self.assertEqual(project.read(["name"])[0]["name"], "Occurrence Project")

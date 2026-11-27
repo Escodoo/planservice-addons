@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 - TODAY, Marcel Savegnago <marcel.savegnago@escodoo.com.br>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_project_plan_role_tree" model="ir.ui.view">
+        <field name="name">project.plan.role.tree</field>
+        <field name="model">project.plan.role</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="active" column_invisible="True" />
+            </list>
+        </field>
+    </record>
+    <record id="action_project_plan_role" model="ir.actions.act_window">
+        <field name="name">Plan Roles</field>
+        <field name="res_model">project.plan.role</field>
+        <field name="view_mode">list</field>
+    </record>
+    <menuitem
+        id="menu_project_plan_role"
+        name="Plan Roles"
+        parent="project.menu_project_config"
+        action="action_project_plan_role"
+        sequence="50"
+        groups="project.group_project_manager"
+    />
+</odoo>
